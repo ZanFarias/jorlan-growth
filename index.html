@@ -764,6 +764,14 @@ details.tp>summary .chev{flex:none}details.tp:not([open])>summary{margin:0}detai
 .tp-ty span{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#cfcdc6;border:1px solid var(--line-2);border-radius:99px;padding:3px 10px;white-space:nowrap}.tp-ty b{color:#fff}
 @media(max-width:560px){details.tp>summary.tp-h{flex-wrap:wrap}.tp-c,.tp-s{flex-basis:auto}}
 .tp-all{margin-left:auto;font:inherit;font-size:10.5px;font-weight:600;letter-spacing:0;text-transform:none;color:#cfcdc6;background:transparent;border:1px solid var(--line-2);border-radius:99px;padding:3px 10px;cursor:pointer;white-space:nowrap}.tp-all:hover{border-color:var(--gold);color:var(--gold-2)}
+.phx{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;margin-top:12px;background:var(--card);border:1px dashed var(--line-2);border-radius:10px;padding:12px 16px}
+.phx>div:first-child{display:grid;gap:2px;min-width:0}
+.phx>div:first-child b{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.phx>div:first-child span{font-size:11.5px;color:var(--dim)}
+.phx-k{display:flex;gap:22px}
+.phx-k div{display:grid;gap:1px}
+.phx-k span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.phx-k b{font-size:18px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* v68: gráfico de linha de leads por dia, abaixo dos big numbers de Meta Ads e Google Ads */
 .ldc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px 12px;display:grid;gap:10px;margin-top:12px;min-width:0}
 .ldc-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 14px}
@@ -790,7 +798,7 @@ details.tp>summary .chev{flex:none}details.tp:not([open])>summary{margin:0}detai
 .ldc-rl span,.ldc-c>*{height:15px;line-height:15px;margin-top:1px}
 .ldc-rl span:first-child{height:30px}
 .ldc-c{position:absolute;top:0;transform:translateX(-50%);display:grid;justify-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
-.ldc-c b{font-size:10.5px;font-weight:600;color:#cfcdc6}
+.ldc-c b{font-size:9.5px;letter-spacing:-.02em;font-weight:600;color:#cfcdc6}
 .ldc-c small{font-size:9px;color:var(--dim);margin-top:-2px}
 .ldc-c.we b,.ldc-c.we small{color:var(--gold)}
 .ldc-c .f,.ldc-rl .f{color:#f5f4f0;font-size:10.5px;font-weight:700}
@@ -2727,10 +2735,10 @@ const metaTop=(T,P,semC,dl,pl)=>{const cpl=T.l?T.g/T.l:0,pcpl=P&&P.l?P.g/P.l:0;r
     {l:'Custo por lead',v:cpl?brl(cpl,2):'—',s:dl(cpl,pcpl,-1),t:'Investimento total do período dividido pelos leads (formulários + conversas). Inclui a verba de alcance, que não pede lead.'}],'three');};
 const gTop=(s,P,dl,pl)=>{const gl=s.l,pgl=P?P.l:0,gcpl=gl?s.g/gl:0,pgcpl=pgl?P.g/pgl:0;
 return row([{l:'Investimento',v:mil(s.g),s:dl(s.g,P&&P.g)+pl,t:'Custo de todas as campanhas das contas do Grupo Jorlan no período.'},
-   {l:'Total de leads',v:int(gl),s:dl(gl,pgl,1),hl:1,t:'Lead real do Google: formulário enviado + conversa iniciada pelo recurso de WhatsApp do anúncio. Ligação do Phonetrack não entra, porque não sabemos o teor da ligação; ela aparece à parte, no card de custo. Clique em botão de WhatsApp ou de telefone no site também não entra.',
+   {l:'Total de leads',v:int(gl),s:dl(gl,pgl,1),hl:1,t:'Lead real do Google: formulário enviado + conversa iniciada pelo recurso de WhatsApp do anúncio. Ligação do Phonetrack não entra, porque não sabemos o teor da ligação; ela aparece à parte, no bloco Ligações Phonetrack abaixo do gráfico. Clique em botão de WhatsApp ou de telefone no site também não entra.',
     sp:[['Formulários',int(s.f),gl?pct(s.f/gl)+' dos leads':'—'],['Conversas',int(s.w),gl?pct(s.w/gl)+' dos leads':'—']]},
-   {l:'Custo por lead',v:gcpl?brl(gcpl,2):'—',s:dl(gcpl,pgcpl,-1),t:'Investimento total do período dividido pelos leads reais (formulários + conversas). Ligação do Phonetrack não entra. Inclui a verba de marca (YouTube, Demand Gen, Display), que não pede lead.',
-    sp:[['Ligações Phonetrack',int(s.t),'informativo · fora dos leads']]}],'three')};
+   {l:'Custo por lead',v:gcpl?brl(gcpl,2):'—',s:dl(gcpl,pgcpl,-1),t:'Investimento total do período dividido pelos leads reais (formulários + conversas). Inclui a verba de marca (YouTube, Demand Gen, Display), que não pede lead.'}],'three')};
+const phBox=(s,P)=>`<div class="phx"><div><b>Ligações Phonetrack</b><span>Métrica separada: ligação rastreada não é lead, porque não sabemos o teor da conversa.</span></div><div class="phx-k"><div><span>Ligações</span><b>${int(s.t)}</b></div>${P&&P.t?`<div><span>Período anterior</span><b>${int(P.t)}</b></div>`:''}</div></div>`;
 /* topo da visão Últimos 30 dias: mesmo padrão (Investimento, Leads com quebra, CPL), lido da base diária 30/09 a 27/10/2026 */
 const W30=(()=>{const a=dOf(2026,8,30),b=dOf(2026,9,27),n=b-a+1,r=(x,y)=>Array.from({length:y-x+1},(_,k)=>x+k);return {d:r(a,b),p:r(a-n,a-1),n}})();
 const dl30=(a,b,d=0)=>b?`${dvMark(a,b,d)}${a>=b?'▲':'▼'} ${pct(Math.abs(a/b-1))} vs ${W30.n} dias antes`:'sem período anterior lido';
@@ -2743,7 +2751,7 @@ function mTopBlock(S,PS,semC,dl,pl){const rows=metaRows(S),prow=PS?metaRows(PS):
   return `<div class="tacc-w" data-ch="meta">${accChips('meta',rows.map(r=>r.c))}${metaTop(mTot(fAcc(rows,'meta')),PS?mTot(fAcc(prow,'meta')):null,semC,dl,pl)}${ldChart('meta',S.days)}</div>`}
 function gTopBlock(S,PS,dl,pl){const rows=gRows(S),prow=PS?gRows(PS):[];if(TACC.google&&!rows.some(r=>r.c===TACC.google))TACC.google='';
   TREN.google=()=>gTopBlock(S,PS,dl,pl);
-  return `<div class="tacc-w" data-ch="google">${accChips('google',rows.filter(r=>r.g>0).map(r=>r.c))}${gTop(gTot(fAcc(rows,'google')),PS?gTot(fAcc(prow,'google')):null,dl,pl)}${ldChart('google',S.days)}</div>`}
+  return `<div class="tacc-w" data-ch="google">${accChips('google',rows.filter(r=>r.g>0).map(r=>r.c))}${gTop(gTot(fAcc(rows,'google')),PS?gTot(fAcc(prow,'google')):null,dl,pl)}${ldChart('google',S.days)}${phBox(gTot(fAcc(rows,'google')),PS?gTot(fAcc(prow,'google')):null)}</div>`}
 document.addEventListener('change',e=>{const b=e.target.closest('select.tacc');if(!b)return;const ch=b.dataset.ch;TACC[ch]=b.value;
   const w=b.closest('.tacc-w');if(w&&TREN[ch]){w.outerHTML=TREN[ch]();const n=document.querySelector('select.tacc[data-ch="'+ch+'"]');if(n)n.focus()}fitSoon()});
 /* v68: gráfico de linha de leads por dia (Total, Formulários, Conversas), abaixo dos big numbers; segue o seletor de datas e o filtro de conta */
