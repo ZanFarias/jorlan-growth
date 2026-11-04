@@ -807,6 +807,22 @@ details.tp>summary .chev{flex:none}details.tp:not([open])>summary{margin:0}detai
 .ldc .seg button{font-size:11.5px;padding:5px 10px}
 .ldc .note{font-size:11px}
 @media (max-width:560px){.ldc{padding:12px 10px 10px}.ldc-p{height:200px}}
+/* aba Duotalk (v72) */
+.ng-box ul.ng-c,.dt-o ul.ng-c{grid-template-columns:minmax(0,1fr)}.ng-box ul.ng-c li,.dt-o ul.ng-c li{min-width:0}
+.dt-g{color:var(--gold-2);font-weight:800;text-shadow:0 0 10px rgba(212,175,55,.4)}
+ul.dt-ms{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:5px}
+ul.dt-ms li{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;background:var(--card-2);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;padding:6px 9px;min-width:0}
+.dt-m{font-family:var(--mono);font-size:11.5px;color:#fff;line-height:1.45;overflow-wrap:anywhere}
+ul.dt-ms li b{font-size:10.5px;font-weight:600;color:var(--gold-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dt-p{font-size:12.5px;color:#cfcdc6;line-height:1.5;max-width:100ch}
+.dt-os{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.dt-o{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-content:start;min-width:0}
+.dt-oh{display:grid;gap:2px;min-width:0}
+.dt-oh span{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.dt-oh b{font-size:28px;font-weight:800;color:#fff;line-height:1.1;font-variant-numeric:tabular-nums;text-shadow:0 0 16px rgba(255,255,255,.28);white-space:nowrap}
+.dt-oh small{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.dt-o ul.ng-c li span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ng-box ul.ng-c li span:first-child,.dt-o ul.ng-c li span:first-child{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 </style>
 
 <div class="wrap">
@@ -833,6 +849,7 @@ details.tp>summary .chev{flex:none}details.tp:not([open])>summary{margin:0}detai
     <button role="tab" id="t-analytics" data-k="analytics" aria-controls="p-analytics" aria-selected="false">Orgânico</button>
     <button role="tab" id="t-midia" data-k="midia" aria-controls="p-midia" aria-selected="false">Mídia Paga</button>
     <button role="tab" id="t-crm" data-k="crm" aria-controls="p-crm" aria-selected="false">CRM</button>
+    <button role="tab" id="t-duotalk" data-k="duotalk" aria-controls="p-duotalk" aria-selected="false">Duotalk</button>
     <button role="tab" id="t-tracking" data-k="tracking" aria-controls="p-tracking" aria-selected="false">Tracking</button>
   </nav>
   <div class="empty" id="empty" hidden><h2 id="empty-t"></h2><p id="empty-p"></p><button class="pre" id="empty-back" type="button" aria-pressed="true">Ver últimos 30 dias</button></div>
@@ -869,6 +886,7 @@ details.tp>summary .chev{flex:none}details.tp:not([open])>summary{margin:0}detai
     <div class="pane" id="p-plano" role="tabpanel" aria-labelledby="t-plano" hidden></div>
   </div>
   <div class="pane" id="p-crm" role="tabpanel" aria-labelledby="t-crm" hidden></div>
+  <div class="pane" id="p-duotalk" role="tabpanel" aria-labelledby="t-duotalk" hidden></div>
   <footer id="foot"></footer>
 </div>
 
@@ -2576,6 +2594,7 @@ const tHTML=[
 ].join('');
 
 const FOOT={
+ duotalk:['Fonte: Looker Studio "Marketing - Grupo Jorlan", página Tracking Ads - IA (Intenção = Veículos Novos, 01 a 31/10/2026), coluna Histórico Duotalk, lida em 04/11/2026. As 3.590 conversas NÃO IDENTIFICADO foram classificadas pela 1ª mensagem do cliente.','Botões dos sites conferidos no código público em 04/11/2026. Conversões do Google Ads via Supermetrics, últimos 30 dias. Somente leitura: nada foi alterado no Duotalk, nos sites ou nas contas.'],
  crm:['Fonte: leads, conversas e investimento do Google Ads (via Supermetrics) e do Meta Ads, de 30/09 a 27/10/2026.','Etapas depois do lead dependem da integração do DealerUP (CRM de leads) e do NBS (vendas) com o Google Ads e o Meta. Itens com — ainda não têm dado.'],
  tracking:['Fonte: conta do Google Tag Manager Sites Grupo Jorlan (6000412255), lida em 27/10/2026; código público dos sites, lido de 27 a 30/10/2026; GA4 via Supermetrics de 30/09 a 29/10/2026; Google Ads de 30/09 a 27/10/2026.','Tags, acionadores e versões publicadas dentro de cada contêiner ainda não foram lidos: dependem do acesso ao GTM pelo Chrome do Zan. Itens marcados "Confirmar no GTM" são hipóteses fortes, não fatos conferidos.'],
  analytics:['Fonte: Google Analytics 4 via Supermetrics, 46 propriedades da conta GRUPO JORLAN - SITES, de 30/09 a 29/10/2026 (fuso de São Paulo), lido em 30/10/2026.','Contatos = eventos-chave de WhatsApp, ligação e formulário. São cliques no site, não leads confirmados no CRM. Usuários somados entre sites podem repetir a mesma pessoa.','Tags, presença local e seminovos: código público dos sites e fichas do Google Meu Negócio, lidos de 27 a 29/10/2026.'],
@@ -2999,7 +3018,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('#cri-ch button,#
   if(g==='cri-ch'){if(v===criCh)return;criCh=v;criTp=''}else if(g==='cri-tp')criTp=v;else criOrd=v;
   criRender();const n=document.querySelector('#'+g+' [data-v="'+v+'"]');if(n)n.focus();fitSoon()});
 
-function renderFoot(){const F=curTab==='cri'?['Fonte: Meta Ads (leitura direta, anúncio a anúncio) e Google Ads via Supermetrics (relatório de anúncios), mês a mês de 01/11/2025 a 02/11/2026 e janela 30/09 a 27/10/2026, lidos em 03/11/2026.','Lead = formulário + conversa iniciada. Ligações do Phonetrack e do anúncio ficam fora. Ranking por custo considera anúncios com R$ 200 ou mais e 3 leads ou mais no período.']:['sobre','lojas','produtos','negocios','publico','analytics','tracking','crm','diag','plano'].includes(curTab)?FOOT[curTab]:per.mode==='30d'?FOOT[curTab]:curTab==='geral'?['Fonte: Google Ads via Supermetrics e Meta Ads, dia a dia por conta de 01/11/2025 a 04/11/2026 (hoje até 8h), lidos em 04/11/2026. As conversas do Google chegam com 1 a 2 dias de atraso, então 03 e 04/11 ainda podem subir.','Investimento total = Google + Meta. Leads do Meta = formulário e cadastro. Formulários do Google = categoria formulário enviado.']:curTab==='meta'?['Fonte: Meta Ads, Business Manager Grupo Jorlan, leitura dia a dia por conta de 01/11/2025 a 04/11/2026 (hoje até 8h) feita em 04/11/2026. Antes de novembro de 2025, leitura mensal desde jan/2025.','Leads = formulários de cadastro + conversas iniciadas no WhatsApp (janela de 7 dias). GWM e Peugeot BH somam duas contas cada. Geely Brasília e BH Lojas reserva não puderam ser lidas. Detalhe por campanha mês a mês de jan a 29/10/2026.']:['Fonte: Google Ads via Supermetrics, contas do Grupo Jorlan, dia a dia de 01/11/2025 a 04/11/2026 (hoje até 8h), lido em 04/11/2026. Conversas no anúncio chegam com 1 a 2 dias de atraso. Detalhe por campanha mês a mês até 29/10/2026.','Conversões = tudo que o Google conta, inclusive clique em WhatsApp e ligação. Formulários = categoria formulário enviado.'];
+function renderFoot(){const F=curTab==='cri'?['Fonte: Meta Ads (leitura direta, anúncio a anúncio) e Google Ads via Supermetrics (relatório de anúncios), mês a mês de 01/11/2025 a 02/11/2026 e janela 30/09 a 27/10/2026, lidos em 03/11/2026.','Lead = formulário + conversa iniciada. Ligações do Phonetrack e do anúncio ficam fora. Ranking por custo considera anúncios com R$ 200 ou mais e 3 leads ou mais no período.']:['sobre','lojas','produtos','negocios','publico','analytics','tracking','crm','duotalk','diag','plano'].includes(curTab)?FOOT[curTab]:per.mode==='30d'?FOOT[curTab]:curTab==='geral'?['Fonte: Google Ads via Supermetrics e Meta Ads, dia a dia por conta de 01/11/2025 a 04/11/2026 (hoje até 8h), lidos em 04/11/2026. As conversas do Google chegam com 1 a 2 dias de atraso, então 03 e 04/11 ainda podem subir.','Investimento total = Google + Meta. Leads do Meta = formulário e cadastro. Formulários do Google = categoria formulário enviado.']:curTab==='meta'?['Fonte: Meta Ads, Business Manager Grupo Jorlan, leitura dia a dia por conta de 01/11/2025 a 04/11/2026 (hoje até 8h) feita em 04/11/2026. Antes de novembro de 2025, leitura mensal desde jan/2025.','Leads = formulários de cadastro + conversas iniciadas no WhatsApp (janela de 7 dias). GWM e Peugeot BH somam duas contas cada. Geely Brasília e BH Lojas reserva não puderam ser lidas. Detalhe por campanha mês a mês de jan a 29/10/2026.']:['Fonte: Google Ads via Supermetrics, contas do Grupo Jorlan, dia a dia de 01/11/2025 a 04/11/2026 (hoje até 8h), lido em 04/11/2026. Conversas no anúncio chegam com 1 a 2 dias de atraso. Detalhe por campanha mês a mês até 29/10/2026.','Conversões = tudo que o Google conta, inclusive clique em WhatsApp e ligação. Formulários = categoria formulário enviado.'];
   const F2=curTab==='analytics'&&per.mode!=='30d'?['Fonte: Google Analytics 4 via Supermetrics, propriedades da conta GRUPO JORLAN - SITES, mês a mês de 11/2025 a 29/10/2026 e dia a dia de 01/11/2025 a 03/11/2026 (fuso de São Paulo), lidos em 30/10, 03/11 e 04/11/2026.','Contatos = eventos-chave de WhatsApp, ligação e formulário. São cliques no site, não leads confirmados no CRM. Usuários somados entre sites e meses podem repetir a mesma pessoa.']:F;
   document.getElementById('foot').innerHTML=F2.map(s=>`<span>${esc(s)}</span>`).join('')}
 function renderPanes(){const d=per.mode==='30d';document.getElementById('p-geral').innerHTML=d?gerHTML:geralPeriod();document.getElementById('p-google').innerHTML=d?gHTML.replace('<!--TOP-->',gTop30()):googlePeriod();document.getElementById('p-meta').innerHTML=d?mHTML.replace('<!--TOP-->',metaTop30()):metaPeriod();const pa=document.getElementById('p-analytics');if(pa)pa.innerHTML=orgHTML(d);const pp=document.getElementById('p-publico');if(pp&&!pp.dataset.r){pp.innerHTML=puHTML+gaDemSec([21],'outubro de 2026 (1 a 29)');pp.dataset.r=1}const pc=document.getElementById('p-crm');if(pc&&!pc.dataset.r){pc.innerHTML=crmHTML;pc.dataset.r=1}criRender();perGate();renderFoot()}
@@ -3078,8 +3097,8 @@ document.getElementById('cal-prev').addEventListener('click',()=>{calM=Math.max(
 document.getElementById('cal-next').addEventListener('click',()=>{calM=Math.min(dMi(DLAST),calM+1);renderCal()});
 
 const TOP=[...document.querySelectorAll('#topnav [role=tab]')],SUB=[...document.querySelectorAll('#subnav [role=tab]')],QS=[...document.querySelectorAll('#qsnav [role=tab]')],QSK=['sobre','lojas','produtos','negocios','publico'];
-const NOME={sobre:'Quem Somos',lojas:'Nossas Lojas',produtos:'Produtos · Portfólio e capilaridade',negocios:'Negócios · Linhas de produtos',publico:'Público · Idade, gênero e preço',analytics:'Orgânico · Site, Instagram e Facebook',crm:'CRM · Do lead à venda',tracking:'Tracking · Google Tag Manager e medição',geral:'Mídia Paga · Visão geral',google:'Análise das campanhas · Google Ads',meta:'Análise das campanhas · Meta Ads',cri:'Mídia Paga · Melhores criativos',diag:'Mídia Paga · Diagnóstico',plano:'Mídia Paga · Plano de Mídia'};
-const CHAVES=['quem','sobre','lojas','produtos','negocios','publico','analytics','tracking','midia','crm','geral','google','meta','cri','diag','plano'];
+const NOME={sobre:'Quem Somos',lojas:'Nossas Lojas',produtos:'Produtos · Portfólio e capilaridade',negocios:'Negócios · Linhas de produtos',publico:'Público · Idade, gênero e preço',analytics:'Orgânico · Site, Instagram e Facebook',crm:'CRM · Do lead à venda',duotalk:'Duotalk · Conversas sem modelo identificado',tracking:'Tracking · Google Tag Manager e medição',geral:'Mídia Paga · Visão geral',google:'Análise das campanhas · Google Ads',meta:'Análise das campanhas · Meta Ads',cri:'Mídia Paga · Melhores criativos',diag:'Mídia Paga · Diagnóstico',plano:'Mídia Paga · Plano de Mídia'};
+const CHAVES=['quem','sobre','lojas','produtos','negocios','publico','analytics','tracking','midia','crm','duotalk','geral','google','meta','cri','diag','plano'];
 let curSub='geral',curQs='sobre';
 /* id = aba principal ou canal; um canal abre a aba Mídia Paga com aquele canal selecionado */
 function show(id){
@@ -3421,7 +3440,77 @@ FOOT.negocios=['Fonte: Google Ads (Supermetrics, 266 campanhas com gasto) e Meta
 document.getElementById('p-negocios').innerHTML=nHTML;negInit();
 document.getElementById('p-sobre').innerHTML=sHTML;
 document.getElementById('p-lojas').innerHTML=lHTML;
-document.getElementById('p-analytics').innerHTML=aHTML;document.getElementById('p-diag').innerHTML=diagHTML;document.getElementById('p-plano').innerHTML=planoHTML;document.getElementById('p-crm').innerHTML=crmHTML;document.getElementById('p-tracking').innerHTML=tHTML;document.getElementById('p-produtos').innerHTML=pHTML;prodInit();concInit();document.getElementById('p-publico').innerHTML=puHTML;pubInit();
+/* ---------- DUOTALK · modelos NÃO IDENTIFICADOS, out/2026 (Looker Tracking Ads - IA, lido em 04/11/2026) ---------- */
+const DTM=[['GWM',1191,3767,[55.2,39.0,3.5,2.3]],['Geely',706,3225,[44.2,46.5,5.9,3.4]],['Chevrolet',468,2246,[42.5,34.2,18.2,5.1]],['Renault',361,1381,[67.6,22.7,4.2,5.5]],['GAC',331,1382,[42.6,38.7,16.6,2.1]],['Honda',305,2500,[41.6,43.6,7.5,7.2]],['Kia',187,466,[42.8,11.2,1.1,44.9]],['Harley',40,333,[10.0,27.5,52.5,10.0]]];
+const DTU={GWM:'GWM',Geely:'DF 431 · BH 275',Chevrolet:'BH 177 · DF 165 · Orca 105 · Valp. 21',Renault:'DF 190 · BH 171',GAC:'DF 216 · BH 115',Honda:'Honda Jorlan',Kia:'Kia Jorlan',Harley:'Brasília HD'};
+const DTC=[['Botão site/Google',1764,'Corrigir no site e no Google'],['Sem mensagem pronta',1329,'A IA pergunta o modelo'],['Anúncio Meta sem modelo',285,'Corrigir no anúncio'],['Tem modelo, a IA não leu',212,'Corrigir no Duotalk']];
+const DTS=[[1,'"Vim pelo site #Novos <URL>"',1056],[1,'"Vim pelo Google #Novos"',602],[1,'"Vim pelo site" sem nenhum #',74],[1,'Outro texto padrão do site',32],[2,'Só saudação ("Bom dia", "Oi")',886],[2,'Texto livre do cliente',227],[2,'Resposta a disparo ou menu',216],[3,'Click-to-WhatsApp sem modelo',258],[3,'Link de Instagram sem referral',27],[4,'#Bongo fora do catálogo Kia',77],[4,'Nome com espaço',50],[4,'Dois # ("#Novos do #Onix")',47],[4,'Outros # não lidos',38]];
+const dtNum=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+const dtHb=(items,tot)=>{const mx=Math.max(...items.map(i=>i[1]));return `<ul class="hb">${items.map(([n,v,s])=>`<li class="pg"><span class="hb-n">${esc(n)}</span><span class="hb-t"><i style="width:${Math.max(.6,v/mx*100)}%"></i></span><span class="hb-v"><b>${int(v)}</b><small>${esc(s)}</small></span></li>`).join('')}</ul>`};
+const dtMsg=(m,n)=>`<li><span class="dt-m">${esc(m)}</span>${n?`<b>${esc(n)}</b>`:''}</li>`;
+const dtOrig=(t,v,s,ls)=>`<div class="dt-o"><div class="dt-oh"><span>${esc(t)}</span><b>${int(v)}</b><small>${esc(s)}</small></div><ul class="ng-c">${ls.map(([a,b])=>`<li><span>${esc(a)}</span><span>${esc(b)}</span></li>`).join('')}</ul></div>`;
+const dtVz=(...a)=>vaz(...a).replace('<p>','<div class="dt-p">').replace('</p>','</div>');
+const dHTML=[
+ row([
+  {l:'Conversas sem modelo',v:'3.590',s:'23,5% de 15.305 em out/2026',hl:1,t:'Conversas de Veículos Novos em que o Duotalk marcou o modelo como NÃO IDENTIFICADO, de 01 a 31/10/2026. Fonte: Looker "Marketing - Grupo Jorlan", página Tracking Ads - IA.'},
+  {l:'Botão do site/Google',v:'49,1%',s:'1.764 conversas · # genérico',hl:1,t:'Mensagem pronta do botão de WhatsApp do site ou do Google com #Novos ou #Institucional, sem o modelo. Resolve trocando o texto do botão.'},
+  {l:'Sem mensagem pronta',v:'37,0%',s:'1.329 · saudação ou disparo',t:'Cliente escreveu direto ("Bom dia", "Oi") ou respondeu a disparo e menu. Não tem como vir com modelo: a IA precisa perguntar.'},
+  {l:'Anúncio Meta sem modelo',v:'7,9%',s:'285 conversas',t:'Click-to-WhatsApp do Meta com # de campanha ou família (#Touring, #Esquenta_Black_Friday), sem o modelo.'},
+  {l:'A IA não leu o modelo',v:'5,9%',s:'212 · #Bongo lidera com 77',t:'A mensagem tinha #modelo e o Duotalk não reconheceu: modelo fora do catálogo, nome com espaço ou dois # na mesma mensagem.'}],'five'),
+ `<div class="ins"><b>Em uma frase</b><ul><li><b class="w">Metade</b> das conversas sem modelo se resolve trocando o texto dos botões de WhatsApp do site e do Google por <b class="w">#modelo</b>. GWM e Renault concentram o volume.</li><li><b class="w">37%</b> chegam sem mensagem pronta. Nesses casos a correção é a <b class="w">IA perguntar o modelo</b> no 1º contato.</li><li>Nenhuma das 614 conversas do Google lidas trouxe <b class="w">gclid ou UTM</b>: pelo Duotalk não dá para separar Google Ads de orgânico.</li></ul></div>`,
+ sec('Ranking por marca','da maior para a menor','Conversas NÃO IDENTIFICADO por marca em outubro de 2026. O percentual é sobre o total de conversas de Veículos Novos da própria marca.',
+  dtHb(DTM.map(([n,v,t])=>[n,v,`${dtNum(v/t*100)} de ${int(t)} conversas`]))+
+  `<p class="note">Kia tem a maior taxa (40,1%) e GWM o maior volume (1.191). Por origem: Google 1.651, Outros 1.480 e Meta 459.</p>`),
+ sec('Os 4 motivos','3.590 conversas classificadas','Cada conversa foi classificada pela 1ª mensagem do cliente (coluna Histórico Duotalk do Looker). A amostra inicial de 240 conversas (30 por marca) deu proporções parecidas.',
+  dtHb(DTC.map(([n,v,s])=>[n,v,`${pct(v/3590,1)} · ${s}`]))+
+  `<div class="ng-g">${DTC.map(([n],i)=>`<div class="ng-box"><h4>${i+1}. ${esc(n)}</h4><ul class="ng-c">${DTS.filter(s=>s[0]===i+1).map(([,a,b])=>`<li><span>${esc(a)}</span><span>${int(b)} · ${pct(b/3590,1)}</span></li>`).join('')}</ul></div>`).join('')}</div>`),
+ sec('Motivo por marca','% dentro de cada marca','Quanto de cada marca cai em cada motivo. Em dourado, o maior motivo da marca. Uma conversa da Corretora de Seguros entra só no total.',
+  tbl([{h:'Marca'},{h:'Conversas',n:1},{h:'Site/Google',n:1},{h:'Sem msg pronta',n:1},{h:'Meta sem modelo',n:1},{h:'IA não leu',n:1}],
+   DTM.map(([n,v,,p])=>{const mx=Math.max(...p);return [`<b class="w">${esc(n)}</b>`,int(v),...p.map(x=>x===mx?`<b class="dt-g">${dtNum(x)}</b>`:dtNum(x))]}))+
+  `<div class="ins"><b>Leitura por marca</b><ul><li><b class="w">Renault 67,6%</b> e <b class="w">GWM 55,2%</b> vêm do botão do site: são os sites DealerSpace, com texto fixo por setor.</li><li><b class="w">Kia 44,9%</b> é a IA que não leu, quase tudo <b class="w">#Bongo</b>, que falta no catálogo.</li><li><b class="w">Harley 52,5%</b> é Meta: anúncio Touring manda <b class="w">#Touring</b>, que é família e não modelo.</li><li><b class="w">Chevrolet 18,2%</b> e <b class="w">GAC 16,6%</b> de Meta sem modelo: Esquenta Black Friday (Orca) e Super Semana GS.</li></ul></div>`),
+ sec('Por origem marcada no Duotalk','Google · Meta · Outros','Como as 3.590 se distribuem pela origem que o Duotalk marcou, e em que motivo caem.',
+  `<div class="dt-os">${dtOrig('Google',1651,'46% das sem modelo',[['Botão do site/Google','1.589'],['Sem mensagem pronta','58'],['IA não leu','4']])}${dtOrig('Meta',459,'13% das sem modelo',[['Anúncio sem modelo','255'],['Tinha modelo e a IA não leu','204']])}${dtOrig('Outros',1480,'41% das sem modelo',[['Sem mensagem pronta','1.271'],['Texto do site que caiu em Outros','175'],['Anúncio Meta sem modelo','30'],['IA não leu','4']])}</div>`+
+  `<p class="note">No Meta, 204 das 459 conversas sem modelo traziam o modelo no anúncio e a IA não leu. Em Outros, 175 têm o mesmo texto do site das que foram para Google.</p>`),
+ sec('Botões de WhatsApp dos sites','mensagem que chega hoje','Textos conferidos no código dos sites em 04/11/2026. Sites DealerSpace: GWM, Renault DF/BH e Kia. Sites Híbrida Web: Chevrolet DF/BH/GO, Orca, GAC, Honda e Harley.',`<ol class="vz">
+  ${dtVz(1,'DealerSpace: texto fixo por setor',`Botão flutuante e telefones do rodapé mandam o mesmo texto em todas as páginas, inclusive na página do modelo (testado em gwmjorlan.com.br/novos/gwm-haval-h9).<ul class="dt-ms">${dtMsg('Olá! Vim pelo site e gostaria de mais informações sobre #Novos','GWM · Renault · Kia')}</ul>`,'GWM e Renault: maior volume','Página de modelo leva #modelo ("#Novos #Haval_H9"); home e listagens "#home"','Site')}
+  ${dtVz(2,'"Vim pelo Google" com # genérico',`Não aparece no código dos sites. Deve vir do WhatsApp do Perfil da Empresa no Google ou do recurso de WhatsApp das campanhas do Google Ads (falta confirmar).<ul class="dt-ms">${dtMsg('Olá! Vim pelo Google e gostaria de mais informações sobre #Novos','Kia · Renault · GWM · Geely')}${dtMsg('Olá! Vim pelo Google e gostaria de mais informações sobre a Loja. #Institucional','Honda: 1/3 da amostra')}</ul>`,'602 conversas · 16,8%','Mensagem do recurso de WhatsApp com marca e modelo em cada grupo de anúncios','Google')}
+  ${dtVz(3,'Híbrida Web: #Novos com a URL',`O link da página vem junto, mas sem #modelo, mesmo em página de modelo (hondajorlanplaza.com.br/novos/new-hr-v-2 e gacjorlanmotors.com.br/df/novos/aion-v chegaram sem modelo).<ul class="dt-ms">${dtMsg('Olá! Vim pelo site. #Novos <URL da página>','GAC · Honda · Chevrolet · HD')}${dtMsg('#Novosgacjorlanmotors.com.br/df/ofertas/novos','GAC: falta espaço')}</ul>`,'Parte das 1.056 com # genérico','Trocar "#Novos <URL>" por #modelo e corrigir o espaço no GAC','Site')}
+  ${dtVz(4,'Geely: origem do texto não achada',`O site geelybrasil.com.br/jorlan-df não tem botão de WhatsApp. O texto vem de outra página ou LP ainda não localizada (9 de 30 na amostra).<ul class="dt-ms">${dtMsg('Olá, vim pelo site e gostaria de mais informações. #Novos','Geely')}</ul>`,'Geely: 44,2% site/Google','Achar a LP de origem e incluir #modelo','Confirmar')}
+ </ol>`),
+ sec('Meta: anúncios sem modelo','e modelos que a IA não leu','Nome do anúncio = coluna headline do Duotalk. Amostra de outubro de 2026.',
+  `<div class="ng-g"><div class="ng-box"><h4>Anúncio sem #modelo</h4><ul class="dt-ms">${dtMsg('Olá! Vi o #Novos #Touring e queria saber mais!','Harley Touring 2026')}${dtMsg('#Novos #Esquenta_Black_Friday','Orca · inclusive anúncio do Tracker')}${dtMsg('Olá! Gostaria de garantir meu GS na Super Semana #evento #novos #dvn','GAC · não diz qual GS')}${dtMsg('#Modo_Suv','Chevrolet · 44 conversas')}${dtMsg('Eu vim do Instagram / link de reel','GWM · Chevrolet · GAC · Geely')}</ul></div>
+  <div class="ng-box"><h4>Tinha #modelo e a IA não leu</h4><ul class="dt-ms">${dtMsg('#Novos do #Bongo','Kia · 77 · fora do catálogo')}${dtMsg('#Haval H9 · #Tank 300 · #Geely EX5','nome com espaço · 50')}${dtMsg('#Novos do #Onix · #Spark · #Koleos','dois # · 47')}${dtMsg('#Honda_City','City Sedan ou Hatch?')}${dtMsg('#Low Rider S · #Geely EX2 PRO','espaço no meio')}</ul></div></div>`),
+ sec('Google Ads: o lead não é identificado','614 conversas lidas','Análise de 04/11/2026 com 614 conversas de outubro: amostra por marca, 76 recentes de todas as origens e 92 recentes com origem Google.',
+  row([
+   {l:'Com gclid ou UTM',v:'0 de 614',s:'nenhuma mensagem traz o clique',hl:1,t:'Os sites mandam só o endereço da página, sem parâmetros. Pelo Duotalk não dá para saber se o lead veio de campanha paga, nem de qual campanha.'},
+   {l:'Caem em Outros',v:'6,8%',s:'22 de 324 com texto do site',t:'Conversas com "Vim pelo site/Google" que o Duotalk marcou como Outros, com a mesma mensagem das que foram para Google.'},
+   {l:'Modelo identificado',v:'60%',s:'2.496 de 4.147 do Google em out',t:'Conversas com origem Google em outubro com modelo identificado. Quando a 1ª mensagem tem #modelo, 9 de 9 foram identificadas.'},
+   {l:'Conversas no anúncio',v:'2.345',s:'+ 8.146 cliques em WhatsApp · 30d',t:'Conversation started (recurso de WhatsApp do anúncio) e cliques em WhatsApp registrados pelo Google Ads em 30 dias. Entram no Duotalk como "Vim pelo Google… #Novos" ou "#Institucional".'}])+
+  tbl([{h:'Sinal na 1ª mensagem'},{h:'Google',n:1},{h:'Meta',n:1},{h:'Outros',n:1}],[
+   ['Click-to-WhatsApp do Meta (Url origem)','0','<b class="dt-g">138</b>','0'],
+   ['"Vim pelo site…"','<b class="dt-g">203</b>','0','13'],
+   ['"Vim pelo Google…"','<b class="dt-g">99</b>','0','9'],
+   ['Anúncio com #modelo sem referral','<b class="dt-g">12</b>','0','1'],
+   ['Sem mensagem padrão','5','10','<b class="dt-g">124</b>']])+
+  `<div class="ins"><b>Como o Duotalk decide a origem</b><ul><li>"Google" no Duotalk = qualquer texto padrão do site ou do Google. <b class="w">Não separa Google Ads de orgânico</b>, nem site de Google.</li><li>O Meta é 100% certo porque o Click-to-WhatsApp manda a origem junto.</li></ul></div>`+
+  `<div class="ng-box"><h4>Mensagens do Google que funcionam (modelo a copiar)</h4><ul class="dt-ms">${dtMsg('Olá, vim do Google quero saber mais sobre as ofertas #Novos #Kwid','Renault')}${dtMsg('#Novos | Olá! vi o anúncio e queria mais informações sobre o #Haval H9','GWM')}${dtMsg('Olá! Vim pelo anúncio do Google #GoogleAds #Haval_H9','sugestão')}</ul></div>`),
+ sec('O que fazer','por responsável','Recomendações da análise de 04/11/2026, na ordem de impacto.',`<ol class="vz">
+  ${dtVz(1,'Padronizar a mensagem',`Um # só, sem espaço, e "#home" quando não houver modelo.<ul class="dt-ms">${dtMsg('Olá! Vim pelo [site/Google/Instagram] #[modelo]','#Haval_H9 · #Bongo · #City_Sedan')}</ul>`,'Base para todas as correções','Lista de mensagens-padrão por marca e modelo para site, agência e Meta','Todos')}
+  ${dtVz(2,'Sites DealerSpace levarem o modelo','GWM, Renault e Kia: o botão da página de modelo tem que levar o #modelo. Hoje o texto é fixo por setor.','GWM 55,2% · Renault 67,6%','Ajustar o texto por página no DealerSpace','Site')}
+  ${dtVz(3,'Híbrida Web trocar a URL pelo modelo','Chevrolet, Orca, GAC, Honda e Harley: trocar "#Novos &lt;URL&gt;" por "#modelo" e corrigir o espaço que falta no GAC.','Parte das 1.056 com # genérico','Ajustar o template do botão','Site')}
+  ${dtVz(4,'Google: mensagem com origem paga','Revisar a mensagem do WhatsApp no Perfil da Empresa e nos recursos do Google Ads (#Novos e #Institucional). Nos sites, levar um código curto do gclid/UTM (ex.: "#gads") ou gravar o gclid no clique pelo GTM.','602 conversas · 0 com gclid','"Olá! Vim pelo anúncio do Google #GoogleAds #modelo" em cada grupo','Google')}
+  ${dtVz(5,'Meta: #modelo em todo anúncio','Harley Touring, Esquenta Black Friday (Orca), GAC Super Semana, #Modo_Suv e posts impulsionados sem mensagem.','285 conversas · 7,9%','Mensagem pronta com o modelo do criativo','Meta')}
+  ${dtVz(6,'Duotalk: catálogo e regras','Incluir Bongo no catálogo; testar se a IA lê o 2º # ("#Novos do #Onix"); sinônimos (Honda_City, Touring, GS); regra fixa de origem por texto ("#GoogleAds" → Google Ads, "Vim pelo site" → Site); IA perguntar o modelo no 1º contato.','212 + 1.329 conversas','Validar com o suporte do Duotalk','Duotalk')}
+ </ol>`),
+ sec('Próximos passos','ainda em aberto','Ponto de parada da análise em 04/11/2026, 15h17.',`<ul class="att">
+  <li><b>Confirmar a origem de "Vim pelo Google"</b>Abrir o Perfil da Empresa de cada loja e os recursos de WhatsApp do Google Ads (só leitura).</li>
+  <li><b>Achar o texto da Geely</b>"vim pelo site e gostaria de mais informações. #Novos": procurar a LP ou extensão.</li>
+  <li><b>Conferir o site da Honda</b>O Claude in Chrome não tem permissão de script em hondajorlanplaza.com.br.</li>
+  <li><b>Validar com o suporte do Duotalk</b>Bongo, leitura do 2º #, sinônimos e regra fixa de origem.</li>
+  <li><b>Lista de mensagens-padrão</b>Por marca e modelo, para o time do site, a agência e o Meta.</li></ul>`)
+].join('');
+
+document.getElementById('p-analytics').innerHTML=aHTML;document.getElementById('p-duotalk').innerHTML=dHTML;document.getElementById('p-diag').innerHTML=diagHTML;document.getElementById('p-plano').innerHTML=planoHTML;document.getElementById('p-crm').innerHTML=crmHTML;document.getElementById('p-tracking').innerHTML=tHTML;document.getElementById('p-produtos').innerHTML=pHTML;prodInit();concInit();document.getElementById('p-publico').innerHTML=puHTML;pubInit();
 let start=location.hash.slice(1);if(start==='concorrentes')start='produtos';if(!CHAVES.includes(start)){try{start=localStorage.getItem('mpj-tab')}catch(e){}}
 show(CHAVES.includes(start)?start:'sobre');
 renderFilter();
