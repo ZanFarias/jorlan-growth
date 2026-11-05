@@ -1,0 +1,1030 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Duotalk</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: Growth Jorlan — abas Quem Somos, Lojas, Produtos, Público, Analytics e Mídia Paga (subabas Visão geral, Google e Meta); — cabeçalho com período, abas por canal, blocos retráteis de cards KPI, detalhamento por campanha, tabelas e barras; preto com branco e dourado */
+:root{
+  --bg:#060608; --card:#0f0f13; --card-2:#15151a; --line:#24232a; --line-2:#302f37;
+  --fg:#f5f4f0; --muted:#8f8d87; --dim:#5f5e64;
+  --gold:#d4af37; --gold-2:#f0cf6a; --gold-soft:rgba(212,175,55,.10);
+  --f:"Montserrat",Arial,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:14px;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px}
+h1{margin:0;font-size:24px;font-weight:800;color:#fff;letter-spacing:-.01em}
+.crumb{margin:4px 0 0;font-size:12px;color:var(--muted)}
+.period{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-2);background:var(--card);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:600;color:var(--fg);white-space:nowrap}
+.period::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tabs button{font:inherit;font-size:13px;font-weight:600;background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);padding:8px 14px;cursor:pointer;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--gold);border-bottom-color:var(--gold)}
+.tabs button:hover{color:var(--fg)}
+:focus-visible{outline:2px solid var(--gold-2);outline-offset:2px}
+.pane{display:grid;gap:22px}
+
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+.row.five{grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr))}
+.kpi{position:relative;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px 16px;display:grid;gap:6px;align-content:start;min-width:0}
+.kpi .lbl{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kpi .num{font-size:clamp(22px,2.3vw,28px);font-weight:800;color:#fff;line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.kpi .sub{font-size:11.5px;color:var(--muted)}
+.dv{font-weight:700}.dv.up{color:#3ddc84;text-shadow:0 0 10px rgba(61,220,132,.45)}.dv.dn{color:#ff5a5a;text-shadow:0 0 10px rgba(255,90,90,.45)}
+.kpi.hl{border-color:rgba(212,175,55,.55);background:linear-gradient(180deg,rgba(212,175,55,.16),rgba(212,175,55,0) 70%),var(--card)}
+.kpi.hl .num{color:var(--gold-2);text-shadow:0 0 18px rgba(212,175,55,.35)}
+.kpi.hl .lbl{color:#d9c382}
+.kpi.pend .num{color:var(--dim)}
+.badge{justify-self:start;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px dashed var(--gold);color:var(--gold)}
+
+.q{position:relative;flex:none;display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;border:1px solid var(--line-2);color:var(--muted);font-size:10px;font-weight:700;letter-spacing:0;text-transform:none;cursor:help;font-family:var(--f)}
+.q:hover,.q:focus{border-color:var(--gold);color:var(--gold);outline:none}
+.q .tt{position:absolute;z-index:30;top:calc(100% + 8px);right:-6px;width:max-content;max-width:min(270px,72vw);background:#1b1a20;border:1px solid var(--gold);border-radius:8px;padding:9px 11px;font-size:12px;font-weight:500;line-height:1.45;color:var(--fg);text-align:left;box-shadow:0 10px 28px rgba(0,0,0,.6);display:none;pointer-events:none;white-space:normal}
+.q.l{position:static}
+.q.l .tt{right:auto;left:0;top:calc(100% + 2px);max-width:min(300px,100%)}
+summary{position:relative}
+.q:hover .tt,.q:focus .tt{display:block}
+
+details.sec{border-top:1px solid var(--line);padding-top:14px}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary h2{margin:0;font-size:13.5px;font-weight:700;color:var(--gold)}
+details.sec>summary .hint{font-size:11.5px;color:var(--muted)}
+.chev{width:14px;height:14px;color:var(--gold);transition:transform .15s;transform:rotate(-90deg)}
+details[open]>summary .chev{transform:none}
+.sec-body{display:grid;gap:12px}
+
+details.camp{background:var(--card);border:1px solid var(--line);border-radius:10px}
+details.camp>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 16px;padding:11px 14px;border-bottom:1px solid transparent}
+details.camp[open]>summary{border-bottom-color:var(--line)}
+details.camp>summary::-webkit-details-marker{display:none}
+.camp .cn{font-weight:700;font-size:13px;color:#fff;display:flex;align-items:center;gap:8px}
+.camp .cm{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.camp .cm b{color:#fff;font-weight:700}
+.camp .cm b.g{color:var(--gold-2)}
+.camp ul{list-style:none;margin:0;padding:8px 10px 10px;display:grid;gap:6px}
+.camp li{display:flex;justify-content:space-between;align-items:baseline;gap:6px 14px;flex-wrap:wrap;background:var(--card-2);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;padding:7px 10px;font-size:12px;color:#cfcdc6}
+.camp li span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums;color:#fff;font-weight:600}
+.camp li.bad span:last-child{color:var(--gold-2)}
+.camp .none{padding:10px 14px;font-size:12px;color:var(--muted)}
+.camp li small{display:block;margin-top:2px;font-size:11px;color:var(--muted)}
+.nd{padding:10px 14px 14px;display:grid;gap:10px}
+.nd h4{margin:4px 0 0;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.camp .nd ul.ck{padding:0}
+.mt{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.mt div{background:var(--card-2);border:1px solid var(--line);border-radius:6px;padding:8px 10px;display:grid;gap:2px;min-width:0}
+.mt div.key{border-color:rgba(212,175,55,.55)}
+.mt b{font-size:12px;font-weight:700;color:#fff}
+.mt div.key b{color:var(--gold-2)}
+.mt span{font-size:11.5px;color:var(--muted)}
+.cards{display:grid;gap:10px;padding:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
+.cc{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px;align-content:start;min-width:0}
+.cc.warn{border-color:rgba(212,175,55,.55)}
+.cc-h{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.cc-n{font-size:12.5px;font-weight:700;color:#fff;line-height:1.3}
+.cc-kp{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.cc-kp div,.cc dl div{display:grid;gap:2px;min-width:0}
+.cc-kp span,.cc dt{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.cc-kp b{font-size:20px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.1}
+.cc.warn .cc-kp .key b{color:var(--gold-2)}
+.cc dl{margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px 10px}
+.cc dd{margin:0;font-size:12.5px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+.cc dd.na{color:var(--dim);font-weight:500}
+.cc-note{font-size:11px;color:var(--muted)}
+
+.tbl-title{position:relative;display:flex;align-items:center;gap:8px;margin:0;font-size:15px;font-weight:700;color:#fff}
+th.srt{cursor:pointer;user-select:none}
+th.srt::after{content:"↕";margin-left:5px;color:var(--dim);font-size:10px}
+th.srt[data-dir="desc"]::after{content:"↓";color:var(--gold)}
+th.srt[data-dir="asc"]::after{content:"↑";color:var(--gold)}
+th.srt[data-dir]{color:var(--gold-2)}
+.tf{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 8px}
+.tf button{font:inherit;font-size:11.5px;font-weight:600;background:transparent;color:#cfcdc6;border:1px solid var(--line-2);border-radius:99px;padding:4px 11px;cursor:pointer;white-space:nowrap}
+.tf button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+.tf small{font-size:10.5px;color:var(--dim);margin-left:4px}
+.tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+td.n,th.n{text-align:right;white-space:nowrap}
+td.mono{font-family:var(--mono);font-size:11.5px;color:#bdbbb4}
+td.why{color:var(--muted);min-width:220px}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.pill.gold{background:rgba(212,175,55,.16);color:var(--gold-2);border:1px solid rgba(212,175,55,.5)}
+.pill.white{background:#fff;color:#060608}
+.pill.grey{background:var(--line);color:#cfcdc6}
+.pill.dash{border:1px dashed var(--gold);color:var(--gold)}
+
+.bars{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 16px 12px;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:12px;align-items:end;min-height:250px}
+.bar{display:grid;justify-items:center;gap:6px;min-width:0}
+.bar .v{font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar .col{width:min(64px,70%);border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,var(--gold-2),#8a6d1c);box-shadow:0 0 18px rgba(212,175,55,.25)}
+.bar .k{font-size:11px;color:var(--muted);text-align:center}
+.bar.dim .col{opacity:.3;box-shadow:none}
+.bar.dim .v{color:var(--muted)}
+.bars:has(.bar:nth-child(7)) .bar .v{font-size:10px}
+.bars:has(.bar:nth-child(7)) .bar .p{display:none}
+@media (max-width:700px){.bars:has(.bar:nth-child(7)) .bar .v{writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px}}
+.bar .p{font-size:10.5px;color:var(--dim)}
+.pf-wrap{position:relative}
+button.period{font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+button.period:hover,button.period[aria-expanded="true"]{border-color:var(--gold)}
+button.period .chev{transform:none;width:12px;height:12px}
+button.period[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.pf{position:absolute;z-index:40;top:calc(100% + 8px);right:0;width:min(340px,calc(100vw - 32px));display:grid;gap:14px;background:#141418;border:1px solid var(--gold);border-radius:12px;padding:14px;box-shadow:0 16px 40px rgba(0,0,0,.7)}
+.pf-g{display:grid;gap:6px;min-width:0}
+.pf-h{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+.seg button,.mo button,.pre{font:inherit;font-size:12px;font-weight:600;background:transparent;color:#cfcdc6;border:0;padding:6px 11px;cursor:pointer;white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line-2)}
+.seg button[aria-pressed="true"],.mo button[aria-pressed="true"],.pre[aria-pressed="true"]{background:var(--gold);color:#060608}
+.mo{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.mo button[data-m="all"]{grid-column:1/-1}
+.seg{justify-self:start}
+.pre{justify-self:start}
+.mo button{border:1px solid var(--line-2);border-radius:8px}
+.mo button:disabled{color:var(--dim);border-color:var(--line);cursor:not-allowed}
+.pre{border:1px solid var(--gold);border-radius:8px;color:var(--gold);display:inline-flex;align-items:center;gap:6px}
+.pre::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pf{width:min(360px,calc(100vw - 32px))}
+.pf-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.pf-r{justify-items:end}
+.pf-m,.pf-d{display:grid;gap:14px}
+.pf-m[hidden],.pf-d[hidden]{display:none}
+.pf-h small{text-transform:none;letter-spacing:0;font-weight:500;color:var(--dim);margin-left:6px}
+.cal-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cal-h b{font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.cal-h button,.pf-fb button{font:inherit;font-size:12px;font-weight:600;background:transparent;border:1px solid var(--line-2);color:#cfcdc6;border-radius:8px;padding:5px 10px;cursor:pointer;white-space:nowrap}
+.cal-h button{font-size:15px;line-height:1;padding:5px 12px}
+.cal-h button:disabled,.pf-fb button:disabled{color:var(--dim);border-color:var(--line);cursor:not-allowed}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal .wd{font-size:10px;font-weight:600;color:var(--muted);text-align:center;padding-bottom:2px}
+.cal button{font:inherit;font-size:12px;font-weight:600;background:transparent;color:#cfcdc6;border:1px solid var(--line-2);border-radius:8px;padding:7px 0;cursor:pointer;font-variant-numeric:tabular-nums}
+.cal button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+.cal button:disabled{color:var(--dim);border-color:var(--line);cursor:not-allowed}
+.pf-tip{margin:0;font-size:10.5px;color:var(--dim)}
+.pf-f{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;font-size:12px;color:var(--muted);white-space:nowrap}
+.pf-fb{display:inline-flex;gap:6px}
+.pf-fb button[hidden]{display:none}
+@media (max-width:560px){.pf-wrap{width:100%}.pf{left:0;right:auto;width:100%}}
+.empty{background:var(--card);border:1px dashed var(--line-2);border-radius:10px;padding:36px 20px;display:grid;justify-items:center;gap:10px;text-align:center}
+.empty h2{margin:0;font-size:17px;color:#fff}
+.empty p{margin:0;color:var(--muted);max-width:56ch}
+.empty .pre{margin-top:6px}
+footer{border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px;display:grid;gap:4px}
+@media (max-width:560px){.bars{min-height:220px;gap:6px}.bar .v{font-size:10.5px}h1{font-size:21px}}
+@media (prefers-reduced-motion:reduce){.chev,.q .tt{transition:none}}
+.subtabs{display:flex;flex-wrap:wrap;gap:6px}
+.subtabs button{font:inherit;font-size:12px;font-weight:600;background:transparent;color:#cfcdc6;border:1px solid var(--line-2);border-radius:99px;padding:6px 14px;cursor:pointer}
+.subtabs button:hover{border-color:var(--gold)}
+.subtabs button[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+.intro .lead{margin:0;max-width:70ch;font-size:16px;line-height:1.55;font-weight:500;color:#fff;text-wrap:pretty}
+.story{display:grid;gap:10px;max-width:72ch}
+.story p{margin:0;color:#cfcdc6;line-height:1.6}
+ol.tl{list-style:none;margin:0;padding:0 0 0 6px;display:grid;gap:0;border-left:1px solid var(--line-2);margin-left:52px}
+ol.tl li{position:relative;display:grid;grid-template-columns:1fr;padding:7px 0 7px 18px;font-size:12.5px;color:#cfcdc6}
+ol.tl li::before{content:"";position:absolute;left:-10.5px;top:12px;width:9px;height:9px;border-radius:50%;background:var(--card);border:1px solid var(--gold)}
+ol.tl li.m::before{background:var(--gold);box-shadow:0 0 10px var(--gold)}
+ol.tl .ta{position:absolute;left:-64px;top:6px;width:44px;text-align:right;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+ol.tl li.m .ta{color:var(--gold-2);text-shadow:0 0 12px rgba(212,175,55,.4)}
+ol.tl li.m .tt2{color:#fff;font-weight:600}
+b.w{color:#fff}
+.note{margin:0;font-size:12px;color:var(--muted);max-width:90ch}
+.pane>.subtabs+.pane{margin-top:0}
+ul.lojas{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.loja{display:grid;grid-template-columns:64px minmax(0,300px) minmax(0,1fr);align-items:center;gap:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px 8px 8px;min-width:0}
+.loja:hover{border-color:rgba(212,175,55,.45)}
+.loja img{display:block;width:64px;height:64px;object-fit:cover;border-radius:6px;max-width:100%;background:var(--card-2)}
+.loja .li{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:1px 8px;min-width:0}
+.loja .ano{grid-row:span 3;align-self:center;font-size:13px;font-weight:800;color:var(--gold-2);font-variant-numeric:tabular-nums;text-shadow:0 0 12px rgba(212,175,55,.35)}
+.loja h3{margin:0;font-size:13px;font-weight:700;color:#fff}
+.loja .un{font-size:11px;color:var(--muted)}
+.rate{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rate .star{width:12px;height:12px;fill:var(--gold)}
+.rate b{font-size:13px;font-weight:800;color:#fff;text-shadow:0 0 10px rgba(255,255,255,.25)}
+.rate.low b{color:var(--gold-2)}
+.lk{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.lk a{font-size:11.5px;font-weight:600;color:var(--fg);text-decoration:none;border:1px solid var(--line-2);border-radius:99px;padding:4px 10px;white-space:nowrap}
+.lk a:hover{border-color:var(--gold);color:var(--gold-2)}
+.lk a.wa{border-color:rgba(212,175,55,.5);color:var(--gold-2);background:var(--gold-soft)}
+.tel{font-size:11.5px;color:var(--muted);align-self:center}
+.tel .sel{color:#fff;font-weight:600;user-select:all}
+@media (max-width:860px){.loja{grid-template-columns:64px minmax(0,1fr)}.loja .lk{grid-column:1/-1;justify-content:flex-start}}
+.grp{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.gcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:10px;align-content:start;min-width:0}
+.gcard h4{margin:0;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.gcard .lk{justify-content:flex-start}
+ul.att{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+ul.att li{display:grid;gap:2px;background:var(--card);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;padding:9px 12px;font-size:12px;color:var(--muted)}
+ul.att li b{color:#fff;font-size:12.5px}
+.cf{display:grid;gap:8px}
+.cf .subtabs button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+.cls{display:grid;gap:8px}
+details.cl{background:var(--card);border:1px solid var(--line);border-radius:10px;min-width:0}
+details.cl[open]{border-color:rgba(212,175,55,.45)}
+details.cl>summary{list-style:none;cursor:pointer;background:none;border:0;border-radius:10px}
+details.cl>summary::-webkit-details-marker{display:none}
+details.cl>summary:hover{border-color:transparent}
+.sc{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px 14px}
+.sc div{display:grid;gap:1px;text-align:right;min-width:0}
+.sc div span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc b{font-size:18px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;text-shadow:0 0 12px rgba(255,255,255,.25)}
+.sc b.up{color:var(--gold-2);text-shadow:0 0 14px rgba(212,175,55,.45)}
+.sc .chev{flex:none}
+.cl-b{padding:4px 14px 14px;display:grid;gap:10px;border-top:1px solid var(--line)}
+.cl-b h4{margin:6px 0 0;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.perto{margin:8px 0 0;font-size:12.5px;color:#cfcdc6;max-width:95ch}
+.perto b{color:#fff}
+.rvs{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.rv{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:8px;align-content:start;min-width:0}
+.rv-h{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.rv-n{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
+.rv-o{font-size:11.5px;color:var(--muted)}
+.rv-k{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 0;border-block:1px solid var(--line)}
+.rv-k div{display:grid;gap:2px;min-width:0}
+.rv-k span{font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.rv-k b{font-size:16px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+.rv-k b.na{color:var(--dim);font-weight:600}
+.rv-of{font-size:12px;color:#cfcdc6;line-height:1.45}
+.rv-of b{color:var(--gold-2);font-weight:600}
+.rv .lk{justify-content:flex-start}
+@media (max-width:860px){details.cl>summary.loja{grid-template-columns:64px minmax(0,1fr)}.sc{grid-column:1/-1;justify-content:flex-start}.sc div{text-align:left}}
+.row.six{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.row.six .kpi .num{font-size:clamp(28px,3.4vw,38px)}
+.row.six .kpi .num,.vs b{text-shadow:0 0 16px rgba(255,255,255,.28)}
+.row.six .kpi.hl .num{text-shadow:0 0 18px rgba(212,175,55,.45)}
+.vs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.vs-c{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:8px;min-width:0}
+.vs-c h3{margin:0;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.vs-k,.stc-k{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.stc-k{grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr) minmax(0,.9fr) minmax(0,1.2fr)}
+.stc-k b{white-space:nowrap}
+.stc-k.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.vs-k div,.stc-k div{display:grid;gap:2px;min-width:0}
+.vs-k span,.stc-k span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.vs-k b{font-size:18px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+.vs-k .key b,.stc-k .key b{color:var(--gold-2);text-shadow:0 0 14px rgba(212,175,55,.45)}
+.vs-c p{margin:0;font-size:11.5px;color:var(--muted)}
+.tcs{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr))}
+.tc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px;display:grid;gap:9px;align-content:start;grid-template-rows:auto auto auto 1fr auto;min-width:0}
+.tc:hover{border-color:rgba(212,175,55,.45)}
+.tc-h{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.tc-n{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
+.tc-ch{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}
+.tc-p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.45}
+.tc-d{display:grid;gap:1px;background:var(--gold-soft);border:1px solid rgba(212,175,55,.4);border-radius:8px;padding:7px 10px}
+.tc-d span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#d9c382}
+.tc-d b{font-size:14px;font-weight:800;color:var(--gold-2);text-shadow:0 0 12px rgba(212,175,55,.35)}
+.tc-d small{font-size:11px;color:#cfcdc6}
+ul.tc-m{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px;align-content:start}
+ul.tc-m li{font-size:11px;color:#cfcdc6;background:var(--card-2);border:1px solid var(--line);border-radius:99px;padding:2px 8px}
+.tc-f{display:grid;gap:4px;border-top:1px solid var(--line);padding-top:8px;font-size:11.5px;color:#cfcdc6;line-height:1.45}
+.tc-fh{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.stcs{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+.stc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px;align-content:start;min-width:0}
+.stc.warn{border-color:rgba(212,175,55,.55)}
+.stc-h{display:flex;gap:10px;align-items:center}
+.stc-h img{width:40px;height:40px;border-radius:6px;object-fit:cover;flex:none}
+.stc-h h3{margin:0;font-size:13px;font-weight:700;color:#fff;line-height:1.25}
+.stc-a{font-size:11px;font-weight:800;color:var(--gold-2);text-shadow:0 0 10px rgba(212,175,55,.35)}
+.stc-u{display:block;font-size:11px;color:var(--muted)}
+.stc-k{padding:8px 0;border-block:1px solid var(--line)}
+.stc-k b{font-size:14px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;text-shadow:0 0 12px rgba(255,255,255,.22)}
+.stc-c{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;font-weight:600}
+.stc-c .ok{color:var(--gold-2)}.stc-c .pa{color:#cfcdc6}.stc-c .pe{color:#fff}.stc-c .rd{color:var(--dim)}
+ul.chips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+.chip{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11px;border-radius:6px;padding:4px 8px;border:1px solid var(--line);background:var(--card-2);color:#cfcdc6;min-width:0}
+.chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip b{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.chip.ok{border-color:rgba(212,175,55,.5);background:rgba(212,175,55,.12)}.chip.ok b{color:var(--gold-2)}
+.chip.pa b{color:#fff}
+.chip.pe{border-style:dashed;border-color:var(--gold);background:transparent}.chip.pe b{color:var(--gold)}
+.chip.rd{color:var(--dim)}.chip.rd b{color:var(--dim)}
+.stc h4{margin:0;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+ul.mel{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+ul.mel li{font-size:11.5px;line-height:1.45;color:#cfcdc6;border-left:2px solid var(--gold);padding-left:8px}
+#gf button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+@media (max-width:560px){.row.six{grid-template-columns:1fr 1fr}.row.six .kpi .num{font-size:22px}.vs-k b{white-space:nowrap}}
+@media (max-width:420px){ul.chips{grid-template-columns:1fr}.vs-k b{font-size:15px}.stc-k b{font-size:13px}.vs-k span,.stc-k span{font-size:8.5px;letter-spacing:.04em}}
+.wip{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px dashed var(--gold);color:var(--gold);white-space:nowrap}
+.tabs .wb{margin-left:5px;font-size:10px;color:var(--gold)}
+.tabs{overflow-x:auto;scrollbar-width:none;max-width:100%}.tabs::-webkit-scrollbar{display:none}.tabs button{white-space:nowrap;flex:none}
+.top>div:first-child{min-width:0}h1{overflow-wrap:anywhere}
+@media (max-width:560px){.tabs button{padding:8px 10px;font-size:12.5px}}
+.empty.sm{padding:18px 16px;gap:6px}
+.empty.sm p{font-size:12.5px}
+.ins{background:var(--gold-soft);border:1px solid rgba(212,175,55,.4);border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.ins b{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-2)}
+.ins ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:12px;color:#e3e1da;line-height:1.45}
+.crs{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr))}
+.cr{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 10px;align-content:start;min-width:0}
+.cr:hover{border-color:rgba(212,175,55,.45)}
+.cr>.cr-b:first-child{grid-column:1/-1}
+.cr-r{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;color:#060608;background:var(--gold);box-shadow:0 0 12px rgba(212,175,55,.45)}
+.cr-b{display:grid;gap:3px;min-width:0}
+.cr-n{font-size:12.5px;font-weight:700;color:#fff;line-height:1.3;overflow-wrap:anywhere}
+.cr-u{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.cr-t{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.cr-k{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding-top:8px;border-top:1px solid var(--line)}
+.cr-k div{display:grid;gap:1px;min-width:0}
+.cr-k span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.cr-k b{font-size:16px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:0 0 12px rgba(255,255,255,.22)}
+.cr-k .key b{color:var(--gold-2);text-shadow:0 0 14px rgba(212,175,55,.45)}
+.cr .cc-note{grid-column:1/-1}
+.tc-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:8px 0;border-block:1px solid var(--line)}
+.tc-k div{display:grid;gap:1px;min-width:0}
+.tc-k span{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tc-k b{font-size:14px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;text-shadow:0 0 12px rgba(255,255,255,.22);white-space:nowrap}
+.tc-k .key b{color:var(--gold-2);text-shadow:0 0 14px rgba(212,175,55,.45)}
+ul.mel.tags li em{font-style:normal;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-2);margin-right:6px}
+.tc.fl{grid-template-rows:auto auto 1fr auto}
+.tc-ch.l{justify-content:flex-start}
+.fl-b{display:grid;gap:4px}
+.fl-b h4{margin:4px 0 0;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.fl-b p{margin:0;font-size:11.5px;color:#cfcdc6;line-height:1.45}
+.fl-f{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding-top:8px}
+.fl-f div{display:grid;gap:1px;min-width:0}
+.fl-f span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.fl-f b{font-size:12px;font-weight:700;color:#fff;line-height:1.35}
+.fl-f div:last-child b{color:var(--gold-2)}
+details.sec.inner{border-top:1px dashed var(--line);margin-top:6px}
+details.sec.inner>summary h2{font-size:12.5px}
+@media (max-width:560px){.row.six{grid-template-columns:1fr 1fr}.row.six .kpi .num{font-size:22px}}
+@media (max-width:560px){.row.six .kpi .num{font-size:20px;white-space:nowrap}.vs-k{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px}.vs-k b{white-space:nowrap}.tc-k b{white-space:normal;font-size:13.5px}}
+.pm{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px;overflow:hidden}
+.pm svg{display:block;width:100%;height:auto;font-family:var(--f)}
+.seal{display:inline-grid;place-items:center;min-width:74px;padding:5px 8px;border:1px solid rgba(212,175,55,.55);border-radius:7px;background:var(--card-2);font-size:10px;font-weight:800;letter-spacing:.06em;color:#fff;white-space:nowrap;flex:none}
+.prs{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.prc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px;align-content:start;min-width:0}
+.prc-h{display:grid;gap:2px}
+.prc-h h3{margin:0;font-size:13.5px;font-weight:800;color:var(--gold-2)}
+.prc-n{font-size:11.5px;color:var(--muted)}.prc-n b{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.25)}
+.prc ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.prc li{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#cfcdc6;line-height:1.35;min-width:0}
+.bcds{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+.bcd{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px;display:grid;gap:10px;align-content:start;min-width:0}
+.bcd:hover{border-color:rgba(212,175,55,.45)}
+.bcd-h{display:flex;align-items:center;gap:10px}
+.bcd-h>div{display:grid;gap:1px;min-width:0;flex:1}
+.bcd-h h3{margin:0;font-size:14px;font-weight:800;color:#fff}
+.bcd-h span:not(.seal){font-size:11px;color:var(--muted)}
+.bcd-c{display:grid;justify-items:end;font-size:24px;font-weight:800;line-height:1;color:var(--gold-2);text-shadow:0 0 14px rgba(212,175,55,.45);font-variant-numeric:tabular-nums}
+.bcd-c small{font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);text-shadow:none}
+.bcd-p{display:flex;flex-wrap:wrap;gap:4px}
+.bcd-g{display:grid;gap:5px}
+.bcd-g h4{margin:0;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+ul.mods{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+ul.mods li{display:grid;gap:1px;background:var(--card-2);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;padding:5px 8px;min-width:0}
+ul.mods b{font-size:12px;font-weight:700;color:#fff}
+ul.mods span{font-size:10.5px;color:var(--muted);line-height:1.3}
+#pf-c button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+@media (max-width:420px){ul.mods{grid-template-columns:1fr}}
+.prc li .seal{margin-right:4px;width:96px}
+ul.mods{grid-template-columns:1fr}
+ul.mods li{gap:6px}
+.mod-n{display:grid;gap:1px;min-width:0}
+.rvb{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.rvb>span{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-right:2px}
+.rvb button{font:inherit;font-size:10.5px;font-weight:600;color:#cfcdc6;background:transparent;border:1px solid var(--line-2);border-radius:99px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+.rvb button:hover{border-color:var(--gold);color:var(--gold-2)}
+.rvb button[aria-expanded="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+.cmp{display:grid;gap:8px;margin-top:2px;padding:10px;border:1px solid rgba(212,175,55,.45);border-radius:8px;background:var(--gold-soft)}
+.cmp-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;font-size:12.5px}
+.cmp-h b{color:#fff;font-weight:800}.cmp-h span{color:var(--gold);font-weight:800}
+.cmp-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.cmp h5{margin:0 0 3px;font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gold)}
+.cmp ul{margin:0;padding-left:15px;display:grid;gap:2px}
+.cmp li,.cmp p{font-size:11.5px;color:#e3e1da;line-height:1.4;margin:0}
+.cmp ul li{display:list-item;background:none;border:0;padding:0;border-radius:0}
+.cmp-a{border-top:1px solid rgba(212,175,55,.3);padding-top:8px}
+.cmp-a p{color:#fff}
+@media (max-width:420px){.cmp-g{grid-template-columns:1fr}}
+.prc li{align-items:flex-start}
+.prc-l{display:grid;gap:3px;padding-top:4px;min-width:0}
+.prc-l span{display:block}
+.prs{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));align-items:start}
+.prs{align-items:stretch;grid-auto-rows:1fr}
+.prc{background:var(--card-2);border-color:var(--line-2);align-content:start}
+.prc>summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;gap:8px}
+.prc>summary::-webkit-details-marker{display:none}
+.prc>summary>div{display:grid;gap:2px}
+.prc>summary .chev{margin-top:3px;flex:none}
+.prc[open]>summary .chev{transform:none}
+.prs:not(:has(.prc[open])){grid-auto-rows:auto}
+.mf{display:grid;gap:8px}
+.mf-g{display:grid;gap:5px}
+#mf-b button[aria-pressed="true"],#mf-p button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+.pm .sg{cursor:pointer}.pm .sg:hover rect,.pm .sg:focus rect{stroke:#f0cf6a}.pm .sg:focus{outline:none}
+.pm .dim{opacity:.15;transition:opacity .2s}.pm .sg,.pm .pbx{transition:opacity .2s}
+.mf-r{display:grid;gap:10px;background:var(--gold-soft);border:1px solid rgba(212,175,55,.45);border-radius:10px;padding:12px 14px}
+.mf-t{font-size:13px;color:#e3e1da}.mf-t b{font-size:18px;color:var(--gold-2);text-shadow:0 0 12px rgba(212,175,55,.45)}
+.mf-r{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}.mf-t{grid-column:1/-1}
+.mf-pr h4{margin:0 0 6px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.mf-pr ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.mf-pr li{display:flex;align-items:flex-start;gap:10px}
+.mf-pr li .seal{width:96px}
+.mf-pr li div{display:grid;gap:1px;min-width:0}
+.mf-pr li b{font-size:12px;color:#fff}.mf-pr li span{font-size:11px;color:var(--muted)}
+.prs:has(.prc[hidden]){grid-auto-rows:auto}
+.pzs{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.pz{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:8px;align-content:start;min-width:0}
+.pz h4{margin:0;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.pz-b{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;align-items:center}
+.pz svg{width:120px;height:120px;display:block;font-family:var(--f)}
+.pz svg path{transition:opacity .15s}.pz svg path:hover{opacity:.8}
+.pz ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.pz li{display:grid;grid-template-columns:10px minmax(0,1fr) auto;align-items:center;gap:7px;font-size:11.5px;color:#cfcdc6}
+.pz li i{width:10px;height:10px;border-radius:3px}
+.pz li b{color:#fff;font-weight:700;font-variant-numeric:tabular-nums}
+.pz li.top span{color:#fff;font-weight:600}.pz li.top b{color:var(--gold-2);text-shadow:0 0 10px rgba(212,175,55,.45)}
+.pz>p{margin:0;font-size:11px;color:var(--muted)}
+.pbcs{display:grid;gap:12px}
+.pbc{background:var(--card-2);border:1px solid var(--line-2);border-radius:12px;padding:14px;display:grid;gap:12px;min-width:0}
+.pbc .bcd-h .pill{flex:none}
+.pbc-l{margin:0;font-size:12.5px;color:#e3e1da;line-height:1.5}.pbc-l b{color:var(--gold-2)}
+#pu-b button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+@media (max-width:420px){.pz-b{grid-template-columns:96px minmax(0,1fr)}.pz svg{width:96px;height:96px}}
+.ins li b.w{font-size:inherit;letter-spacing:0;text-transform:none;color:#fff}
+.hb{list-style:none;margin:0;padding:12px 14px;display:grid;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.hb li{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr) minmax(0,190px);align-items:center;gap:6px 12px;font-size:12px;color:#cfcdc6}
+.hb-t{height:10px;background:var(--card-2);border-radius:99px;overflow:hidden}
+.hb-t i{display:block;height:100%;border-radius:99px;background:#cfcdc6}
+.hb li.pg .hb-t i{background:linear-gradient(90deg,#8a6d1c,var(--gold-2));box-shadow:0 0 10px rgba(212,175,55,.35)}
+.hb li.pg .hb-n{color:#fff}
+.hb-v{display:grid;gap:1px;text-align:right}
+.hb-v b{font-size:14px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;text-shadow:0 0 10px rgba(255,255,255,.25)}
+.hb-v small{font-size:10.5px;color:var(--muted)}
+@media (max-width:640px){.hb li{grid-template-columns:minmax(0,1fr) auto}.hb-t{grid-column:1/-1;grid-row:2}}
+ul.ctn{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+ul.ctn li{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:#cfcdc6;background:var(--card-2);border:1px solid var(--line);border-radius:6px;padding:5px 9px;min-width:0}
+ul.ctn li span{min-width:0;overflow-wrap:anywhere}
+ul.ctn code{font-family:var(--mono);font-size:11px;color:#fff;white-space:nowrap}
+ul.ctn li.f{border-color:rgba(212,175,55,.55);background:rgba(212,175,55,.08)}ul.ctn li.f code{color:var(--gold-2)}
+ol.vz{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:vz}
+ol.vz>li{background:var(--card);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px;display:grid;gap:8px;min-width:0}
+.vz-h{display:flex;align-items:center;gap:10px}
+.vz-n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;color:#060608;background:var(--gold);box-shadow:0 0 12px rgba(212,175,55,.45)}
+.vz-h b{font-size:13.5px;font-weight:700;color:#fff;line-height:1.3}
+ol.vz p{margin:0;font-size:12.5px;color:#cfcdc6;line-height:1.5;max-width:100ch}
+.vz-f{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:8px;border-top:1px solid var(--line);padding-top:8px}
+.vz-f div{display:grid;gap:2px;min-width:0}
+.vz-f span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.vz-f b{font-size:12px;font-weight:700;color:#fff;line-height:1.4}
+.vz-f div:first-child b{color:var(--gold-2);text-shadow:0 0 10px rgba(212,175,55,.35)}
+ol.vz .pill{justify-self:start}
+.ngs{display:grid;gap:8px}
+details.ng[open]{border-color:rgba(212,175,55,.45)}
+details.ng>summary .cn .seal{min-width:64px}
+.ng-b{padding:12px 14px 14px;display:grid;gap:12px;min-width:0}
+.ng-def{margin:0;font-size:12.5px;color:#cfcdc6;line-height:1.55;max-width:100ch}
+.ng-g{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ng-box{background:var(--card-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-content:start;min-width:0}
+.ng-box h4{margin:4px 0 0;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+ul.ng-l,ul.ng-c,ul.ng-s{list-style:none;margin:0;padding:0;display:grid;gap:0}
+ul.ng-l li{display:grid;grid-template-columns:minmax(0,1fr) 74px 58px 54px;gap:8px;align-items:center;font-size:12px;color:#cfcdc6;border-bottom:1px solid var(--line);padding:5px 0;min-width:0}
+ul.ng-l li:last-child{border-bottom:0}
+ul.ng-l li>span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+ul.ng-l li b{text-align:right;font-weight:700;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
+ul.ng-l li b.g{color:var(--gold-2);text-shadow:0 0 10px rgba(212,175,55,.4)}
+ul.ng-l li.h{font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding-top:0}
+ul.ng-l li.h span:not(:first-child){text-align:right}
+ul.ng-m li{grid-template-columns:minmax(0,1fr) 74px 92px}
+ul.ng-m .ng-p{text-align:right;font-size:11px;color:var(--muted);white-space:nowrap}
+ul.ng-c li{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#cfcdc6;border-bottom:1px solid var(--line);padding:5px 0}
+ul.ng-c li span:last-child{color:#fff;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+ul.ng-s li{font-size:12px;color:#fff;border-left:2px solid var(--gold);padding:3px 0 3px 8px;margin-bottom:4px}
+details.ng ul{padding:0}
+details.ng li{background:none;border-left:0;border-radius:0}
+details.ng ul.ng-s li{border-left:2px solid var(--gold);padding:3px 0 3px 8px;display:block}
+details.ng .ins ul{padding-left:18px;gap:4px}
+details.ng .ins li{display:list-item;padding:0;font-size:12px;color:#e3e1da;line-height:1.45}
+@media (max-width:420px){.ng-b{padding:10px 8px 12px}.ng-box{padding:8px 8px}ul.ng-l li{grid-template-columns:minmax(0,1fr) 72px 50px 48px;gap:5px;font-size:11px}ul.ng-l li.h{font-size:8px;letter-spacing:0}ul.ng-m li{grid-template-columns:minmax(0,1fr) 72px 78px}}
+/* nenhum número, rótulo ou nome quebra linha: a fonte diminui até caber (fitAll) */
+.kpi .num,.kpi .lbl>span:first-child,.kpi .sub,.cc-kp b,.cc-kp span,.cc dt,.cc dd,.cc-n,.vs-k b,.vs-k span,.stc-k b,.stc-k span,.tc-k b,.tc-k span,.cr-k b,.cr-k span,.rv-k b,.rv-k span,.sc b,.sc div span,.hb-v b,.hb-v small,.hb-n,.bcd-c,.tc-d b,.mf-t b,.fl-f span,.camp .cn,.camp .cm>span,.camp li span:last-child,.pz li b,.pz li span,.prc-n,.bar .v,.bar .k,h1,.vs-c h3,.tc-n,.rv-n,.cr-n,.stc-h h3,.bcd-h h3,.vz-h b,ul.att li b,th,td:not(.why),.chip span,.chip b,.seal,.pill,.wip,.badge,.tabs button,.subtabs button,.mt b{white-space:nowrap;min-width:0}
+.kpi .lbl>span:first-child{overflow:visible}
+.camp li>span:first-child{min-width:0}
+.sec-body>*,.pane>*,.wrap>*{min-width:0}
+.tablewrap{max-width:100%}
+.kpi{grid-template-columns:minmax(0,1fr)}
+ol.vz>li,ul.att li,.tc,.cc,.stc,.bcd,.gcard,.vs-c,.pz,.pbc,.rv{grid-template-columns:minmax(0,1fr)}
+.tc-h{flex-wrap:wrap}.tc-n{flex:1 1 100%}.tc-ch{justify-content:flex-start}
+ul.chips{grid-template-columns:minmax(0,1fr)}
+.cc-kp{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cc dl{grid-template-columns:repeat(3,minmax(0,1fr))}
+.rv-k{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cr-k div,.tc-k div,.vs-k div,.stc-k div,.cc-kp div,.cc dl div,.rv-k div,.sc div{grid-template-columns:minmax(0,1fr)}
+@media (max-width:560px){.row.six{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tc-n,.cc-n,.rv-n,.cr-n,.stc-h h3,.bcd-h h3,.vz-h b,ul.att li b,.camp .cn,.vs-c h3,.hb-n,.chip span{overflow:hidden;text-overflow:ellipsis}
+.camp .cn .q,.camp .cn .pill{flex:none}
+@media (max-width:560px){.stc-k,.stc-k.three{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:8px}}
+
+.arq{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))}
+.arq-c{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px;align-content:start;min-width:0}
+.arq-c.ok{border-color:rgba(212,175,55,.55);background:linear-gradient(180deg,rgba(212,175,55,.08),rgba(212,175,55,0) 40%),var(--card)}
+.arq-c figcaption{display:flex;align-items:center;gap:8px}
+.arq-c figcaption b{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.arq-c svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto;font-family:var(--f)}
+.arq-c .b.ok rect{filter:drop-shadow(0 0 5px rgba(212,175,55,.3))}
+ul.eq{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+ul.eq li{display:grid;grid-template-columns:minmax(0,1fr) 56px 56px;align-items:center;gap:8px;font-size:12px;color:#cfcdc6;background:var(--card-2);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;padding:5px 9px;min-width:0}
+ul.eq li span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ul.eq li b{text-align:right;font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums}
+ul.eq li.h{background:none;border:0;padding:0 10px;font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+ul.eq li.h span:not(:first-child){text-align:right}
+.stc-k b.na{color:var(--dim);text-shadow:none}
+.bcd .stc-k.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+.subtabs .wb{margin-left:5px;font-size:10px}
+.org-tabs{margin:0 0 18px}
+.wins{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.win{background:linear-gradient(180deg,rgba(212,175,55,.12),rgba(212,175,55,0) 60%),var(--card);border:1px solid rgba(212,175,55,.55);border-radius:12px;padding:14px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-content:start;min-width:0}
+.win-h{display:flex;flex-wrap:wrap;gap:6px}
+.win-n{font-size:15px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-u{font-size:11.5px;color:var(--muted)}
+.win-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:10px 0;border-block:1px solid var(--line)}
+.win-k div{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;min-width:0}
+.win-k span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.win-k b{font-size:24px;font-weight:800;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 0 14px rgba(255,255,255,.3)}
+.win-k .key b{color:var(--gold-2);text-shadow:0 0 16px rgba(212,175,55,.5)}
+.win-l{margin:0;font-size:12px;color:#cfcdc6;line-height:1.45}.win-l b{color:#fff}
+.stk{display:flex;height:16px;border-radius:99px;overflow:hidden;background:var(--card-2);border:1px solid var(--line)}
+.stk i{display:block;height:100%}
+ul.stk-l{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+ul.stk-l li{display:grid;grid-template-columns:10px minmax(0,1fr) auto 64px;align-items:center;gap:8px;font-size:12px;color:#cfcdc6}
+ul.stk-l li i{width:10px;height:10px;border-radius:3px}
+ul.stk-l span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+ul.stk-l b{color:#fff;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+ul.stk-l em{font-style:normal;text-align:right;color:var(--gold-2);font-weight:700;font-size:11.5px;white-space:nowrap}
+/* v55: projeção em funil de trás para frente no Plano de Mídia */
+.pfn{display:grid;gap:14px}
+.pfn-c{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 18px}
+.pfn-g{display:grid;gap:5px}
+.pfn-g>span{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.pfn-meta{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid rgba(212,175,55,.55);border-radius:10px;padding:6px 10px}
+.pfn-meta input{font:inherit;font-size:20px;font-weight:800;color:var(--gold-2);background:transparent;border:0;width:90px;text-align:right;font-variant-numeric:tabular-nums;text-shadow:0 0 12px rgba(212,175,55,.45)}
+.pfn-meta small{font-size:11px;color:var(--muted);white-space:nowrap}
+.pfn-p{display:flex;flex-wrap:wrap;gap:6px}
+.pfn-p button{font:inherit;font-size:11.5px;font-weight:600;background:transparent;color:#cfcdc6;border:1px solid var(--line-2);border-radius:99px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+.pfn-p button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+.pfn-f{display:grid;justify-items:center;gap:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 10px}
+.pfn-s{position:relative;display:grid;justify-items:center;align-content:center;gap:1px;min-height:58px;padding:6px 8px;background:linear-gradient(180deg,rgba(212,175,55,.22),rgba(212,175,55,.07));min-width:0}
+.pfn-s.last{background:linear-gradient(180deg,rgba(240,207,106,.42),rgba(212,175,55,.16))}
+.pfn-s span{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#d9c382;white-space:nowrap}
+.pfn-s b{font-size:clamp(17px,2.4vw,24px);font-weight:800;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:0 0 16px rgba(255,255,255,.3)}
+.pfn-s.last b{color:var(--gold-2);text-shadow:0 0 18px rgba(212,175,55,.6)}
+.pfn-r{display:flex;align-items:center;justify-content:center;gap:6px;padding:5px 0;font-size:11px;color:var(--muted);white-space:nowrap}
+.pfn-r em{font-style:normal;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:9.5px;color:var(--muted)}
+.pfn-r label{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line-2);border-radius:7px;padding:2px 6px;background:var(--card-2)}
+.pfn-r input{font:inherit;font-size:12.5px;font-weight:800;color:#fff;background:transparent;border:0;width:52px;text-align:right;font-variant-numeric:tabular-nums}
+.pfn-r label b{font-size:12px;color:var(--muted)}
+.pfn-r small{font-size:10.5px;color:var(--dim)}
+.pfn-r.ch label{border-color:var(--gold)}
+.pfn input::-webkit-inner-spin-button{opacity:.4}
+@media (max-width:420px){.pfn-s{min-height:52px}.pfn-r small{display:none}.pfn-meta input{font-size:18px;width:76px}}
+.fns{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.fn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-content:start;min-width:0}
+.fn-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 10px}
+.fn-h>b{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.fn-h span{font-size:11.5px;color:var(--muted);white-space:nowrap}.fn-h span b{color:var(--gold-2)}
+.fn ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.fn li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,78px) minmax(0,78px) 46px;align-items:center;gap:3px 8px;background:var(--card-2);border:1px solid var(--line);border-radius:6px;padding:6px 9px}
+.fn li.r{background:transparent;border-style:dashed}
+.fn li.fn-th{background:none;border:0;padding:0 10px;font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.fn li.fn-th span:not(:first-child){text-align:right}
+.fn-l{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.fn-v{text-align:right;font-size:12.5px;font-weight:700;color:#cfcdc6;white-space:nowrap;font-variant-numeric:tabular-nums;min-width:0}
+.fn-v.key{color:var(--gold-2);font-size:14px;font-weight:800;text-shadow:0 0 12px rgba(212,175,55,.45)}
+.fn-d{text-align:right;font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap}
+.fn-d.up{color:var(--gold-2)}.fn-d.dn{color:#fff}
+.fn-t{grid-column:1/-1;height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.fn-t i{display:block;height:100%;background:linear-gradient(90deg,#8a6d1c,var(--gold-2));border-radius:99px}
+ul.eq.w li{grid-template-columns:minmax(0,1fr) 44px 48px 50px}
+ul.eq.w li b{color:#fff}ul.eq.w li b.t{color:var(--gold-2);text-shadow:0 0 10px rgba(212,175,55,.4)}
+.arq-c ul.mel{margin-top:4px}
+.gcard .bars{min-height:210px;padding:12px 8px 8px;gap:4px}
+.gcard .bars .bar .v{font-size:10px;writing-mode:horizontal-tb;transform:none}
+.grp.two{grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}
+.bcds.wide{grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr))}
+.win-k{gap:12px}
+@media (max-width:420px){ul.eq.w li{grid-template-columns:minmax(0,1fr) 36px 40px 44px;gap:6px}}
+.cvs{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:12px}
+.cv{display:grid;grid-template-columns:118px minmax(0,1fr);gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+.cv:hover{border-color:rgba(212,175,55,.55)}
+.cv-t{position:relative;display:block;width:118px;height:210px;border-radius:8px;overflow:hidden;border:1px solid var(--line-2);background:#000}
+.cv-t img{width:100%;height:100%;object-fit:cover;display:block}
+.cv-rk{position:absolute;left:6px;top:6px;display:grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:99px;background:var(--gold);color:#060608;font-size:11px;font-weight:800}
+.cv-f{position:absolute;left:6px;bottom:6px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(6,6,8,.82);color:#fff;border:1px solid var(--line-2);border-radius:99px;padding:2px 8px;white-space:nowrap}
+.cv-ph{height:100%;display:grid;align-content:center;justify-items:center;gap:6px;padding:10px 6px;text-align:center;background:radial-gradient(circle at 50% 35%,rgba(212,175,55,.24),transparent 62%),linear-gradient(180deg,#18171d,#09090c)}
+.cv-ph span{font-size:9.5px;font-weight:800;letter-spacing:.12em;color:var(--gold);white-space:nowrap}
+.cv-ph b{font-size:16px;font-weight:800;color:#fff;white-space:nowrap;text-shadow:0 0 14px rgba(212,175,55,.45);max-width:100%}
+.cv-ph em{font-style:normal;font-size:10px;color:var(--muted);white-space:nowrap}
+.cv-b{display:grid;gap:7px;align-content:start;min-width:0}
+.cv-h{display:flex;gap:6px;align-items:center;min-width:0}
+.cv-p{margin-left:auto;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap}
+.cv-n{display:block;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.cv-c{display:block;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.cv-key{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border:1px solid rgba(212,175,55,.45);background:var(--gold-soft);border-radius:8px;padding:6px 10px;min-width:0}
+.cv-key span{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.cv-key b{font-size:21px;font-weight:800;color:#fff;text-shadow:0 0 14px rgba(212,175,55,.55);white-space:nowrap;font-variant-numeric:tabular-nums}
+.cv-m{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0}
+.cv-m div{background:var(--card-2);border:1px solid var(--line);border-radius:6px;padding:5px 7px;min-width:0}
+.cv-m dt{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;overflow:hidden}
+.cv-m dd{margin:0;font-size:12.5px;font-weight:700;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cv-m .pend{border:1px dashed var(--gold);background:transparent}
+.cv-m .pend dd{color:var(--gold);font-size:11px}
+.cv-a{justify-self:start;font-size:11.5px;font-weight:600;color:var(--gold-2);text-decoration:none;white-space:nowrap}
+.cv-a:hover{text-decoration:underline}
+.cv-cnt{margin:10px 0 8px;font-size:12px;color:var(--muted)}
+.cv-empty{grid-column:1/-1;display:grid;gap:8px;justify-items:start;border:1px dashed var(--gold);border-radius:12px;padding:18px 20px;background:var(--gold-soft);font-size:12.5px;color:#cfcdc6}
+.cv-empty b{color:#fff;font-size:14px}
+details.ma{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:10px}
+details.ma[hidden]{display:none}
+details.ma>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:12px;padding:12px 14px}
+details.ma>summary::-webkit-details-marker{display:none}
+details.ma[open]>summary .chev{transform:none}
+.ma-n{display:grid;min-width:0}
+.ma-n b{font-size:13.5px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ma-n span{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ma-k{display:flex;gap:16px}
+.ma-k>span{display:grid;gap:1px;font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap;text-align:right}
+.ma-k b{font-size:14.5px;color:#fff;letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums}
+.ma-k b.g{color:var(--gold-2);text-shadow:0 0 12px rgba(212,175,55,.4)}
+.ma-b{border-top:1px solid var(--line);padding:12px 14px 16px;display:grid;gap:12px;min-width:0}
+.ma-h{display:flex;align-items:center;gap:8px;margin:6px 0 0;font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.ma-h i{font-style:normal;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--gold);color:#060608;font-size:11px;letter-spacing:0}
+details.ma-cs>summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--gold-2);white-space:nowrap}
+details.ma-cs>.tablewrap{margin-top:8px}
+ol.ma-r{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+ol.ma-r li{background:var(--card-2);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;padding:9px 12px;font-size:12.5px;color:#cfcdc6;min-width:0}
+ol.ma-r li b{display:block;color:#fff;font-size:13px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:820px){details.ma>summary{grid-template-columns:auto minmax(0,1fr) auto}.ma-k{grid-column:1/-1;grid-row:2;justify-content:space-between;gap:8px}.ma-k>span{text-align:left}}
+@media(max-width:560px){.cvs{grid-template-columns:1fr}.cv{grid-template-columns:96px minmax(0,1fr);gap:10px;padding:10px}.cv-t{width:96px;height:171px}.cv-m{grid-template-columns:repeat(2,minmax(0,1fr))}.cv-key b{font-size:18px}}
+details.ma-cs{min-width:0}.ma-b>*{min-width:0}.cv-t,.cv-t *{text-decoration:none}
+.cv.nt{grid-template-columns:minmax(0,1fr)}.cv.nt .cv-rk{position:static;flex:none}
+.tp{border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 10px;display:grid;gap:10px;min-width:0}.tp.off{opacity:.7}
+.tp-h{display:flex;align-items:center;gap:8px;min-width:0}.tp-n{font-weight:800;font-size:15px;white-space:nowrap}.tp-v{margin-left:auto;font-size:12px;color:var(--mut,#9a9aa3);white-space:nowrap}
+.tp-h .pill{flex:none}@media(max-width:560px){.tp-h{flex-wrap:wrap}.tp-v{flex-basis:100%;margin-left:0}}
+.fnl{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;gap:8px;min-width:0}.fnl.w3{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr)}
+.fn-s{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:3px;align-content:start;min-width:0}.fn-s.hl{border-color:rgba(212,175,55,.55);background:linear-gradient(180deg,rgba(212,175,55,.12),rgba(212,175,55,0) 70%),var(--card-2)}.fn-s.pe{border-style:dashed;border-color:var(--gold)}
+.fn-s span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fn-s b{font-size:clamp(18px,2vw,24px);font-weight:800;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 0 12px rgba(255,255,255,.22)}.fn-s.hl b{color:var(--gold-2);text-shadow:0 0 14px rgba(212,175,55,.45)}.fn-s.pe b{color:var(--dim);text-shadow:none}.fn-s small{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fn-a{display:grid;place-items:center;align-content:center;gap:2px;font-style:normal;min-width:62px}.fn-a b{font-size:15px;font-weight:800;color:var(--gold-2);white-space:nowrap;text-shadow:0 0 10px rgba(212,175,55,.4)}.fn-a small{font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}.fn-a::before{content:"→";font-size:14px;color:var(--gold)}
+.si-src .pill{justify-self:start}.si-src span{font-size:11px;color:var(--gold-2)}
+.fn-n{margin:0;font-size:11.5px;color:var(--muted)}.fn-n b{color:#fff}
+@media(max-width:640px){.fnl,.fnl.w3{grid-template-columns:minmax(0,1fr)}.fn-a{grid-auto-flow:column;justify-content:start;gap:8px;min-width:0}.fn-a::before{content:"↓"}}
+.cvp{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}.cvp>div{background:var(--card);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 12px;display:grid;gap:4px;min-width:0}.cvp b{font-size:12.5px;color:#fff}.cvp p{margin:0;font-size:12px;color:#cfcdc6;line-height:1.45}.cvp em{font-style:normal;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-2)}
+.tp-e{margin:0;font-size:13px;color:var(--mut,#9a9aa3)}.tp-t{margin:0;font-size:12.5px;line-height:1.5;color:var(--mut,#9a9aa3)}.tp-t b{display:block;color:var(--gold);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}.tp-t a{color:var(--gold);font-weight:700;white-space:nowrap}
+.lpm{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}.lp-c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}.lp-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}.lp-n{font-size:11.5px;color:var(--muted);font-weight:400!important;text-shadow:none!important}.lp-inv{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 6px;padding:10px 12px;border:1px solid rgba(212,175,55,.35);border-radius:10px;background:rgba(212,175,55,.06)}.lp-inv small{display:block;font-size:11.5px;color:#d9d4c3;white-space:nowrap;line-height:1.35}.lp-inv span{font-size:22px;font-weight:800;color:#fff;white-space:nowrap;text-shadow:0 0 10px rgba(255,255,255,.45)}.lp-col{display:flex;justify-content:space-between;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:4px 0 0;white-space:nowrap}.lp-leg{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:13px;color:#d9d4c3;margin-bottom:12px;padding:10px 14px;border:1px solid var(--line);border-radius:10px}.lp-leg>*{white-space:nowrap}.lp-leg>b{color:var(--gold)}.lp-leg i{font-style:normal;color:var(--gold);font-weight:700}.lp-sep{color:var(--muted)}.lp-h b{font-size:15px;color:var(--gold);white-space:nowrap}.lp-h span{font-weight:700;color:#fff;white-space:nowrap;text-shadow:0 0 8px rgba(255,255,255,.35)}.lp-s{font-size:11.5px;color:var(--muted);margin:2px 0 8px;white-space:nowrap}.lp-r{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12.5px;min-width:0}.lp-r span{margin-left:auto;color:var(--dim);white-space:nowrap;flex:none}.lp-host{border-top:1px solid var(--line);padding-top:7px;margin-top:4px}.lp-host .lp-a{font-weight:600;color:var(--fg)}.lp-p{padding-left:12px}.lp-a,.lp-r em{color:var(--fg);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;font-style:normal}.lp-p .lp-a{color:#d9d4c3}.lp-a:hover{color:var(--gold);text-decoration:underline}.lp-t{font-style:normal;font-size:10px;font-weight:700;color:#000;background:var(--gold);border-radius:4px;padding:1px 5px;flex:none}.lp-m{font-size:11.5px;color:var(--muted);padding:2px 0 2px 12px;white-space:nowrap}@media(max-width:600px){.lpm{grid-template-columns:minmax(0,1fr)}.lp-c{padding:12px}.lp-r{font-size:11.5px;gap:6px}}
+.pg-off>:not(.per-g){display:none!important}.per-lb{margin:0 0 12px;font-size:12px;color:var(--muted);white-space:nowrap}.per-fix{margin:0 0 14px;padding:9px 14px;border:1px dashed var(--line);border-radius:10px;font-size:12.5px;color:var(--muted)}.per-fix b{color:var(--gold)}
+.ga-sem{margin:4px 0 0;padding-left:16px;list-style:disc}.ga-sem li{margin:2px 0}
+.pcs{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));margin-bottom:14px}.pc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:8px;align-content:start;min-width:0}.pc-h{display:flex;justify-content:space-between;align-items:center;gap:8px}.pc-h b{color:var(--gold);font-size:14px;white-space:nowrap}.pc-ex{margin:0;font-size:12px;color:var(--muted)}.pc-p{margin:0;font-size:12.5px;color:#d9d4c3}.pc-p b{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}.pc-f{margin:0;padding-left:18px;display:grid;gap:3px;font-size:12.5px;color:var(--fg)}.pc-f li::marker{color:var(--gold);font-weight:700}
+.tp-l{border-top:1px solid var(--line);padding-top:8px;min-width:0}.tp-l b{display:block;color:var(--gold);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}.tp-l ul{list-style:none;margin:0;padding:0;display:grid;gap:3px}.tp-l li{display:flex;gap:10px;font-size:12.5px;line-height:1.45;min-width:0}.tp-l li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mut,#9a9aa3)}.tp-l li em{font-style:normal;font-weight:700;white-space:nowrap;flex:none}
+/* v53: big numbers da Mídia Paga: Investimento, Leads com quebra e CPL */
+.row.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.row.three .kpi .num{font-size:clamp(28px,3.4vw,38px);text-shadow:0 0 16px rgba(255,255,255,.28)}
+.row.three .kpi.hl .num{text-shadow:0 0 18px rgba(212,175,55,.45)}
+.kpi .sp{display:grid;grid-template-columns:repeat(var(--n,2),minmax(0,1fr));gap:8px;margin-top:4px;padding-top:9px;border-top:1px solid rgba(212,175,55,.3)}
+.kpi .sp div{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;min-width:0}
+.kpi .sp span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#d9c382;white-space:nowrap;min-width:0}
+.kpi .sp b{font-size:18px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap;min-width:0;text-shadow:0 0 12px rgba(255,255,255,.25)}
+.kpi .sp small{font-size:10.5px;color:var(--muted);white-space:nowrap;min-width:0}
+@media (max-width:760px){.row.three{grid-template-columns:minmax(0,1fr)}}
+/* v54: filtro por conta nos big numbers */
+.tacc-w{display:grid;gap:12px;min-width:0}
+.tacc-h{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tacc-s{position:relative;display:inline-flex;align-items:center;justify-self:start;max-width:100%}
+.tacc-s select{appearance:none;-webkit-appearance:none;font:inherit;font-size:13px;font-weight:600;color:var(--fg);background:var(--card);border:1px solid var(--line-2);border-radius:10px;padding:9px 38px 9px 14px;min-width:min(280px,100%);max-width:100%;cursor:pointer;white-space:nowrap;text-overflow:ellipsis}
+.tacc-s select:hover,.tacc-s select:focus{border-color:var(--gold);outline:none}
+.tacc-s.on select{border-color:var(--gold);color:var(--gold-2);background:var(--gold-soft)}
+.tacc-s select option{background:#141418;color:var(--fg)}
+.tacc-s .chev{position:absolute;right:12px;pointer-events:none;transform:none}
+.gl{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:var(--muted);white-space:nowrap;min-width:0}
+.gl i,.st-d{flex:none;display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--dim)}
+.gl b{font-weight:700;color:#cfcdc6}
+.gl.ok i,.st-d.ok{background:#5fbf7a;box-shadow:0 0 7px rgba(95,191,122,.6)}.gl.ok b{color:#8fdca3}
+.gl.wa i,.st-d.wa{background:var(--gold);box-shadow:0 0 7px rgba(212,175,55,.6)}.gl.wa b{color:var(--gold-2)}
+.gl.ba i,.st-d.ba{background:#e0605a;box-shadow:0 0 7px rgba(224,96,90,.6)}.gl.ba b{color:#f08a84}
+.kpi.st-ok{border-color:rgba(95,191,122,.45)}.kpi.st-ba{border-color:rgba(224,96,90,.45)}
+.st-d{margin-right:6px;vertical-align:1px}
+.gk{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:11.5px;color:var(--muted)}
+.gk span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.gk .st-d{margin:0}
+.gt td.n b{font-weight:700}.gt td.ok{color:#8fdca3}.gt td.wa{color:var(--gold-2)}.gt td.ba{color:#f08a84}
+/* v59: filtros em menu suspenso */
+.dd-s,.tacc-s{position:relative;display:inline-flex;align-items:center;justify-self:start;align-self:start;max-width:100%;width:max-content}
+.dd-s select,.tacc-s select{appearance:none;-webkit-appearance:none;font:inherit;font-size:13px;font-weight:600;color:var(--fg);background:var(--card);border:1px solid var(--line-2);border-radius:10px;padding:9px 38px 9px 14px;min-width:min(240px,100%);max-width:100%;cursor:pointer;white-space:nowrap;text-overflow:ellipsis}
+.dd-s select:hover,.dd-s select:focus,.tacc-s select:hover,.tacc-s select:focus{border-color:var(--gold);outline:none}
+.dd-s.on select,.tacc-s.on select{border-color:var(--gold);color:var(--gold-2);background:var(--gold-soft)}
+.dd-s select option,.tacc-s select option{background:#141418;color:var(--fg)}
+.dd-s .chev,.tacc-s .chev{position:absolute;right:12px;pointer-events:none;transform:none}
+.sys .tablewrap{overflow-x:visible}
+.sys table{table-layout:fixed}
+.sys th,.sys td{white-space:normal;overflow-wrap:anywhere;vertical-align:top}
+.sys th:nth-child(1){width:22%}.sys th:nth-child(2){width:20%}.sys th:nth-child(4){width:190px}
+.sys td .pill{white-space:nowrap}
+@media (max-width:640px){.sys table,.sys tbody,.sys tr,.sys td{display:block;width:auto}.sys thead{display:none}.sys tr{padding:10px 12px;border-bottom:1px solid var(--line);display:grid;gap:3px}.sys tr:last-child{border-bottom:0}.sys td{padding:0;border:0}.sys td.sy-f{color:var(--gold-2);font-size:11.5px}.sys td.sy-d{color:#cfcdc6}.sys td.sy-s{margin-top:4px}}
+.gm-w{display:grid;gap:12px;min-width:0}
+.gm-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.gm-sum{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.gm-k{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:6px;min-width:0}
+.gm-k .lbl{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.gm-k .num{font-size:26px;font-weight:800;color:#fff;line-height:1.05;font-variant-numeric:tabular-nums;text-shadow:0 0 16px rgba(255,255,255,.28);white-space:nowrap}
+.gm-k .num.ok{color:var(--gold-2);text-shadow:0 0 18px rgba(212,175,55,.45)}
+.gm-k small{font-size:11.5px;color:var(--muted);white-space:nowrap}
+ul.gm{list-style:none;margin:0;padding:12px 14px;display:grid;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+ul.gm>li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:4px 12px;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--line)}
+ul.gm>li:last-child{border-bottom:0;padding-bottom:0}
+.gm-d{font-size:12px;font-weight:700;color:#cfcdc6;white-space:nowrap}
+.gm-rs{display:grid;gap:5px;min-width:0}
+.gm-r{display:grid;grid-template-columns:52px minmax(0,1fr) 52px minmax(0,190px);align-items:center;gap:10px;min-width:0}
+.gm-c{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.gm-t{position:relative;height:10px;background:var(--card-2);border:1px solid var(--line-2);border-radius:99px;overflow:hidden}
+.gm-t i{display:block;height:100%;border-radius:99px}
+.gm-r.g .gm-t i{background:linear-gradient(90deg,#8a6d1c,var(--gold-2));box-shadow:0 0 10px rgba(212,175,55,.35)}
+.gm-r.m .gm-t i{background:linear-gradient(90deg,#77756f,#f5f4f0);box-shadow:0 0 10px rgba(255,255,255,.2)}
+.gm-r.over .gm-t{border-color:var(--gold)}
+.gm-p{font-size:13px;font-weight:800;color:#fff;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:0 0 10px rgba(255,255,255,.25)}
+.gm-r.over .gm-p{color:var(--gold-2);text-shadow:0 0 12px rgba(212,175,55,.5)}
+.gm-v{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.gm-r.na .gm-p{color:var(--dim);text-shadow:none;font-weight:600}
+ul.gm{grid-template-columns:minmax(0,1fr)}.gm-w>*,.gm-rs>*,.gm-r>*{min-width:0}
+#gm-mx button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}
+@media (max-width:640px){ul.gm>li{grid-template-columns:minmax(0,1fr)}.gm-r{grid-template-columns:46px minmax(0,1fr) 46px}.gm-v{grid-column:2/-1;grid-row:2;margin-top:-3px}}
+.gl-f{display:block;font-size:10.5px;font-weight:600;color:var(--muted);white-space:nowrap;min-width:0}
+.gl-f b{font-weight:800}.gl-f.ok b{color:#8fdca3}.gl-f.wa b{color:var(--gold-2)}.gl-f.ba b{color:#f08a84}
+details.tp>summary{list-style:none;cursor:pointer}details.tp>summary::-webkit-details-marker{display:none}
+details.tp>summary .chev{flex:none}details.tp:not([open])>summary{margin:0}details.tp:not([open]){padding-block:9px}
+.tp-c{font-size:11.5px;color:var(--muted);white-space:nowrap}.tp-c b{color:#fff;font-weight:700}
+.tp-s{display:inline-flex;gap:8px;font-size:11px;font-weight:700;white-space:nowrap}.tp-s span{display:inline-flex;align-items:center;gap:4px}.tp-s .st-d{margin:0}
+.tp-ty{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.tp-ty span{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#cfcdc6;border:1px solid var(--line-2);border-radius:99px;padding:3px 10px;white-space:nowrap}.tp-ty b{color:#fff}
+@media(max-width:560px){details.tp>summary.tp-h{flex-wrap:wrap}.tp-c,.tp-s{flex-basis:auto}}
+.tp-all{margin-left:auto;font:inherit;font-size:10.5px;font-weight:600;letter-spacing:0;text-transform:none;color:#cfcdc6;background:transparent;border:1px solid var(--line-2);border-radius:99px;padding:3px 10px;cursor:pointer;white-space:nowrap}.tp-all:hover{border-color:var(--gold);color:var(--gold-2)}
+.phx{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;margin-top:12px;background:var(--card);border:1px dashed var(--line-2);border-radius:10px;padding:12px 16px}
+.phx>div:first-child{display:grid;gap:2px;min-width:0}
+.phx>div:first-child b{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.phx>div:first-child span{font-size:11.5px;color:var(--dim)}
+.phx-k{display:flex;gap:22px}
+.phx-k div{display:grid;gap:1px}
+.phx-k span{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.phx-k b{font-size:18px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* v68: gráfico de linha de leads por dia, abaixo dos big numbers de Meta Ads e Google Ads */
+.ldc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px 12px;display:grid;gap:10px;margin-top:12px;min-width:0}
+.ldc-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 14px}
+.ldc-t{display:grid;gap:2px;min-width:0}
+.ldc-t b{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ldc-t span{font-size:11.5px;color:var(--muted)}
+.ldc-t span em{font-style:normal;color:#fff;font-weight:700}
+.ldc-lg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11.5px;color:#cfcdc6}
+.ldc-lg span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.ldc-lg i{width:16px;height:0;border-top:2px solid}
+.ldc-lg .t i{border-color:var(--gold-2);border-top-width:3px;box-shadow:0 0 6px rgba(212,175,55,.6)}
+.ldc-lg .f i{border-color:#f5f4f0}
+.ldc-lg .w i{border-color:#8f8d87;border-top-style:dashed}
+.ldc-sc{overflow-x:auto;scrollbar-width:thin;margin:0 -4px;padding:0 4px}
+.ldc-in{display:grid;gap:0}
+.ldc-p{position:relative;height:230px;margin:8px 0 0 44px}
+.ldc-p svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ldc-gl{position:absolute;left:0;right:0;border-top:1px solid var(--line)}
+.ldc-l{position:absolute;transform:translate(-50%,-150%);font-size:11px;font-weight:800;color:var(--gold-2);text-shadow:0 0 8px rgba(212,175,55,.45),0 0 3px #060608;white-space:nowrap;font-variant-numeric:tabular-nums;pointer-events:none}
+.ldc-pt{position:absolute;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--gold-2);box-shadow:0 0 6px var(--gold)}
+.ldc-rows{position:relative;margin-left:44px;height:64px;border-top:1px solid var(--line-2)}
+.ldc-rows.sm{height:34px}
+.ldc-rl{position:absolute;left:-44px;top:0;width:40px;display:grid;font-size:9.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.ldc-rl span,.ldc-c>*{height:15px;line-height:15px;margin-top:1px}
+.ldc-rl span:first-child{height:30px}
+.ldc-c{position:absolute;top:0;transform:translateX(-50%);display:grid;justify-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ldc-c b{font-size:9.5px;letter-spacing:-.02em;font-weight:600;color:#cfcdc6}
+.ldc-c small{font-size:9px;color:var(--dim);margin-top:-2px}
+.ldc-c.we b,.ldc-c.we small{color:var(--gold)}
+.ldc-c .f,.ldc-rl .f{color:#f5f4f0;font-size:10.5px;font-weight:700}
+.ldc-c .w,.ldc-rl .w{color:#8f8d87;font-size:10.5px;font-weight:700}
+.ldc-rl .f,.ldc-rl .w{font-size:9.5px;font-weight:600}
+.ldc .seg button{font-size:11.5px;padding:5px 10px}
+.ldc .note{font-size:11px}
+@media (max-width:560px){.ldc{padding:12px 10px 10px}.ldc-p{height:200px}}
+/* aba Duotalk (v72) */
+.dtvf{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:2px 0}.dtvf button{font:inherit;font-size:11.5px;font-weight:600;background:transparent;color:#cfcdc6;border:1px solid var(--line-2);border-radius:99px;padding:4px 11px;cursor:pointer;white-space:nowrap}.dtvf button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#060608}#dtv-t td.why{min-width:180px}
+/* planilha de números (v80) */.pl{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;min-width:0;max-width:100%}.pl-leg{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.pl-dim{color:var(--muted);font-size:11.5px}.pl-b{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;border:1px solid var(--line-2);white-space:nowrap}.b-ok{color:#9fe3b4;border-color:rgba(159,227,180,.45)}.b-ajuste{color:var(--gold-2);border-color:rgba(212,175,55,.5);border-style:dashed}.b-aviso{color:#060608;background:var(--gold);border-color:var(--gold)}.b-erro{color:#fff;background:#c9483f;border-color:#c9483f}.b-info{color:var(--muted)}.pl-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;background:var(--card-2);border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;padding:8px 12px;font-size:12.5px}.pl-bar b{white-space:nowrap}.pl-sum{display:flex;flex-wrap:wrap;gap:6px}.pl-scroll{overflow:auto;max-height:560px;border:1px solid var(--line);background:var(--card);-webkit-overflow-scrolling:touch}.pl-t{border-collapse:separate;border-spacing:0;font-size:12px;min-width:100%}.pl-t th,.pl-t td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:5px 9px;white-space:nowrap;max-width:260px;overflow:hidden;text-overflow:ellipsis;text-align:left;vertical-align:top}.pl-t thead th{position:sticky;top:0;z-index:2;background:var(--card-2);color:var(--muted);font-size:10.5px;font-weight:600;text-align:center}.pl-t .pl-rn{position:sticky;left:0;z-index:1;background:var(--card-2);color:var(--dim);text-align:right;min-width:34px;max-width:34px;font-size:10.5px}.pl-t .pl-st{position:sticky;left:34px;z-index:1;background:var(--card);min-width:116px;max-width:116px}.pl-t thead .pl-rn,.pl-t thead .pl-st{z-index:3;background:var(--card-2)}.pl-t .pl-why{min-width:300px;max-width:300px;color:#d8d6cf}.pl-t tr.pl-h td{background:rgba(212,175,55,.08);color:var(--gold-2);font-weight:700}.pl-t tr.pl-h td.pl-rn{background:var(--card-2)}.pl-t tbody tr{cursor:pointer}.pl-t tbody tr:hover td{background-color:rgba(255,255,255,.03)}.pl-t tr.s-erro td:not(.pl-rn):not(.pl-st){background:rgba(201,72,63,.10)}.pl-t tr.s-aviso td:not(.pl-rn):not(.pl-st),.pl-t tr.s-ajuste td:not(.pl-rn):not(.pl-st){background:rgba(212,175,55,.07)}.pl-t tr.s-erro .pl-num{color:#ff9b93;font-weight:700}.pl-t tr.s-aviso .pl-num,.pl-t tr.s-ajuste .pl-num{color:var(--gold-2);font-weight:700}.pl-t tr.s-ok .pl-num{color:#fff;font-weight:700}.pl-t td.pl-num{font-variant-numeric:tabular-nums}.pl-t tr.open td{white-space:normal;max-width:none;min-width:160px}.pl-t tr.open td.pl-why{min-width:300px}.pl-t a{color:var(--gold)}.pl-tabs{display:flex;gap:2px;overflow-x:auto;border-top:2px solid var(--gold);margin-top:-10px;padding-top:0}.pl-tabs button{font:inherit;font-size:12px;font-weight:600;white-space:nowrap;background:var(--card);color:var(--muted);border:1px solid var(--line);border-top:0;border-radius:0 0 8px 8px;padding:7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}.pl-tabs button[aria-selected="true"]{background:var(--card-2);color:var(--gold-2);border-color:var(--gold)}.pl-dot{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--gold);color:#060608;font-size:10.5px;font-weight:800}.pl-dot.e{background:#c9483f;color:#fff}.pl-note{margin:0;font-size:11.5px;color:var(--muted)}
+.ng-box ul.ng-c,.dt-o ul.ng-c{grid-template-columns:minmax(0,1fr)}.ng-box ul.ng-c li,.dt-o ul.ng-c li{min-width:0}
+.dt-g{color:var(--gold-2);font-weight:800;text-shadow:0 0 10px rgba(212,175,55,.4)}
+ul.dt-ms{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:5px}
+ul.dt-ms li{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;background:var(--card-2);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;padding:6px 9px;min-width:0}
+.dt-m{font-family:var(--mono);font-size:11.5px;color:#fff;line-height:1.45;overflow-wrap:anywhere}
+ul.dt-ms li b{font-size:10.5px;font-weight:600;color:var(--gold-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dt-p{font-size:12.5px;color:#cfcdc6;line-height:1.5;max-width:100ch}
+.dt-os{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.dt-o{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-content:start;min-width:0}
+.dt-oh{display:grid;gap:2px;min-width:0}
+.dt-oh span{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.dt-oh b{font-size:28px;font-weight:800;color:#fff;line-height:1.1;font-variant-numeric:tabular-nums;text-shadow:0 0 16px rgba(255,255,255,.28);white-space:nowrap}
+.dt-oh small{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.dt-o ul.ng-c li span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ng-box ul.ng-c li span:first-child,.dt-o ul.ng-c li span:first-child{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* v75 · Produtos: modelo com foto, faixa de preço e versões; Negócios: explicação das linhas */
+.cf{display:flex;flex-wrap:wrap;gap:8px}
+ul.mods li.md{display:block;padding:0;border-left:2px solid var(--gold);background:var(--card-2)}
+.md-d>summary{list-style:none;cursor:pointer}
+.md-d>summary::-webkit-details-marker{display:none}
+.md-h{display:grid;grid-template-columns:80px minmax(0,1fr) 14px;align-items:center;gap:10px;padding:6px 8px 6px 6px}
+.md-h img,.md-ph{display:block;width:80px;height:50px;border-radius:6px;object-fit:cover;background:var(--card)}
+.md-ph{display:grid;place-items:center;color:var(--dim)}.md-ph svg{width:62px;height:38px}
+.md-t{display:grid;gap:1px;min-width:0}
+.md-t b{font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.md-f{font-size:12.5px;font-weight:800;color:var(--gold-2);text-shadow:0 0 10px rgba(212,175,55,.4);white-space:nowrap;font-variant-numeric:tabular-nums}
+.md-s{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.md-d[open]>summary .chev{transform:none}
+.md-b{display:grid;gap:8px;padding:2px 10px 10px}
+.md-a{margin:0;font-size:11.5px;color:#e3e1da;line-height:1.45}
+.vs-t{margin:2px 0 0;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+ol.vs-l{list-style:none;margin:0;padding:0;display:grid;gap:6px;counter-reset:vs}
+ol.vs-l>li{display:grid;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}
+ol.vs-l>li:first-child{border-color:rgba(212,175,55,.5)}
+.vs-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;min-width:0}
+.vs-h b{font-size:12.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.vs-h span{font-size:13px;font-weight:800;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 0 10px rgba(255,255,255,.25)}
+.vs-m{font-size:11px;color:var(--muted)}
+.vs-lb{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+ol.vs-l ul{margin:0;padding-left:16px;display:grid;gap:1px}
+ol.vs-l ul li{display:list-item;background:none;border:0;padding:0;font-size:11.5px;color:#e3e1da;line-height:1.4}
+.bcd-e{margin:0;font-size:12px;color:var(--muted)}
+.lxs{display:grid;gap:8px}
+details.lx>summary .chev{flex:none}
+details.lx[open]{border-color:rgba(212,175,55,.45)}
+.lx-b{padding:12px 14px 14px;display:grid;gap:10px}
+.lx-o{margin:0;font-size:13px;color:#fff;line-height:1.55;max-width:90ch}
+dl.lx-g{margin:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+dl.lx-g div{background:var(--card-2);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 10px;display:grid;gap:3px;min-width:0}
+dl.lx-g dt{font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+dl.lx-g dd{margin:0;font-size:12px;color:#e3e1da;line-height:1.5}
+</style>
+</head><body>
+<div class="wrap">
+  <header class="top"><div><h1 id="title">Duotalk</h1><p class="crumb">Grupo Jorlan · Números de WhatsApp e conversas sem modelo · atualizado em 05/11/2026</p></div></header>
+  <div class="pane" id="p-duotalk"></div>
+  <footer id="foot"></footer>
+</div>
+<script>
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const brl=(v,d=0)=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const mil=v=>v>=1e6?'R$ '+(v/1e6).toLocaleString('pt-BR',{maximumFractionDigits:2})+' mi':v>=1000?'R$ '+(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:v>=1e5?0:1})+' mil':brl(v);
+/* big number: sem centavos a partir de R$ 100 */
+const brlk=v=>v>=100?brl(v):brl(v,2);
+const int=v=>Math.round(v).toLocaleString('pt-BR');
+const pct=(v,d=0)=>(v*100).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})+'%';
+const dec=(v,d=2)=>v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const CHEV='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+
+const q=(t,left)=>`<span class="q${left?' l':''}" tabindex="0" role="button" aria-label="O que é isso?">?<span class="tt" role="tooltip">${esc(t)}</span></span>`;
+/* dvMark: verde (\uE0A1) quando melhorou, vermelho (\uE0A2) quando piorou; d=1 maior é melhor, d=-1 menor é melhor, d=0 neutro */
+const dvMark=(a,b,d)=>{const r=a/b-1;if(!d||!isFinite(r)||Math.abs(r)<.0005)return '';return r*d>0?'\uE0A1':'\uE0A2'};
+const dvH=s=>{s=String(s);const m=s[0];if(m!=='\uE0A1'&&m!=='\uE0A2')return esc(s);const t=s.slice(1),i=t.indexOf(' vs ');return `<span class="dv ${m==='\uE0A1'?'up':'dn'}">${esc(i<0?t:t.slice(0,i))}</span>${i<0?'':esc(t.slice(i))}`};
+const kpi=k=>`<div class="kpi${k.hl?' hl':''}${k.pend?' pend':''}${k.goal&&k.goal.st&&!k.hl?' st-'+k.goal.st:''}"><span class="lbl"><span>${esc(k.l)}</span>${q(k.t)}</span><span class="num">${esc(k.v)}</span>${k.s?`<span class="sub">${dvH(k.s)}</span>`:''}${k.sp?`<div class="sp" style="--n:${k.sp.length}">${k.sp.map(([a,b,c])=>`<div><span>${esc(a)}</span><b>${esc(b)}</b>${c?`<small>${esc(c)}</small>`:''}</div>`).join('')}</div>`:''}${k.pend?`<span class="badge">${esc(k.pend)}</span>`:''}${k.goal?`<span class="gl ${k.goal.st}"><i></i><span>${esc(k.goal.txt)}</span>${k.goal.st?`<b>${ST_N[k.goal.st]}</b>`:''}</span>${k.goal.gap?`<span class="gl-f ${k.goal.st}"><b>${esc(k.goal.gap.t)}</b></span>`:''}`:''}</div>`;
+const row=(ks,cls='')=>`<div class="row ${cls}">${ks.map(kpi).join('')}</div>`;
+const sec=(title,hint,tip,body,open=true)=>`<details class="sec"${open?' open':''}><summary>${CHEV}<h2>${esc(title)}</h2>${q(tip,true)}${hint?`<span class="hint">· ${esc(hint)}</span>`:''}</summary><div class="sec-body">${body}</div></details>`;
+const camp=(c,open)=>`<details class="camp"${open?' open':''}><summary><span class="cn">${esc(c.name)}${c.tip?q(c.tip,true):''}</span><span class="cm">${c.meta.map(([k,v,g])=>`<span>${esc(k)} <b${g?' class="g"':''}>${esc(v)}</b></span>`).join('')}</span></summary>${c.cards?`<div class="cards">${c.cards}</div>`:c.rows.length?`<ul>${c.rows.map(r=>`<li${r[2]?' class="bad"':''}><span>${esc(r[0])}</span><span>${esc(r[1])}</span></li>`).join('')}</ul>`:`<div class="none">Nenhuma campanha destacada nesta conta no período.</div>`}</details>`;
+const tbl=(cols,rows)=>`<div class="tablewrap"><table><thead><tr>${cols.map(c=>`<th${c.n?' class="n"':''}>${esc(c.h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>`<td class="${cols[i].n?'n':''}${cols[i].c?' '+cols[i].c:''}">${v}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const table=(title,tip,cols,rows)=>`<div class="sec-body"><h3 class="tbl-title">${esc(title)}${q(tip,true)}</h3>${tbl(cols,rows)}</div>`;
+const pill=(t,c)=>`<span class="pill ${c}">${esc(t)}</span>`;
+/* card de campanha: k = os dois números principais do tipo (o segundo é o que decide), m = métricas do tipo; null aparece como — */
+const card=o=>`<div class="cc${o.warn?' warn':''}"><div class="cc-h"><span class="cc-n">${esc(o.n)}</span>${pill(o.t[0],o.t[1])}</div><div class="cc-kp">${o.k.map(([l,v],i)=>`<div${i?' class="key"':''}><span>${esc(l)}</span><b>${v==null?'—':esc(v)}</b></div>`).join('')}</div><dl>${o.m.map(([l,v])=>`<div><dt>${esc(l)}</dt><dd${v==null?' class="na"':''}>${v==null?'—':esc(v)}</dd></div>`).join('')}</dl>${o.note?`<span class="cc-note">${esc(o.note)}</span>`:''}</div>`;
+const bars=items=>{const mx=Math.max(1,...items.map(i=>i.v)),sm=items.reduce((a,i)=>a+i.v,0)||1;return `<div class="bars" role="img" aria-label="${esc(items.map(i=>i.k+' '+mil(i.v)).join(', '))}">${items.map(i=>`<div class="bar${i.dim?' dim':''}"><span class="v">${i.v?mil(i.v):'—'}</span><div class="col" style="height:${Math.max(4,i.v/mx*170)}px"></div><span class="k">${esc(i.k)}</span><span class="p">${pct(i.v/sm)}</span></div>`).join('')}</div>`};
+const vaz=(n,t,o,imp,fix,acc)=>`<li><div class="vz-h"><span class="vz-n">${n}</span><b>${esc(t)}</b></div><p>${o}</p><div class="vz-f"><div><span>Impacto</span><b>${imp}</b></div><div><span>Correção</span><b>${esc(fix)}</b></div></div>${acc?`<span class="pill dash">${esc(acc)}</span>`:''}</li>`;
+const FOOT={duotalk:['Fonte: Looker Studio "Marketing - Grupo Jorlan", página Tracking Ads - IA (Intenção = Veículos Novos, 01 a 31/10/2026), coluna Histórico Duotalk, lida em 04/11/2026. As 3.590 conversas NÃO IDENTIFICADO foram classificadas pela 1ª mensagem do cliente.','Botões dos sites conferidos no código público em 04/11/2026. Conversões do Google Ads via Supermetrics, últimos 30 dias. Somente leitura: nada foi alterado no Duotalk, nos sites ou nas contas.','Números de WhatsApp validados em 05/11/2026: planilha Números WhatsApp - Grupo Jorlan (6 abas), sites das lojas e extensões de ligação do Google Ads (Supermetrics, 30 dias). Meta e teste do wa.me ainda pendentes.']};
+/* ---------- DUOTALK · modelos NÃO IDENTIFICADOS, out/2026 (Looker Tracking Ads - IA, lido em 04/11/2026) ---------- */
+const DTM=[['GWM',1191,3767,[55.2,39.0,3.5,2.3]],['Geely',706,3225,[44.2,46.5,5.9,3.4]],['Chevrolet',468,2246,[42.5,34.2,18.2,5.1]],['Renault',361,1381,[67.6,22.7,4.2,5.5]],['GAC',331,1382,[42.6,38.7,16.6,2.1]],['Honda',305,2500,[41.6,43.6,7.5,7.2]],['Kia',187,466,[42.8,11.2,1.1,44.9]],['Harley',40,333,[10.0,27.5,52.5,10.0]]];
+const DTU={GWM:'GWM',Geely:'DF 431 · BH 275',Chevrolet:'BH 177 · DF 165 · Orca 105 · Valp. 21',Renault:'DF 190 · BH 171',GAC:'DF 216 · BH 115',Honda:'Honda Jorlan',Kia:'Kia Jorlan',Harley:'Brasília HD'};
+const DTC=[['Botão site/Google',1764,'Corrigir no site e no Google'],['Sem mensagem pronta',1329,'A IA pergunta o modelo'],['Anúncio Meta sem modelo',285,'Corrigir no anúncio'],['Tem modelo, a IA não leu',212,'Corrigir no Duotalk']];
+const DTS=[[1,'"Vim pelo site #Novos <URL>"',1056],[1,'"Vim pelo Google #Novos"',602],[1,'"Vim pelo site" sem nenhum #',74],[1,'Outro texto padrão do site',32],[2,'Só saudação ("Bom dia", "Oi")',886],[2,'Texto livre do cliente',227],[2,'Resposta a disparo ou menu',216],[3,'Click-to-WhatsApp sem modelo',258],[3,'Link de Instagram sem referral',27],[4,'#Bongo fora do catálogo Kia',77],[4,'Nome com espaço',50],[4,'Dois # ("#Novos do #Onix")',47],[4,'Outros # não lidos',38]];
+const dtNum=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+const dtHb=(items,tot)=>{const mx=Math.max(...items.map(i=>i[1]));return `<ul class="hb">${items.map(([n,v,s])=>`<li class="pg"><span class="hb-n">${esc(n)}</span><span class="hb-t"><i style="width:${Math.max(.6,v/mx*100)}%"></i></span><span class="hb-v"><b>${int(v)}</b><small>${esc(s)}</small></span></li>`).join('')}</ul>`};
+const dtMsg=(m,n)=>`<li><span class="dt-m">${esc(m)}</span>${n?`<b>${esc(n)}</b>`:''}</li>`;
+const dtOrig=(t,v,s,ls)=>`<div class="dt-o"><div class="dt-oh"><span>${esc(t)}</span><b>${int(v)}</b><small>${esc(s)}</small></div><ul class="ng-c">${ls.map(([a,b])=>`<li><span>${esc(a)}</span><span>${esc(b)}</span></li>`).join('')}</ul></div>`;
+const dtVz=(...a)=>vaz(...a).replace('<p>','<div class="dt-p">').replace('</p>','</div>');
+/* ---------- DUOTALK · validação dos números de WhatsApp (05/11/2026) ---------- */
+const DTV=[["Harley-Davidson", "(61) 2101-0200", "Geral: pós, peças, boutique, HOG", "Site: todos os botões de WhatsApp", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Harley-Davidson Brasília\", verificada", "Nada a corrigir"], ["Harley-Davidson", "(61) 2101-0201", "Mídia: venda de motos", "Não aparece no site (é só para mídia)", "A confirmar", "Não visto nos conjuntos lidos", "Ativa · \"Brasília Harley-Davidson\", verificada", "Conferir se os anúncios de moto do Meta usam este número"], ["Harley-Davidson", "(61) 2101-0202", "Desativado por spam, mas a conta segue ativa e verificada como \"Brasília Harley-Davidson\"", "Não aparece no site, mas é o destino do conjunto de seminovos da GWM no Meta", "Divergente", "ERRADO · GWM \"Interesses | SEMINOVOS\" manda para este número", "Ativa · \"Brasília Harley-Davidson\", verificada", "Trocar o destino do conjunto GWM \"Interesses | SEMINOVOS\" para o número de seminovos da GWM (definir entre 2103-0303 e 3020-1110)"], ["Chevrolet GO", "(62) 4000-1618", "Vendas: novos, VD e seminovos", "Site GO, nas duas lojas", "OK, ajustar link", "OK · Chevrolet GO, 2 conjuntos (inclui Cidade Jardim)", "Ativa · \"Jorlan Goiânia\", verificada", "Corrigir o link \"Adicione nosso número\", que está sem o 55"], ["Chevrolet GO", "(62) 4005-2020", "Pós-vendas", "Site GO, nas duas lojas", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Chevrolet Jorlan Goiânia\"", "Nada a corrigir"], ["Chevrolet BH", "(31) 2122-3000", "Vendas: novos, VD e seminovos", "Site BH e extensão de ligação no Google", "OK, ajustar link", "OK · Chevrolet BH", "Ativa · \"Jorlan BH\", verificada", "Corrigir o link \"Adicione nosso número\", que está sem o 55"], ["Chevrolet BH", "(31) 2122-3034", "Pós-vendas (antes era o Mídia DVN)", "Não aparece. O site usa (31) 2122-3095", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Chevrolet Jorlan BH\"", "Definir qual número é o WhatsApp de pós e alinhar site e planilha"], ["Chevrolet DF", "(61) 2101-0101", "Vendas: novos, VD e seminovos", "Site DF, Asa Norte e SIA", "OK, ajustar link", "OK · Chevrolet DF, \"Interesse - Hatchback\"", "Ativa · \"Jorlan DF\", verificada", "Corrigir o link \"Adicione nosso número\", que está sem o 55"], ["Chevrolet DF e Valparaíso", "(61) 2101-0020", "Pós-vendas (antes era o Mídia DVN)", "Não aparece. O site usa (61) 2101-0160", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Chevrolet Jorlan DF\"", "Definir qual número é o WhatsApp de pós e alinhar site e planilha"], ["Valparaíso", "(61) 2101-0110", "Vendas: novos, VD e seminovos", "Site DF, loja Valparaíso", "OK", "OK · Chevrolet DF, \"Interesses - Valparaíso\"", "Ativa · \"Jorlan Valparaíso\"", "Nada a corrigir"], ["Chevrolet Orca", "(61) 2106-6000", "Vendas: novos, VD e seminovos", "Site Orca, Gama e Taguatinga", "OK, ajustar link", "OK · Orca", "Ativa · \"Orca Chevrolet\", verificada", "Corrigir o link \"Adicione nosso número\", que está sem o 55"], ["Chevrolet Orca", "(61) 2106-6020", "Pós-vendas (antes era o Mídia DVN)", "Não aparece. O site usa (61) 2106-6145, que é número Leadzap da Zenvia", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Chevrolet Orca\", verificada", "Decidir se o pós da Orca fica no Duotalk ou na Zenvia"], ["GWM", "(61) 3020-1000", "Novos e vendas diretas", "Site GWM", "OK", "OK · GWM", "Ativa · \"GWM Jorlan-ev\", verificada", "Trocar o link web.whatsapp.com com espaço por wa.me/556130201000"], ["GWM", "(61) 2103-0303", "Seminovos", "Site da GAC DF usa como seminovos da GAC. O site GWM usa (61) 3020-1110. No WhatsApp a conta se chama \"Jorlan Seminovos\" (sem marca)", "Divergente", "Não usado: o seminovos da GWM no Meta está no 2101-0202", "Ativa · \"Jorlan Seminovos\", verificada", "Definir de qual marca é o número e corrigir o site errado e o anúncio de seminovos GWM"], ["GWM", "(61) 3799-2099", "Pós-vendas", "Site GWM (agendamento)", "OK", "Não visto nos conjuntos lidos", "Ativa · \"GWM Jorlan-ev\"", "Trocar o link por wa.me"], ["Honda", "(61) 3799-2000", "Vendas: novos, VD e seminovos", "Site Honda, Asa Norte e Taguatinga", "OK, ajustar link", "OK · Honda, \"CITY\"", "Ativa · \"Honda Jorlan Plaza\", verificada", "Corrigir o link \"Adicione nosso número\", que está sem o 55"], ["Honda", "(61) 3799-2004", "Pós-vendas", "Site Honda", "OK", "OK · Honda, \"Revisão\" (pós)", "Ativa · \"Honda Jorlan Plaza\", verificada", "Nada a corrigir"], ["Renault DF", "(61) 3535-1000", "Vendas: novos, VD e seminovos", "Site Renault DF, três lojas", "OK", "OK · Renault DF", "Ativa · \"Renault Jorlan France\", verificada", "Trocar o link web.whatsapp.com com espaço por wa.me"], ["Renault DF", "(61) 3535-1020", "Pós-vendas", "Site Renault DF (agendamento)", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Renault Jorlan France\", verificada", "Trocar o link por wa.me"], ["Renault BH", "(31) 2101-5000", "Vendas: novos, VD e seminovos", "Site Renault BH, três lojas", "OK", "OK · Renault BH (o conjunto \"Interesses Serviços\" também cai aqui)", "Ativa · \"Renault Jorlan France BH\"", "Trocar o link web.whatsapp.com por wa.me"], ["Renault BH", "(31) 2101-5030", "Pós-vendas", "Site Renault BH (agendamento)", "OK", "Não usado: \"Interesses Serviços\" da Renault BH vai para o 2101-5000", "Ativa · \"Renault Jorlan France BH\", verificada", "Trocar o link por wa.me. Avaliar mandar o conjunto \"Interesses Serviços\" do Meta para este número"], ["Citroën BH", "(31) 4009-4040", "Vendas", "Sem site ativo da marca", "A confirmar", "Não visto nos conjuntos lidos", "Ativa · \"Citroën Jorlan France\", verificada", "Conta segue ativa no WhatsApp. Marca fora do grupo: desativar ou reaproveitar o número"], ["Citroën BH", "(31) 4009-4051", "Pós-vendas", "Sem site ativo da marca", "A confirmar", "Não visto nos conjuntos lidos", "Ativa · \"Citroën Jorlan France\"", "Conta segue ativa no WhatsApp. Marca fora do grupo: desativar ou reaproveitar o número"], ["Peugeot BH", "(31) 4009-4000", "Vendas", "Sem site ativo da marca", "A confirmar", "Não visto nos conjuntos lidos", "Ativa · \"Peugeot Jorlan France\", verificada", "Conta segue ativa no WhatsApp. Marca fora do grupo: desativar ou reaproveitar o número"], ["Peugeot BH", "(31) 4009-4031", "Pós-vendas", "Sem site ativo da marca", "A confirmar", "Não visto nos conjuntos lidos", "Ativa · \"Peugeot Jorlan France\"", "Conta segue ativa no WhatsApp. Marca fora do grupo: desativar ou reaproveitar o número"], ["Consórcio GO", "(62) 4005-2509", "Consórcio Goiânia", "Não aparece. O site GO mostra só os telefones 4005-2510 e 4005-6123", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Jorlan Consórcio GO\"", "Colocar o WhatsApp 4005-2509 no site GO"], ["Consórcio BH", "(31) 2122-1919", "Consórcio BH", "Site Kia (WhatsApp). Chevrolet BH mostra o tel. 2122-1925 e Renault BH o 2122-1922", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Consórcio Grupo Jorlan - BH\"", "Padronizar o consórcio BH nos sites Chevrolet e Renault"], ["Consórcio DF", "(61) 2106-6024", "Banido em 02/10/25", "Não aparece mais nos sites. O WhatsApp diz que o número não está no WhatsApp. A aba antiga ainda lista como ativo", "Banido", "Não visto nos conjuntos lidos", "Não está no WhatsApp (confirma o banimento)", "Marcar como banido na aba antiga"], ["Consórcio DF", "(61) 3421-7314", "Consórcio DF", "Sites Chevrolet DF, Orca, Renault DF e Honda", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Consórcio Grupo Jorlan - DF\"", "Nada a corrigir"], ["Seguros GO", "(62) 4000-2828", "Seguros Goiânia", "Site GO, só como telefone", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Corretora de Seguros Grupo Jorlan GO\", verificada", "Pôr link de WhatsApp no número"], ["Seguros BH", "(31) 2122-3085", "Seguros BH", "Site Chevrolet BH, só como telefone", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Jorlan Seguros e Serviços - BH\"", "Pôr link de WhatsApp no número"], ["Seguros DF", "(61) 2106-6054", "Seguros DF", "Site Chevrolet DF, só como telefone", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Corretora de Seguros Grupo Jorlan DF\"", "Pôr link de WhatsApp no número"], ["Loja online", "(62) 4000-1882", "E-commerce de peças", "Site loja.grupojorlan.com.br", "OK", "Não visto nos conjuntos lidos", "Ativa · \"Loja Grupo Jorlan\", verificada", "Nada a corrigir"], ["RH", "(62) 4005-2188", "RH e recrutamento", "Não conferido", "A confirmar", "Não visto nos conjuntos lidos", "Ativa · \"RH - Grupo Jorlan\", verificada", "Conferir no site institucional e nas vagas"], ["GAC BH", "(31) 4009-4009", "Vendas: VD, seminovos e pós", "Site GAC BH, Barão e Pampulha", "OK, ajustar link", "OK · GAC BH", "Ativa · \"GAC Jorlan Motors BH\", verificada", "Corrigir o link \"Adicione nosso número\", que está sem o 55"], ["GAC BH", "(31) 4009-4039", "Pós-vendas", "Site GAC BH, só como telefone", "OK", "Não visto nos conjuntos lidos", "Ativa · \"GAC Jorlan BH\"", "Pôr link de WhatsApp no número"], ["GAC DF", "(61) 2103-0300", "Vendas: VD, seminovos e pós", "Site GAC DF, Aeroporto e SIA", "OK, ajustar link", "OK · GAC DF", "Ativa · \"GAC Jorlan Motors Brasília\", verificada", "Corrigir o link \"Adicione nosso número\", que está sem o 55"], ["GAC DF", "(61) 2103-0310", "Pós-vendas", "Não aparece. O site mostra 2103-0340 (Aeroporto) e 3020-1034 (SIA)", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"GAC Jorlan DF\"", "Alinhar o pós da GAC DF no site e na planilha"], ["Kia", "(31) 2101-5010", "Vendas: VD, seminovos e pós", "Site Kia", "OK", "OK · Kia, \"Híbrido/Elétrico\"", "Ativa · \"Kia Jorlan Motors\"", "Trocar o link web.whatsapp.com com espaço por wa.me"], ["Kia", "(31) 2101-5042", "Pós-vendas", "Site Kia", "OK", "OK · Kia, \"Interesse em manutenção\" (pós)", "Ativa · \"Kia Jorlan Motors\"", "Trocar o link por wa.me"], ["Geely DF", "(61) 2103-0330", "Vendas: VD, seminovos e pós", "Não aparece. O site só tem o tel. 3246-6064, que não está na planilha de máscaras", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Geely Jorlan-ev | Brasília\"", "Colocar o WhatsApp no site geelybrasil.com.br/jorlan-df"], ["Geely DF", "(61) 2103-0335", "Pós-vendas", "Não aparece no site", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Geely Jorlan\"", "Colocar o WhatsApp no site"], ["Geely BH", "(31) 2122-8000", "Vendas: VD, seminovos e pós", "Não aparece. O site só tem o tel. 2116-1138", "Divergente", "OK · Geely BH", "Ativa · \"Geely Jorlan-ev | BH\"", "Colocar o WhatsApp no site geelybrasil.com.br/jorlan-bh"], ["Geely BH", "(31) 2122-8080", "Pós-vendas", "Não aparece no site", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Geely Jorlan-ev | BH\"", "Colocar o WhatsApp no site"], ["GAC BH Barão", "(31) 2122-8005", "Fora da planilha", "Site GAC BH: WhatsApp seminovos", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Jorlan Seminovos | Barão - 3079\"", "Confirmar se existe no Duotalk e incluir na planilha"], ["GAC BH Pampulha", "(31) 4009-4060", "Fora da planilha", "Site GAC BH: WhatsApp seminovos", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Jorlan Seminovos | Pampulha - 3860\"", "Confirmar se existe no Duotalk e incluir na planilha"], ["Renault BH", "(31) 2101-5080", "Fora da planilha", "Site Renault BH: WhatsApp peças", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Renault Jorlan France - Peças\"", "Confirmar se existe no Duotalk e incluir na planilha"], ["GWM", "(61) 3020-1110", "Fora da planilha", "Site GWM: WhatsApp seminovos", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Jorlan Seminovos - Sia\"", "Confirmar se existe no Duotalk e incluir na planilha"], ["Chevrolet DF e Valparaíso", "(61) 2101-0160", "Fora do Duotalk (é o tel. de pós na planilha de máscaras)", "Site DF: WhatsApp pós-vendas", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Chevrolet | Jorlan - Brasília\"", "Ver linha do (61) 2101-0020"], ["Chevrolet BH", "(31) 2122-3095", "Fora do Duotalk (é o tel. de pós na planilha de máscaras)", "Site BH: WhatsApp pós-vendas", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Chevrolet Jorlan Belo Horizonte\"", "Ver linha do (31) 2122-3034"], ["Chevrolet Orca", "(61) 2106-6145", "Leadzap Zenvia, ativo", "Site Orca: WhatsApp pós-vendas", "Divergente", "Não visto nos conjuntos lidos", "Ativa · \"Chevrolet | Orca - Brasília\"", "Ver linha do (61) 2106-6020"]];
+const dtSt=s=>`<span class="pill ${({'OK':'white','OK, ajustar link':'white','Divergente':'gold','A confirmar':'dash','Banido':'grey','Sem uso':'grey'})[s]||'grey'}">${esc(s)}</span>`;
+const dtVF=['Todos','Divergente','A confirmar','OK, ajustar link','OK','Banido'];
+const dtVHTML=sec('Números de WhatsApp validados','51 números · 05/11/2026 · Meta e WhatsApp conferidos','Cruzamento da planilha "Números WhatsApp - Grupo Jorlan (Mídia e Geral)" (abas WhatsApp Duotalk 2025, Tel. Máscara 2026, WhatsApp Duotalk antiga, duotalk, Zenvia e Integração Followize x Duotalk) com os sites das lojas as extensões de ligação do Google Ads e o número de destino de 16 conjuntos de WhatsApp ativos em 11 contas do Meta, em 05/11/2026. Cada número também foi aberto no WhatsApp Web para ver se a conta existe, o nome e o selo de verificada. Somente leitura: nenhuma mensagem foi enviada.',
+ row([
+  {l:'Números conferidos',v:'51',s:'44 da planilha + 7 só nos sites',t:'44 números da aba WhatsApp (Duotalk) - 2025 e 7 números de WhatsApp que aparecem nos sites e não estão nessa aba.'},
+  {l:'OK',v:'26',s:'7 com link quebrado no site',t:'Número certo no lugar certo. Em 7 deles o link "Adicione nosso número" do rodapé está sem o 55 e abre outro número.'},
+  {l:'Divergentes',v:'18',s:'site e planilha não batem',hl:1,t:'O site mostra outro número, o número da planilha não aparece em lugar nenhum ou o site usa um número que não está na planilha.'},
+  {l:'A confirmar',v:'6',s:'Citroën, Peugeot, RH e Harley mídia',t:'Números sem canal público para conferir. Citroën e Peugeot não fazem mais parte do grupo.'},
+  {l:'Banido',v:'1',s:'Consórcio DF 2106-6024',t:'Consórcio DF (61) 2106-6024 banido em 02/10/25. Não aparece mais nos sites.'}],'five')+
+ `<div class="ins"><b>O que mais pesa</b><ul><li><b class="w">Anúncio de seminovos da GWM no número errado.</b> No Meta, o conjunto "Interesses | SEMINOVOS" da GWM manda a conversa para o (61) 2101-0202, que na planilha é o pós da Harley, desativado por spam. Os outros 15 conjuntos lidos usam o número de vendas certo da loja.</li><li><b class="w">Todos os números abrem no WhatsApp, menos o banido.</b> 50 dos 51 têm conta comercial ativa e 22 têm selo de verificada. Só o Consórcio DF (61) 2106-6024 não está no WhatsApp. Citroën e Peugeot seguem ativos mesmo fora do grupo, e o (61) 2103-0303 se chama "Jorlan Seminovos", sem marca.</li><li><b class="w">Pós-vendas da Chevrolet não bate.</b> Na planilha 2025 o pós de DF, BH e Orca é o antigo número Mídia DVN (2101-0020, 2122-3034, 2106-6020). Os sites usam 2101-0160, 2122-3095 e 2106-6145, que estão na aba de máscaras como telefone, e o da Orca é Leadzap da Zenvia.</li><li><b class="w">Link sem o 55 em 7 sites.</b> "Adicione nosso número" da Chevrolet DF, GO e BH, Orca, Honda, GAC DF e GAC BH aponta para phone=61..., sem o código do Brasil.</li><li><b class="w">Geely sem WhatsApp no site.</b> DF e BH têm números no Duotalk (2103-0330 e 2122-8000) e o site só mostra telefone.</li><li><b class="w">(61) 2103-0303 em duas marcas.</b> É seminovos GWM no Duotalk e seminovos GAC no site da GAC DF.</li><li><b class="w">Sites DealerSpace</b> (GWM, Renault DF e BH, Kia) usam web.whatsapp.com com espaço antes do número. No celular isso abre o WhatsApp Web em vez do app. O certo é wa.me/55...</li></ul></div>`+
+ `<div class="dtvf" id="dtvbar" aria-label="Filtrar por status">${dtVF.map((f,i)=>`<button type="button" data-f="${esc(f)}" aria-pressed="${i?'false':'true'}">${esc(f)}</button>`).join('')}</div>`+
+ `<div id="dtv-t">${tbl([{h:'Loja'},{h:'Número'},{h:'Uso pela planilha',c:'why'},{h:'Onde aparece hoje',c:'why'},{h:'Status'},{h:'Anúncios Meta',c:'why'},{h:'WhatsApp Web',c:'why'},{h:'Correção',c:'why'}],DTV.map(([a,b,c,d,e,m,w,f])=>[`<b class="w">${esc(a)}</b>`,`<span data-st="${esc(e)}">${esc(b)}</span>`,esc(c),esc(d),dtSt(e),esc(m),esc(w),esc(f)]))}</div>`+
+ `<div class="ng-g"><div class="ng-box"><h4>Google Ads · extensões de ligação (30 dias)</h4><ul class="ng-c"><li><span>Números com impressão</span><span>52</span></li><li><span>Batem com a aba Tel. Máscara 2026</span><span>50</span></li><li><span>(62) 3773-2709 · Chevrolet GO</span><span>10.512 imp. · fora da planilha</span></li><li><span>(31) 2116-1137 · Geely BH</span><span>1 imp. · fora da planilha</span></li><li><span>Honda</span><span>conta suspensa, sem extensão</span></li></ul></div><div class="ng-box"><h4>Ainda não validado</h4><ul class="ng-c"><li><span>Meta: 16 conjuntos lidos em 11 contas</span><span>15 certos, 1 errado</span></li><li><span>WhatsApp Web: 51 números abertos</span><span>50 ativos, 22 verificados, 1 fora do WhatsApp</span></li><li><span>Bios do Instagram e Perfil da Empresa</span><span>pendente</span></li><li><span>Número do Google Ads no recurso de WhatsApp</span><span>Supermetrics não traz</span></li></ul></div></div>`);
+function dtvInit(){const f=document.getElementById('dtvbar');if(!f)return;f.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;f.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));const v=b.dataset.f;document.querySelectorAll('#dtv-t tbody tr').forEach(tr=>{const s=tr.querySelector('[data-st]').dataset.st;tr.hidden=!(v==='Todos'||s===v)})})}
+/* PLAN-START */
+/* ---------- DUOTALK · planilha de números (espelho do Google Sheets, validada em 05/11/2026) ---------- */
+const PLAN={"tabs": ["WhatsApp (Duotalk) - 2025", "Tel. Máscara (Intélia+NextIp) - 2026", "WhatsApp (Duotalk)", "duotalk", "Zenvia", "Integração Followize x Duotalk"], "rows": [[["LOJA", "NÚMERO WHATSAPP", "TIPO", "TIPO", "DEPARTAMENTOS", "NÚMERO LIGAÇÃO", "CONTA VERIFICADA", "LINK", "Template para Direcionar ao Numero", "FINALIDADE DE USO", "Atendimento no Telefone", "PULA BOT (Mídia)", "Sugestão de mensagem Pula BOT"], ["Brasília Harley-Davidson", "61 2101-0202", "-", "N/A", "Pos Vendas", "(61) 2101-0212", "Sim", "https://wa.me/556121010202", "", "Não está sendo utilizado pois estava recebendo um número alto de spam.", "", "", "Olá, vi o anúncio do veículos #Novos do Onix Plus e queria saber mais informações... Olá, vi o anúncio do veículos #Seminovos do Onix Joy e queria saber mais informações... Olá, vi o anúncio do veículos #Vendas_Diretas da Montana e queria saber mais informações..."], ["", "61 2101-0200", "Geral", "Geral", "Pós-vendas, Peças, Acessórios, Boutique e HOG.", "(61) 3550-0898", "Sim", "https://wa.me/556121010200", "", "Uso para todos os departamentos exceto vendas de motos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "61 2101-0201", "Mídia", "Mídia", "Vendas", "(61) 3550-0898", "Sim", "https://wa.me/556121010201", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de motos.", "", "", ""], ["Chevrolet Jorlan GO", "62 4000-1618", "Geral", "Geral + Mídia", "Novos, Vendas Diretas e Seminovos", "(62) 3773-2563", "Sim", "https://wa.me/556240001618", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo ⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/556240001618?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "62 4005-2020", "Mídia", "Pós Vendas", "Pós-vendas", "62 4005-2121", "Não", "https://wa.me/556240052020", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "Recepção da Loja", "N/A", ""], ["Chevrolet Jorlan BH", "31 2122-3000", "Geral", "Geral + Mídia", "Novos, Vendas Diretas e Seminovos", "(31) 2116-1186", "Sim", "https://wa.me/553121223000", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo ⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/553121223000?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "31 2122-3034", "Mídia", "Pós Vendas", "Pós-vendas", "(31) 2122-3095", "Não", "https://wa.me/553121223034", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "Vendedor, mas já alinhado com Najla para migrar para o Call Center. Prazo 14/07", "N/A", ""], ["Chevrolet Jorlan DF", "61 2101-0101", "Geral", "Geral + Mídia", "Novos, Vendas Diretas e Seminovos", "(61) 3773-4438", "Sim", "https://wa.me/556121010101", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo ⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/556121010101?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "61 2101-0020", "Mídia", "Pós Vendas", "Pós-vendas", "(61) 2101-0160", "Não", "https://wa.me/556121010020", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "", "N/A", ""], ["Jorlan Valparaíso", "61 2101-0110", "Geral + Mídia", "Geral + Mídia", "Novos, Vendas Diretas e Seminovos", "(61) 3771-8795", "Não", "https://wa.me/556121010110", "", "", "", "", ""], ["", "61 2101-0020", "Pós Vendas", "Pós Vendas", "Pós-vendas", "(61) 2101-0160", "Não", "https://wa.me/556121010020", "", "", "", "", ""], ["Chevrolet Orca", "61 2106-6000", "Geral", "Geral + Mídia", "Novos, Vendas Diretas e Seminovos", "(61) 3773-4694", "Sim", "https://wa.me/556121066000", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/556121066000?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "61 2106-6020", "Mídia", "Pós Vendas", "Pós-vendas", "(61) 2106-6145", "Sim", "https://wa.me/556121066020", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "", "N/A", ""], ["GWM Jorlan-ev", "61 3020-1000", "Geral", "Geral + Mídia", "Novos, Vendas Diretas", "(61) 3246-6076", "Sim", "https://wa.me/556130201000", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/556130201000?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "61 2103-0303", "Seminovos", "Seminovos", "Seminovos", "(61) 4042-5664", "Não", "", "", "", "", "", ""], ["", "61 3799-2099", "Mídia", "Pós Vendas", "Pós-vendas", "(61) 3020-1020", "Não", "https://wa.me/556137992099", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "", "N/A", ""], ["Honda Jorlan Plaza", "61 3799-2000", "Geral", "Geral + Mídia", "Novos, Vendas Diretas e Seminovos", "(61) 3773-4949", "Sim", "https://wa.me/556137992000", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/556137992000?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "61 3799-2004", "Mídia", "Pós Vendas", "Pós-vendas", "(61) 2102-0150", "Sim", "https://wa.me/556137992004", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "", "N/A", ""], ["Renault JorlanFrance DF", "61 3535-1000", "Geral", "Geral + Mídia", "Novos, Vendas Diretas e Seminovos", "(61) 3773-4182", "Sim", "https://wa.me/556135351000", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo ⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/556135351000?text=Quero%20saber%20mais%20informa%C3%A7%C3%B5es%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "61 3535-1020", "Mídia", "Pós Vendas", "Pós-vendas", "(61) 3535-1060", "Sim", "https://wa.me/556135351020", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "", "N/A", ""], ["Renault Jorlan France BH", "31 2101-5000", "Geral", "Geral + Mídia", "Novos, Vendas Diretas e Seminovos", "(31) 2116-1184", "Não", "https://wa.me/553121015000", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/553121015000?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "31 2101-5030", "Mídia", "Pós Vendas", "Pós-vendas", "(31) 2101-5070", "Não", "https://wa.me/553121015030", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "", "N/A", ""], ["Citroën Jorlan France", "31 4009-4040", "Geral", "Geral + Mídia", "Vendas Diretas, Seminovos e Pós-vendas", "(31) 2116-1100", "Sim", "https://wa.me/553140094040", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/553140094040?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "31 4009-4051", "Mídia", "Pós Vendas", "Pós-vendas", "(31) 4009-4090", "Não", "https://wa.me/553140094051", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "", "N/A", ""], ["Peugeot Jorlan France", "31 4009-4000", "Geral", "Geral + Mídia", "Vendas Diretas, Seminovos e Pós-vendas", "(31) 3972-2724", "Sim", "https://wa.me/553140094000", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/553140094000?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas.", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "31 4009-4031", "Mídia", "Pós Vendas", "Pós-vendas", "(31) 4009-4090", "Não", "https://wa.me/553140094031", "", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos.", "", "N/A", ""], ["Consórcio GO", "62 4005-2509", "-", "Consórcio", "Consórcio", "62 4005-2509", "Não", "https://wa.me/556240052509", "", "Uso em todas as páginas dos canais/mídia direcionadas ao consórcio em Goiânia.", "", "", ""], ["Consórcio BH", "31 2122-1919", "-", "Consórcio", "Consórcio", "31 2122-1919", "Não", "https://wa.me/553121221919", "", "Uso em todas as páginas dos canais/mídia direcionadas ao consórcio em Belo Horizonte.", "", "", ""], ["Consórcio DF", "61 2106-6024", "-", "Consórcio", "Consórcio", "N/A", "Não", "https://wa.me/556121066024", "", "Descontinuado em 02/10/25 em virtude de banimento.", "", "", ""], ["", "61 3421-7314", "-", "Consórcio", "Consórcio", "61 3421-7314", "Não", "https://wa.me/556134217314", "", "Uso em todas as páginas dos canais/mídia direcionadas ao consórcio no DF.", "", "", ""], ["Seguros GO", "62 4000-2828", "-", "Seguros", "Seguros", "62 4000-2828", "Sim", "https://wa.me/556240002828", "", "Uso em todas as páginas dos canais/mídia direcionadas aos seguros em Goiânia.", "", "", ""], ["Seguros BH", "31 2122-3085", "-", "Seguros", "Seguros", "31 2122-3085", "Não", "https://wa.me/553121223085", "", "Uso em todas as páginas dos canais/mídia direcionadas aos seguros em Belo Horizonte.", "", "", ""], ["Seguros DF", "61 2106-6054", "-", "Seguros", "Seguros", "61 2106-6054", "Não", "https://wa.me/556121066054", "", "Uso em todas as páginas dos canais/mídia direcionadas aos seguros no DF.", "", "", ""], ["Loja Online Grupo Jorlan", "62 4000-1882", "-", "E-commerce", "Peças", "62 4000-1882", "Sim", "https://wa.me/556240001882", "", "Uso no site do e-commerce, nas campanhas de mídia e demais canais.", "", "", ""], ["RH Grupo Jorlan", "62 4005-2188", "-", "RH", "Recursos Humanos", "62 4005-2188", "Sim", "https://wa.me/556240052188", "", "Uso para suporte de RH e recrutamento e seleção.", "", "", ""], ["GAC BH", "(31) 4009-4009", "Geral", "Geral + Mídia", "Vendas Diretas, Seminovos e Pós-vendas", "(31) 2116-1454", "Não", "https://wa.me/553140094009", "", "", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "(31) 4009-4039", "", "Pós Vendas", "Pós-vendas", "31 4009-4039", "Não", "", "", "", "", "N/A", ""], ["GAC DF", "(61) 2103-0300", "Geral", "Geral + Mídia", "Vendas Diretas, Seminovos e Pós-vendas", "(61) 3773-4167", "Não", "https://wa.me/556121030300", "", "", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "(61)2103-0310", "", "Pós Vendas", "Pós-vendas", "61 3020 - 1034", "Não", "", "", "", "", "N/A", ""], ["KIA BH", "31 2101-5010", "Geral", "Geral + Mídia", "Vendas Diretas, Seminovos e Pós-vendas", "(31) 2116-1244", "Não", "https://wa.me/553121015010", "🚗 Olá! Nosso atendimento para venda de veículos é feito exclusivamente pelo número abaixo⬇️ 📱 Clique aqui para falar com o atendimento: https://wa.me/553121015010?text=Queria%20falar%20sobre%20oferta%20de%20#Novos", "", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "(31) 2101-5042", "", "Pós Vendas", "Pós-vendas", "(31) 2101-5042", "Não", "", "", "", "", "N/A", ""], ["GEELY DF", "(61) 2103-0330", "Geral", "Geral + Mídia", "Vendas Diretas, Seminovos e Pós-vendas", "(61) 3246-6064", "Não", "https://wa.me/556121030330", "", "", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "(61) 2103-0335", "Pós Vendas", "Pós Vendas", "Pós-vendas", "(61) 2103-0335", "Não", "", "", "", "", "N/A", ""], ["GEELY BH", "(31) 2122-8000", "Geral", "Geral + Mídia", "Vendas Diretas, Seminovos e Pós-vendas", "(31) 2116-1137", "Não", "https://wa.me/553121228000", "", "", "", "#Novos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Seminovos -> Pula para opção de novos e segue a quailificação do Bot desta opção. #Vendas_Diretas -> Pula para opção de novos e segue a quailificação do Bot desta opção.", ""], ["", "(31) 2122-8080", "Pós Vendas", "Pós Vendas", "Pós-vendas", "(31) 2122-8080", "Não", "", "", "", "", "N/A", ""]], [["Conta", "Unidade", "DEPARTAMENTOS", "NÚMERO LIGAÇÃO"], ["Brasília Harley-Davidson", "N/A", "Institucional/ Google Meu Negócio: URA Novos, Seminovos, Peças, Acessórios, Boutique e HOG.", "(61) 4042-5673"], ["", "N/A", "Novos", "(61) 3550-0898"], ["", "N/A", "Pos Vendas", "(61) 2101-0212"], ["Chevrolet Jorlan GO", "Lago das Rosas", "Institucional/Google Meu Negócio: URA Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(62) 3773-2619"], ["", "Cidade Jardim (Pio XII)", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(62) 3773-2876"], ["", "URA (seletor de loja)", "Novos", "(62) 3412-0041"], ["", "URA (seletor de loja)", "Seminovos", "(62) 3773-2563"], ["", "URA (seletor de loja)", "Pós-vendas", "62 4005-2121"], ["Chevrolet Jorlan BH", "Barão", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 3972-4123"], ["", "Catalão (Pedro II)", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 3972-4124"], ["", "Coração Exp. (Via Exp,)", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 3972-3868"], ["", "Ambas", "Novos", "(31) 2116-1186"], ["", "Ambas", "Seminovos", "(31) 2116-1439"], ["", "Ambas", "Pós-vendas", "(31) 2122-3095"], ["Chevrolet Jorlan DF", "Asa Norte", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3246-6096"], ["", "SIA", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3246-6077"], ["", "Ambas", "Novos", "(61) 3773-4438"], ["", "Ambas", "Seminovos", "(61) 3773-4439"], ["", "Ambas", "Pós-vendas", "(61) 2101-0160"], ["Jorlan Valparaíso", "N/A", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3771-8795"], ["", "N/A", "Pós-vendas", "(61) 2101-0160"], ["Chevrolet Orca", "Gama", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3773-4948"], ["", "Taguatinga", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3246-6097"], ["", "Ambas", "Novos", "(61) 3773-4694"], ["", "Ambas", "Seminovos", "(61) 3773-4695"], ["", "Ambas", "Pós-vendas", "(61) 2106-6145"], ["GWM Jorlan-ev", "Aeroporto", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3246-6076"], ["", "SIA", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3773-4659"], ["", "Asa Norte", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3773-4221"], ["", "Ambas", "Novos", "(61) 3246-6076"], ["", "Ambas", "Seminovos", "(61) 4042-5664"], ["", "Ambas", "Pós-vendas", "(61) 3020-1020"], ["Honda Jorlan Plaza", "Asa Norte", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3247-0937"], ["", "Taguatinga", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3247-0946"], ["", "Ambas", "Novos", "(61) 3773-4949"], ["", "Ambas", "Seminovos", "(61) 3773-4951"], ["", "Ambas", "Pós-vendas", "(61) 2102-0150"], ["Renault JorlanFrance DF", "Colorado", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3247-0948"], ["", "Gama", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3773-4674"], ["", "Taguatinga", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3247-0947"], ["", "Ambas", "Novos", "(61) 3773-4182"], ["", "Ambas", "Seminovos", "(61) 3773-4437"], ["", "Ambas", "Pós-vendas", "(61) 3535-1060"], ["Renault Jorlan France BH", "Barão", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 2116-1059"], ["", "Pampulha", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 3972-3241"], ["", "Savassi", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 3972-3240"], ["", "Ambas", "Novos", "(31) 2116-1184"], ["", "Ambas", "Seminovos", "(31) 2116-1183"], ["", "Ambas", "Pós-vendas", "(31) 2101-5070"], ["Citroën Jorlan France", "N/A", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 2116-1100"], ["", "N/A", "Novos", "(31) 2116-1105"], ["", "N/A", "Seminovos", "(31) 2116-1106"], ["", "N/A", "Pós-vendas", "(31) 4009-4090"], ["Peugeot Jorlan France", "N/A", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 3972-2724"], ["", "N/A", "Novos", "(31) 3972-2724"], ["", "N/A", "Seminovos", "(31) 2116-1181"], ["", "N/A", "Pós-vendas", "(31) 4009-4090"], ["Consórcio GO", "N/A", "Consórcio", "62 4005-2509"], ["Consórcio BH", "N/A", "Consórcio", "31 2122-1919"], ["Consórcio DF", "N/A", "Consórcio", "N/A"], ["", "N/A", "Consórcio", "61 3421-7314"], ["Seguros GO", "N/A", "Seguros", "62 4000-2828"], ["Seguros BH", "N/A", "Seguros", "31 2122-3085"], ["Seguros DF", "N/A", "Seguros", "61 2106-6054"], ["Loja Online Grupo Jorlan", "N/A", "Peças", "62 4000-1882"], ["RH Grupo Jorlan", "N/A", "Recursos Humanos", "62 4005-2188"], ["GAC BH", "Barão", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 2116-1302"], ["", "Pampulha", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 2116-1304"], ["", "Ambas", "Novos", "(31) 2116-1454"], ["", "Ambas", "Seminovos", "(31) 2116-1455"], ["", "Ambas", "Pós-vendas", "31 4009-4039"], ["GAC DF", "Aeroporto", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3773-4143"], ["", "SIA", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3773-4142"], ["", "N/A", "Novos", "(61) 3773-4167"], ["", "N/A", "Seminovos", "(61) 3773-4169"], ["", "N/A", "Pós-vendas", "(61) 3020-1034"], ["KIA BH", "N/A", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 2116-1443"], ["", "N/A", "Novos", "(31) 2116-1244"], ["", "N/A", "Seminovos", "(31) 2116-1262"], ["", "N/A", "Pós-vendas", "(31) 2101-5042"], ["GEELY DF", "Aeroporto", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3246-6069"], ["", "SIA", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(61) 3247-0926"], ["", "N/A", "Pós-vendas", "(61) 2103-0335"], ["GEELY BH", "N/A", "Institucional/Google Meu Negócio: Novos, Seminovos, Vendas Diretas, Peças e Serviços", "(31) 2116-1138"], ["", "N/A", "Pós-vendas", "(31) 2122-8080"]], [["LOJA", "NÚMERO WHATSAPP", "TIPO", "DEPARTAMENTOS", "CONTA VERIFICADA", "LINK", "FINALIDADE DE USO"], ["Brasília Harley-Davidson", "61 2101-0202", "-", "-", "Sim", "https://wa.me/556121010202", "Não está sendo utilizado pois estava recebendo um número alto de spam."], ["", "61 2101-0200", "Geral", "Pós-vendas, Peças, Acessórios, Boutique e HOG.", "Sim", "https://wa.me/556121010200", "Uso para todos os departamentos exceto vendas de motos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "61 2101-0201", "Mídia", "Vendas", "Sim", "https://wa.me/556121010201", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de motos."], ["Chevrolet Jorlan GO", "62 4000-1618", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/556240001618", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "62 4005-2020", "Mídia", "Novos", "Não", "https://wa.me/556240052020", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Chevrolet Jorlan BH", "31 2122-3000", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/553121223000", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "31 2122-3034", "Mídia", "Novos", "Não", "https://wa.me/553121223034", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Chevrolet Jorlan DF", "61 2101-0101", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/556121010101", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "61 2101-0020", "Mídia", "Novos", "Não", "https://wa.me/556121010020", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Chevrolet Orca", "61 2106-6000", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/556121066000", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "61 2106-6020", "Mídia", "Novos", "Sim", "https://wa.me/556121066020", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["GWM Jorlan-ev", "61 3020-1000", "Geral", "Pós-vendas e Seminovos", "Sim", "https://wa.me/556130201000", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "61 3799-2099", "Mídia", "Novos", "Não", "https://wa.me/556137992099", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Honda Jorlan Plaza", "61 3799-2000", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/556137992000", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "61 3799-2004", "Mídia", "Novos", "Sim", "https://wa.me/556137992004", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Renault Jorlan France DF", "61 3535-1000", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/556135351000", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "61 3535-1020", "Mídia", "Novos", "Não", "https://wa.me/556135351020", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Renault Jorlan France BH", "31 2101-5000", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/553121015000", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "31 2101-5030", "Mídia", "Novos", "Não", "https://wa.me/553121015030", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Citroën BH France", "31 4009-4040", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/553140094040", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "31 4009-4051", "Mídia", "Novos", "Não", "https://wa.me/553140094051", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Peugeot BH France", "31 4009-4000", "Geral", "Vendas Diretas, Seminovos e Pós-vendas", "Sim", "https://wa.me/553140094000", "Uso para todos os departamentos exceto veículos novos, nos canais site, e-mail marketing, mídia, stories e campanhas ativas."], ["", "31 4009-4031", "Mídia", "Novos", "Não", "https://wa.me/553140094031", "Uso na Mídia Google e META, e-mail marketing, stories e campanhas ativas. Desde que sejam específicos para vendas de veículos novos."], ["Consórcio GO", "62 4005-2509", "-", "Consórcio", "Não", "https://wa.me/556240052509", "Uso em todas as páginas dos canais/mídia direcionadas ao consórcio em Goiânia."], ["Consórcio BH", "31 2122-1919", "-", "Consórcio", "Não", "https://wa.me/553121221919", "Uso em todas as páginas dos canais/mídia direcionadas ao consórcio em Belo Horizonte."], ["Consórcio DF", "61 2106-6024", "-", "Consórcio", "Não", "https://wa.me/556121066024", "Uso em todas as páginas dos canais/mídia direcionadas ao consórcio no DF."], ["Seguros GO", "62 4000-2828", "-", "Seguros", "Sim", "https://wa.me/556240002828", "Uso em todas as páginas dos canais/mídia direcionadas aos seguros em Goiânia."], ["Seguros BH", "31 2122-3085", "-", "Seguros", "Não", "https://wa.me/553121223085", "Uso em todas as páginas dos canais/mídia direcionadas aos seguros em Belo Horizonte."], ["Seguros DF", "61 2106-6054", "-", "Seguros", "Não", "https://wa.me/556121066054", "Uso em todas as páginas dos canais/mídia direcionadas aos seguros no DF."], ["Loja Online Grupo Jorlan", "62 4000-1882", "-", "Peças", "Sim", "https://wa.me/556240001882", "Uso no site do e-commerce, nas campanhas de mídia e demais canais."], ["RH Grupo Jorlan", "62 4005-2188", "-", "Recursos Humanos", "Sim", "https://wa.me/556240052188", "Uso para suporte de RH e recrutamento e seleção."]], [["Nomes Oficiais", "Número Oficial", "Nomes Mídia", "Número Mídia DVN", "Link Mídia DVN"], ["Jorlan Goiânia", "62 4000-1618", "Chevrolet Jorlan Goiânia", "62 4005-2020", "https://wa.me/556240052020"], ["Jorlan DF", "61 2101-0101", "Chevrolet Jorlan DF", "61 2101-0020", "https://wa.me/556121010020"], ["Jorlan BH", "31 2122-3000", "Chevrolet Jorlan BH", "31 2122-3034", "https://wa.me/553121223034"], ["Orca Chevrolet", "61 2106-6000", "Chevrolet Orca", "61 2106-6020", "https://wa.me/556121066020"], ["Honda Plaza", "61 3799-2000", "Plaza Motors", "61 3799-2004", "https://wa.me/556137992004"], ["Minas France", "31 2101-5000", "Renault Minas France", "31 2101-5030", "https://wa.me/553121015030"], ["BR France", "61 3535-1000", "Renault BR France", "61 3535-1020", "https://wa.me/556135351020"], ["Peugeot BH France", "31 4009-4000", "BH France Peugeot", "31 4009-4031", "https://wa.me/553140094031"], ["GWM Jorlan-ev", "61 3020-1000", "Jorlan-ev GWM", "61 3799-2099", "https://wa.me/556137992099"], ["Brasília Harley-Davidson", "61 2101-0202", "Harley-Davidson Brasília", "61 2101-0200", "https://wa.me/556121010200"], ["Citroën BH France", "31 4009-4040", "BH France Citroen", "31 4009-4051", "https://wa.me/553140094051"], ["Regra uso número oficial", "", "Regras número mídia DVN", "", ""], ["Uso para todos os departamentos da loja (EXCETO DVN)", "", "Uso somente para veículos novos (DVN)", "", ""], ["Site", "", "Email marketing (DVN)", "", ""], ["PDV", "", "Mídia Google (DVN)", "", ""], ["Link da BIO", "", "Mídia META (DVN)", "", ""], ["E-mail marketing (EXCETO DVN)", "", "Link stories (DVN)", "", ""], ["", "", "Campanhas Ativas Duotalk (DVN)", "", ""]], [["Nomes Mídia", "Número Leadzap", "Status"], ["Jorlan-Ev Pós vendas", "(61) 3020-1010", "Pendente ativação (agendado para 15/08)"], ["BH France Peugeot", "(31) 4009-4090", "Ativo"], ["BR France", "(61) 3535-1001", "Ativo"], ["Brasília Harley-Davidson", "(61) 2101-0219", "Ativo"], ["Chevrolet Orca", "(61) 2106-6145", "Ativo"], ["Honda Plaza Motors", "(61) 3421- 7000", "Ativo"], ["Jorlan Brasília", "(61) 2102-0101", "Ativo"], ["Jorlan Goiânia", "(62) 4005-2000", "Ativo"], ["Minas France", "(31) 3503-3300", "Ativo"], ["Jorlan BH", "(31) 3379-7718", "Ativo"]], [["", "Conta duotalk", "Chatbot", "Equipe followize", "Chave de conta", "Chave de equipe", "Integração Duotalk", "", "Finalização automática", "Notificação inatividade", "Intenção Duotalk", "Entidade", "", "Conversion Goal"], ["899", "GWM Jorlan-Ev", "Gwm Jorlan-Ev Mídia", "DF - GWMEV - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "11/08/2023", "3 dias", "1 dia", "Camp Mídia", "", "11/08/2023", "Duotalk - Camp Mídia"], ["899", "", "Gwm Jorlan-Ev", "DF - GWMEV - CAMP MKT DVN_VD", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp MKT DVN_VD", "", "11/08/2023", "Duotalk - Camp MKT DVN_VD"], ["899", "", "", "DF - GWMEV - CAMP MKT DVU", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp MKT DVU", "", "11/08/2023", "Duotalk - Camp MKT DVU"], ["940", "", "", "", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "CAP GWM", "", "11/08/2023", "Duotalk - CAP"], ["940", "", "", "", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "CAP Revisão", "", "11/08/2023", "Duotalk - CAP Revisão"], ["899", "", "BH France Citroen", "BH - BH FRANCE PEUGEOT - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp Mídia", "", "11/08/2023", "Duotalk - Camp Mídia"], ["899", "", "", "BH - BH FRANCE CITROEN - CAMP MKT - DVN_VD", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp MKT DVN_VD", "", "11/08/2023", "Duotalk - Camp MKT DVN_VD"], ["899", "", "", "BH FRANCE CITROEN - CAMP MKT - DVU", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp MKT DVU", "", "11/08/2023", "Duotalk - Camp MKT DVU"], ["940", "", "", "", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "CAP BH FRANCE CITROEN", "", "11/08/2023", "Duotalk - CAP"], ["940", "", "", "", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "CAP Revisão", "", "11/08/2023", "Duotalk - CAP Revisão"], ["899", "", "BH France Peugeot", "BH - BH FRANCE CITROEN - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp Mídia", "", "11/08/2023", "Duotalk - Camp Mídia"], ["899", "", "", "BH - BH FRANCE PEUGEOT - CAMP MKT - DVN_VD", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp MKT DVN_VD", "", "11/08/2023", "Duotalk - Camp MKT DVN_VD"], ["899", "", "", "BH - BH FRANCE PEUGEOT - CAMP MKT - DVU", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp MKT DVU", "", "11/08/2023", "Duotalk - Camp MKT DVU"], ["940", "", "", "", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "CAP BH FRANCE", "", "11/08/2023", "Duotalk - CAP"], ["940", "", "", "", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "CAP Revisão", "", "11/08/2023", "Duotalk - CAP Revisão"], ["899", "", "Minas France", "BH - MINAS FRANCE - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp Mídia", "", "11/08/2023", "Duotalk - Camp Mídia"], ["899", "", "", "BH - MINAS FRANCE - CAMP MKT - DVN_VD", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp MKT DVN_VD", "", "11/08/2023", "Duotalk - Camp MKT DVN_VD"], ["899", "", "", "BH - MINAS FRANCE - CAMP MKT - DVU", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp MKT DVU", "", "11/08/2023", "Duotalk - Camp MKT DVU"], ["940", "", "", "", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "CAP MINAS FRANCE", "", "11/08/2023", "Duotalk - CAP"], ["940", "", "", "", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "CAP Revisão", "", "11/08/2023", "Duotalk - CAP Revisão"], ["899", "", "Brasília Harley Davidson", "DF - BRASÍLIA HARLEY DAVIDSON - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp Mídia", "", "11/08/2023", "Duotalk - Camp Mídia"], ["899", "", "", "DF - BRASÍLIA HARLEY DAVIDSON - CAMP DVN_VD", "•••• chave oculta", "•••• chave oculta", "", "", "", "", "Camp MKT DVN_VD", "", "11/08/2023", "Duotalk - Camp MKT DVN_VD"], ["899", "", "", "DF - BRASÍLIA HARLEY DAVIDSON - CAMP DVU", "•••• chave oculta", "•••• chave oculta", "", "", "", "", "Camp MKT DVU", "", "11/08/2023", "Duotalk - Camp MKT DVU"], ["940", "", "", "", "•••• chave oculta", "", "", "", "", "", "CAP MINAS FRANCE", "", "11/08/2023", "Duotalk - CAP"], ["940", "", "", "", "•••• chave oculta", "", "", "", "", "", "CAP Revisão", "", "11/08/2023", "Duotalk - CAP Revisão"], ["", "", "BR France", "DF - BR FRANCE COL - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "5 dias", "1 dia", "Camp Mídia", "", "11/08/2023", ""], ["", "", "BR France", "DF - BR FRANCE GAMA - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "5 dias", "1 dia", "Camp Mídia", "", "11/08/2023", ""], ["", "", "BR France", "DF - BR FRANCE TAG - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "5 dias", "1 dia", "Camp Mídia", "", "11/08/2023", ""], ["", "", "Jorlan DF Mídia", "DF - JORLAN ASA NORTE - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "11/08/2023", "5 dias", "1 dia", "Camp Mídia - Jorlan Asa Norte", "Jorlan Asa Norte", "11/08/2023", ""], ["", "", "Jorlan DF Mídia", "DF - JORLAN SIA - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "11/08/2023", "5 dias", "1 dia", "Camp Mídia - Jorlan SIA", "Jorlan Sia", "11/08/2023", ""], ["", "", "Orca Chevrolet Mídia", "DF - ORCA GAMA - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "5 dias", "1 dia", "Camp Mídia - Orca Gama", "Orca Gama", "11/08/2023", ""], ["", "", "Orca Chevrolet Mídia", "DF - ORCA TAG - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "5 dias", "1 dia", "Camp Mídia - Orca Tag", "Orca Tag", "11/08/2023", ""], ["", "", "Honda Plaza Motors", "DF - PLAZA MOTORS - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp Mídia", "", "11/08/2023", ""], ["", "", "Jorlan Chevrolet GO", "GO - JORLAN UNIFICADA - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp Mídia", "", "11/08/2023", ""], ["", "", "Jorlan Chevrolet BH", "BH - JORLAN UNIFICADA - CAMP MÍDIA", "•••• chave oculta", "•••• chave oculta", "Ativa", "", "3 dias", "1 dia", "Camp Mídia", "", "11/08/2023", ""]]], "val": [[null, ["erro", "Anúncio de seminovos da GWM no Meta manda para este número. Trocar o destino do conjunto GWM \"Interesses | SEMINOVOS\" para o número de seminovos da GWM (definir entre 2103-0303 e 3020-1110) · WhatsApp ativo (\"Brasília Harley-Davidson\", verificado)"], ["ok", "WhatsApp ativo (\"Harley-Davidson Brasília\", verificado)"], ["aviso", "Conferir se os anúncios de moto do Meta usam este número · WhatsApp ativo (\"Brasília Harley-Davidson\", verificado)"], ["ajuste", "Corrigir o link \"Adicione nosso número\", que está sem o 55 · WhatsApp ativo (\"Jorlan Goiânia\", verificado)"], ["ok", "WhatsApp ativo (\"Chevrolet Jorlan Goiânia\")"], ["ajuste", "Corrigir o link \"Adicione nosso número\", que está sem o 55 · WhatsApp ativo (\"Jorlan BH\", verificado)"], ["erro", "Definir qual número é o WhatsApp de pós e alinhar site e planilha · WhatsApp ativo (\"Chevrolet Jorlan BH\")"], ["ajuste", "Corrigir o link \"Adicione nosso número\", que está sem o 55 · WhatsApp ativo (\"Jorlan DF\", verificado)"], ["erro", "Definir qual número é o WhatsApp de pós e alinhar site e planilha · WhatsApp ativo (\"Chevrolet Jorlan DF\")"], ["ok", "WhatsApp ativo (\"Jorlan Valparaíso\") · anúncio Meta manda para cá"], ["erro", "Definir qual número é o WhatsApp de pós e alinhar site e planilha · WhatsApp ativo (\"Chevrolet Jorlan DF\")"], ["ajuste", "Corrigir o link \"Adicione nosso número\", que está sem o 55 · WhatsApp ativo (\"Orca Chevrolet\", verificado)"], ["erro", "Decidir se o pós da Orca fica no Duotalk ou na Zenvia · WhatsApp ativo (\"Chevrolet Orca\", verificado)"], ["ok", "WhatsApp ativo (\"GWM Jorlan-ev\", verificado) · anúncio Meta manda para cá. Trocar o link web.whatsapp.com com espaço por wa.me/556130201000"], ["erro", "Definir de qual marca é o número e corrigir o site errado e o anúncio de seminovos GWM · WhatsApp ativo (\"Jorlan Seminovos\", verificado) · A planilha diz \"Não verificada\", mas a conta tem selo"], ["ok", "WhatsApp ativo (\"GWM Jorlan-ev\"). Trocar o link por wa.me"], ["ajuste", "Corrigir o link \"Adicione nosso número\", que está sem o 55 · WhatsApp ativo (\"Honda Jorlan Plaza\", verificado)"], ["ok", "WhatsApp ativo (\"Honda Jorlan Plaza\", verificado) · anúncio Meta manda para cá"], ["ok", "WhatsApp ativo (\"Renault Jorlan France\", verificado) · anúncio Meta manda para cá. Trocar o link web.whatsapp.com com espaço por wa.me"], ["ok", "WhatsApp ativo (\"Renault Jorlan France\", verificado). Trocar o link por wa.me"], ["ok", "WhatsApp ativo (\"Renault Jorlan France BH\") · anúncio Meta manda para cá. Trocar o link web.whatsapp.com por wa.me"], ["ok", "WhatsApp ativo (\"Renault Jorlan France BH\", verificado). Trocar o link por wa.me. Avaliar mandar o conjunto \"Interesses Serviços\" do Meta para este número · A planilha diz \"Não verificada\", mas a conta tem selo"], ["aviso", "Conta segue ativa no WhatsApp. Marca fora do grupo: desativar ou reaproveitar o número · WhatsApp ativo (\"Citroën Jorlan France\", verificado)"], ["aviso", "Conta segue ativa no WhatsApp. Marca fora do grupo: desativar ou reaproveitar o número · WhatsApp ativo (\"Citroën Jorlan France\")"], ["aviso", "Conta segue ativa no WhatsApp. Marca fora do grupo: desativar ou reaproveitar o número · WhatsApp ativo (\"Peugeot Jorlan France\", verificado)"], ["aviso", "Conta segue ativa no WhatsApp. Marca fora do grupo: desativar ou reaproveitar o número · WhatsApp ativo (\"Peugeot Jorlan France\")"], ["erro", "Colocar o WhatsApp 4005-2509 no site GO · WhatsApp ativo (\"Jorlan Consórcio GO\")"], ["ok", "WhatsApp ativo (\"Consórcio Grupo Jorlan - BH\"). Padronizar o consórcio BH nos sites Chevrolet e Renault"], ["erro", "Marcar como banido na aba antiga · Não está no WhatsApp (confirma o banimento)"], ["ok", "WhatsApp ativo (\"Consórcio Grupo Jorlan - DF\")"], ["ok", "WhatsApp ativo (\"Corretora de Seguros Grupo Jorlan GO\", verificado). Pôr link de WhatsApp no número"], ["ok", "WhatsApp ativo (\"Jorlan Seguros e Serviços - BH\"). Pôr link de WhatsApp no número"], ["ok", "WhatsApp ativo (\"Corretora de Seguros Grupo Jorlan DF\"). Pôr link de WhatsApp no número"], ["ok", "WhatsApp ativo (\"Loja Grupo Jorlan\", verificado)"], ["aviso", "Conferir no site institucional e nas vagas · WhatsApp ativo (\"RH - Grupo Jorlan\", verificado)"], ["ajuste", "Corrigir o link \"Adicione nosso número\", que está sem o 55 · WhatsApp ativo (\"GAC Jorlan Motors BH\", verificado) · A planilha diz \"Não verificada\", mas a conta tem selo"], ["ok", "WhatsApp ativo (\"GAC Jorlan BH\"). Pôr link de WhatsApp no número"], ["ajuste", "Corrigir o link \"Adicione nosso número\", que está sem o 55 · WhatsApp ativo (\"GAC Jorlan Motors Brasília\", verificado) · A planilha diz \"Não verificada\", mas a conta tem selo"], ["erro", "Alinhar o pós da GAC DF no site e na planilha · WhatsApp ativo (\"GAC Jorlan DF\")"], ["ok", "WhatsApp ativo (\"Kia Jorlan Motors\") · anúncio Meta manda para cá. Trocar o link web.whatsapp.com com espaço por wa.me"], ["ok", "WhatsApp ativo (\"Kia Jorlan Motors\") · anúncio Meta manda para cá. Trocar o link por wa.me"], ["erro", "Colocar o WhatsApp no site geelybrasil.com.br/jorlan-df · WhatsApp ativo (\"Geely Jorlan-ev | Brasília\")"], ["erro", "Colocar o WhatsApp no site · WhatsApp ativo (\"Geely Jorlan\")"], ["erro", "Colocar o WhatsApp no site geelybrasil.com.br/jorlan-bh · WhatsApp ativo (\"Geely Jorlan-ev | BH\")"], ["erro", "Colocar o WhatsApp no site · WhatsApp ativo (\"Geely Jorlan-ev | BH\")"]], [null, ["ok", "Extensão de ligação ativa no Google Ads: 1.627 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.112 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.079 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 19.561 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 4.952 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 10.022 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 940 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 858 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 411 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 2.849 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["aviso", "O site da Chevrolet BH usa este número como WhatsApp de pós-vendas (conta ativa). Na aba 2025 o WhatsApp de pós é outro · extensão no Google Ads com 1.203 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.144 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.230 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.757 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["aviso", "O site da Chevrolet DF usa este número como WhatsApp de pós-vendas (conta ativa). Na aba 2025 o WhatsApp de pós é outro · extensão no Google Ads com 916 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.331 impressões em 30 dias"], ["aviso", "O site da Chevrolet DF usa este número como WhatsApp de pós-vendas (conta ativa). Na aba 2025 o WhatsApp de pós é outro · extensão no Google Ads com 916 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 956 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 4.444 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 6.944 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["aviso", "O site da Orca usa este número como WhatsApp de pós-vendas (conta ativa). Na aba 2025 o WhatsApp de pós é outro · extensão no Google Ads com 2.600 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 12.733 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.317 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.348 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 12.733 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.356 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 481 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.087 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.156 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.507 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 11.496 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 4.496 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.613 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.752 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.279 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 17.471 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 4.391 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["ok", "WhatsApp ativo (\"Jorlan Consórcio GO\")"], ["ok", "WhatsApp ativo (\"Consórcio Grupo Jorlan - BH\")"], ["info", "Sem número de ligação"], ["ok", "WhatsApp ativo (\"Consórcio Grupo Jorlan - DF\")"], ["ok", "WhatsApp ativo (\"Corretora de Seguros Grupo Jorlan GO\", verificado)"], ["ok", "WhatsApp ativo (\"Jorlan Seguros e Serviços - BH\")"], ["ok", "WhatsApp ativo (\"Corretora de Seguros Grupo Jorlan DF\")"], ["ok", "WhatsApp ativo (\"Loja Grupo Jorlan\", verificado)"], ["ok", "WhatsApp ativo (\"RH - Grupo Jorlan\", verificado)"], ["ok", "Extensão de ligação ativa no Google Ads: 1.557 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.584 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 3.469 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["ok", "WhatsApp ativo (\"GAC Jorlan BH\")"], ["ok", "Extensão de ligação ativa no Google Ads: 490 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 481 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 16.320 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 2.802 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 1.135 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 8.122 impressões em 30 dias"], ["info", "Não aparece como extensão de ligação no Google Ads nos últimos 30 dias"], ["ok", "WhatsApp ativo (\"Kia Jorlan Motors\")"], ["ok", "Extensão de ligação ativa no Google Ads: 3.183 impressões em 30 dias"], ["ok", "Extensão de ligação ativa no Google Ads: 2.107 impressões em 30 dias"], ["ok", "WhatsApp ativo (\"Geely Jorlan\")"], ["ok", "Extensão de ligação ativa no Google Ads: 6.327 impressões em 30 dias"], ["ok", "WhatsApp ativo (\"Geely Jorlan-ev | BH\")"]], [null, ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Brasília Harley-Davidson\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Harley-Davidson Brasília\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Brasília Harley-Davidson\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Jorlan Goiânia\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Chevrolet Jorlan Goiânia\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Jorlan BH\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Chevrolet Jorlan BH\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Jorlan DF\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Chevrolet Jorlan DF\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Orca Chevrolet\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Chevrolet Orca\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"GWM Jorlan-ev\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"GWM Jorlan-ev\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Honda Jorlan Plaza\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Honda Jorlan Plaza\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Renault Jorlan France\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Renault Jorlan France\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Renault Jorlan France BH\")"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Renault Jorlan France BH\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Citroën Jorlan France\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Citroën Jorlan France\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Peugeot Jorlan France\", verificado)"], ["aviso", "Modelo antigo: aqui é Mídia só para novos. Na aba 2025 este número virou Pós Vendas · WhatsApp ativo (\"Peugeot Jorlan France\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Jorlan Consórcio GO\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Consórcio Grupo Jorlan - BH\")"], ["erro", "Banido em 02/10/25 e o WhatsApp confirma que o número não está mais no WhatsApp. Aqui ainda aparece como ativo"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Corretora de Seguros Grupo Jorlan GO\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Jorlan Seguros e Serviços - BH\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Corretora de Seguros Grupo Jorlan DF\")"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"Loja Grupo Jorlan\", verificado)"], ["ok", "Mesmo número da aba 2025 · WhatsApp ativo (\"RH - Grupo Jorlan\", verificado)"]], [null, ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["aviso", "Invertido em relação à aba 2025: lá o 2101-0200 é o Geral e o 2101-0202 é o pós sem uso. Os dois estão ativos no WhatsApp"], ["ok", "Oficial e Mídia DVN ativos no WhatsApp. Na aba 2025 o número Mídia DVN virou Pós Vendas"], ["info", "Regra de uso do modelo antigo"], ["info", "Regra de uso do modelo antigo"], ["info", "Regra de uso do modelo antigo"], ["info", "Regra de uso do modelo antigo"], ["info", "Regra de uso do modelo antigo"], ["info", "Regra de uso do modelo antigo"], ["info", "Regra de uso do modelo antigo"]], [null, ["aviso", "A planilha diz \"pendente\", mas o número já está ativo no WhatsApp como \"Jorlan-ev Pós-Vendas\". Atualizar o status"], ["erro", "A planilha diz \"Ativo\", mas o WhatsApp responde que o número não está no WhatsApp"], ["erro", "A planilha diz \"Ativo\", mas o WhatsApp responde que o número não está no WhatsApp"], ["erro", "A planilha diz \"Ativo\", mas o WhatsApp responde que o número não está no WhatsApp"], ["aviso", "Ativo como \"Chevrolet | Orca - Brasília\". O site da Orca usa este número como WhatsApp de pós, mas na aba 2025 o pós da Orca é o (61) 2106-6020"], ["ok", "Ativo no WhatsApp como \"Honda Plaza Motors\""], ["erro", "A planilha diz \"Ativo\", mas o WhatsApp responde que o número não está no WhatsApp"], ["erro", "A planilha diz \"Ativo\", mas o WhatsApp responde que o número não está no WhatsApp"], ["erro", "A planilha diz \"Ativo\", mas o WhatsApp responde que o número não está no WhatsApp"], ["aviso", "Ativo, mas o perfil não tem nome: no WhatsApp aparece só o número"]], [null, ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"], ["info", "Configuração antiga do Followize. Sai de uso com a troca para o DealerUP. Chaves de API ocultas por segurança"]]], "extra": [["(62) 3773-2709", 10512], ["(31) 2122-3000", 248], ["(31) 2116-1137", 1]]};
+const plSt={ok:['✓','OK'],ajuste:['!','Ajustar link'],aviso:['!','Atenção'],erro:['✕','Problema'],info:['·','Info']};
+const plCol=n=>{let s='';n++;while(n){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s};
+const plIsNum=s=>/^\(?\d{2}\)?\s?\d{4}\s?-?\s?\d{4}$/.test(s.trim())||/^\(?\d{2}\)?\s?\d{4}\s?-\s?\d{4}$/.test(s.trim());
+function plCount(i){const c={ok:0,ajuste:0,aviso:0,erro:0,info:0};PLAN.val[i].forEach(v=>{if(v)c[v[0]]++});return c}
+function plGrid(i){const rows=PLAN.rows[i],val=PLAN.val[i],nc=Math.max(...rows.map(r=>r.length));
+ const head=`<tr><th class="pl-rn"></th><th class="pl-st">Status</th><th class="pl-why">Validação</th>${[...Array(nc).keys()].map(j=>`<th>${plCol(j)}</th>`).join('')}</tr>`;
+ const body=rows.map((r,ri)=>{const v=val[ri];const st=v?v[0]:'';const hdr=ri===0;
+  return `<tr class="${hdr?'pl-h':''}${st?' s-'+st:''}" data-st="${st}"><td class="pl-rn">${ri+1}</td><td class="pl-st">${v?`<span class="pl-b b-${st}">${plSt[st][0]} ${plSt[st][1]}</span>`:''}</td><td class="pl-why" title="${v?esc(v[1]):''}">${v?esc(v[1]):(hdr?'<span class="pl-dim">Resultado da checagem</span>':'')}</td>${[...Array(nc).keys()].map(j=>{const c=r[j]||'';return `<td class="${plIsNum(c)?'pl-num':''}" title="${esc(c)}">${/^https?:\/\//.test(c)?`<a href="${esc(c)}" target="_blank" rel="noopener">${esc(c)}</a>`:esc(c)}</td>`}).join('')}</tr>`}).join('');
+ return `<div class="pl-scroll"><table class="pl-t"><thead>${head}</thead><tbody>${body}</tbody></table></div>`}
+function plBar(i){const c=plCount(i);return `<div class="pl-bar"><b>${esc(PLAN.tabs[i])}</b><span class="pl-sum">${['erro','aviso','ajuste','ok','info'].filter(k=>c[k]).map(k=>`<span class="pl-b b-${k}">${plSt[k][0]} ${c[k]} ${plSt[k][1].toLowerCase()}</span>`).join('')}</span></div>`}
+const plTabs=()=>`<div class="pl-tabs" role="tablist" aria-label="Abas da planilha">${PLAN.tabs.map((t,i)=>{const c=plCount(i);const bad=c.erro+c.aviso+c.ajuste;return `<button type="button" role="tab" data-i="${i}" aria-selected="${i?'false':'true'}">${esc(t)}${bad?`<span class="pl-dot${c.erro?' e':''}">${bad}</span>`:''}</button>`}).join('')}</div>`;
+const plHTML=sec('Planilha de números WhatsApp','espelho do Google Sheets · 6 abas · validada em 05/11/2026','Mesmas abas, linhas e textos da planilha "Números WhatsApp - Grupo Jorlan (Mídia e Geral) - MKT INTERNO", lida em 05/11/2026. As colunas Status e Validação foram acrescentadas com o resultado da checagem nos sites, no Google Ads (extensões de ligação, 30 dias), nos anúncios de WhatsApp do Meta e no WhatsApp Web, sem enviar mensagem. Colunas e linhas vazias da planilha foram omitidas. As chaves de API da aba Integração estão ocultas por segurança. Clique numa linha para ver o texto inteiro.',
+ `<div class="pl" id="pl"><div class="pl-leg"><span class="pl-b b-ok">✓ OK</span><span class="pl-b b-ajuste">! Ajustar link</span><span class="pl-b b-aviso">! Atenção</span><span class="pl-b b-erro">✕ Problema</span><span class="pl-b b-info">· Info</span><span class="pl-dim">Clique na linha para abrir o texto completo</span></div><div id="pl-view">${plBar(0)}${plGrid(0)}</div>${plTabs()}<p class="pl-note">Números de ligação usados no Google Ads que não estão na aba Tel. Máscara: ${PLAN.extra.map(([k,n])=>`${k} (${n.toLocaleString('pt-BR')} imp.)`).join(', ')}. O (31) 2122-3000 é o WhatsApp de vendas da Chevrolet BH sendo usado como extensão de ligação.</p></div>`);
+function plInit(){const p=document.getElementById('pl');if(!p)return;const tabs=p.querySelector('.pl-tabs');const view=document.getElementById('pl-view');
+ tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const i=+b.dataset.i;tabs.querySelectorAll('button').forEach(x=>x.setAttribute('aria-selected',x===b?'true':'false'));view.innerHTML=plBar(i)+plGrid(i)});
+ view.addEventListener('click',e=>{if(e.target.closest('a'))return;const tr=e.target.closest('tbody tr');if(tr)tr.classList.toggle('open')})}
+/* PLAN-END */
+const dHTML=[
+ plHTML,
+ dtVHTML,
+ row([
+  {l:'Conversas sem modelo',v:'3.590',s:'23,5% de 15.305 em out/2026',hl:1,t:'Conversas de Veículos Novos em que o Duotalk marcou o modelo como NÃO IDENTIFICADO, de 01 a 31/10/2026. Fonte: Looker "Marketing - Grupo Jorlan", página Tracking Ads - IA.'},
+  {l:'Botão do site/Google',v:'49,1%',s:'1.764 conversas · # genérico',hl:1,t:'Mensagem pronta do botão de WhatsApp do site ou do Google com #Novos ou #Institucional, sem o modelo. Resolve trocando o texto do botão.'},
+  {l:'Sem mensagem pronta',v:'37,0%',s:'1.329 · saudação ou disparo',t:'Cliente escreveu direto ("Bom dia", "Oi") ou respondeu a disparo e menu. Não tem como vir com modelo: a IA precisa perguntar.'},
+  {l:'Anúncio Meta sem modelo',v:'7,9%',s:'285 conversas',t:'Click-to-WhatsApp do Meta com # de campanha ou família (#Touring, #Esquenta_Black_Friday), sem o modelo.'},
+  {l:'A IA não leu o modelo',v:'5,9%',s:'212 · #Bongo lidera com 77',t:'A mensagem tinha #modelo e o Duotalk não reconheceu: modelo fora do catálogo, nome com espaço ou dois # na mesma mensagem.'}],'five'),
+ `<div class="ins"><b>Em uma frase</b><ul><li><b class="w">Metade</b> das conversas sem modelo se resolve trocando o texto dos botões de WhatsApp do site e do Google por <b class="w">#modelo</b>. GWM e Renault concentram o volume.</li><li><b class="w">37%</b> chegam sem mensagem pronta. Nesses casos a correção é a <b class="w">IA perguntar o modelo</b> no 1º contato.</li><li>Nenhuma das 614 conversas do Google lidas trouxe <b class="w">gclid ou UTM</b>: pelo Duotalk não dá para separar Google Ads de orgânico.</li></ul></div>`,
+ sec('Ranking por marca','da maior para a menor','Conversas NÃO IDENTIFICADO por marca em outubro de 2026. O percentual é sobre o total de conversas de Veículos Novos da própria marca.',
+  dtHb(DTM.map(([n,v,t])=>[n,v,`${dtNum(v/t*100)} de ${int(t)} conversas`]))+
+  `<p class="note">Kia tem a maior taxa (40,1%) e GWM o maior volume (1.191). Por origem: Google 1.651, Outros 1.480 e Meta 459.</p>`),
+ sec('Os 4 motivos','3.590 conversas classificadas','Cada conversa foi classificada pela 1ª mensagem do cliente (coluna Histórico Duotalk do Looker). A amostra inicial de 240 conversas (30 por marca) deu proporções parecidas.',
+  dtHb(DTC.map(([n,v,s])=>[n,v,`${pct(v/3590,1)} · ${s}`]))+
+  `<div class="ng-g">${DTC.map(([n],i)=>`<div class="ng-box"><h4>${i+1}. ${esc(n)}</h4><ul class="ng-c">${DTS.filter(s=>s[0]===i+1).map(([,a,b])=>`<li><span>${esc(a)}</span><span>${int(b)} · ${pct(b/3590,1)}</span></li>`).join('')}</ul></div>`).join('')}</div>`),
+ sec('Motivo por marca','% dentro de cada marca','Quanto de cada marca cai em cada motivo. Em dourado, o maior motivo da marca. Uma conversa da Corretora de Seguros entra só no total.',
+  tbl([{h:'Marca'},{h:'Conversas',n:1},{h:'Site/Google',n:1},{h:'Sem msg pronta',n:1},{h:'Meta sem modelo',n:1},{h:'IA não leu',n:1}],
+   DTM.map(([n,v,,p])=>{const mx=Math.max(...p);return [`<b class="w">${esc(n)}</b>`,int(v),...p.map(x=>x===mx?`<b class="dt-g">${dtNum(x)}</b>`:dtNum(x))]}))+
+  `<div class="ins"><b>Leitura por marca</b><ul><li><b class="w">Renault 67,6%</b> e <b class="w">GWM 55,2%</b> vêm do botão do site: são os sites DealerSpace, com texto fixo por setor.</li><li><b class="w">Kia 44,9%</b> é a IA que não leu, quase tudo <b class="w">#Bongo</b>, que falta no catálogo.</li><li><b class="w">Harley 52,5%</b> é Meta: anúncio Touring manda <b class="w">#Touring</b>, que é família e não modelo.</li><li><b class="w">Chevrolet 18,2%</b> e <b class="w">GAC 16,6%</b> de Meta sem modelo: Esquenta Black Friday (Orca) e Super Semana GS.</li></ul></div>`),
+ sec('Por origem marcada no Duotalk','Google · Meta · Outros','Como as 3.590 se distribuem pela origem que o Duotalk marcou, e em que motivo caem.',
+  `<div class="dt-os">${dtOrig('Google',1651,'46% das sem modelo',[['Botão do site/Google','1.589'],['Sem mensagem pronta','58'],['IA não leu','4']])}${dtOrig('Meta',459,'13% das sem modelo',[['Anúncio sem modelo','255'],['Tinha modelo e a IA não leu','204']])}${dtOrig('Outros',1480,'41% das sem modelo',[['Sem mensagem pronta','1.271'],['Texto do site que caiu em Outros','175'],['Anúncio Meta sem modelo','30'],['IA não leu','4']])}</div>`+
+  `<p class="note">No Meta, 204 das 459 conversas sem modelo traziam o modelo no anúncio e a IA não leu. Em Outros, 175 têm o mesmo texto do site das que foram para Google.</p>`),
+ sec('Botões de WhatsApp dos sites','mensagem que chega hoje','Textos conferidos no código dos sites em 04/11/2026. Sites DealerSpace: GWM, Renault DF/BH e Kia. Sites Híbrida Web: Chevrolet DF/BH/GO, Orca, GAC, Honda e Harley.',`<ol class="vz">
+  ${dtVz(1,'DealerSpace: texto fixo por setor',`Botão flutuante e telefones do rodapé mandam o mesmo texto em todas as páginas, inclusive na página do modelo (testado em gwmjorlan.com.br/novos/gwm-haval-h9).<ul class="dt-ms">${dtMsg('Olá! Vim pelo site e gostaria de mais informações sobre #Novos','GWM · Renault · Kia')}</ul>`,'GWM e Renault: maior volume','Página de modelo leva #modelo ("#Novos #Haval_H9"); home e listagens "#home"','Site')}
+  ${dtVz(2,'"Vim pelo Google" com # genérico',`Não aparece no código dos sites. Deve vir do WhatsApp do Perfil da Empresa no Google ou do recurso de WhatsApp das campanhas do Google Ads (falta confirmar).<ul class="dt-ms">${dtMsg('Olá! Vim pelo Google e gostaria de mais informações sobre #Novos','Kia · Renault · GWM · Geely')}${dtMsg('Olá! Vim pelo Google e gostaria de mais informações sobre a Loja. #Institucional','Honda: 1/3 da amostra')}</ul>`,'602 conversas · 16,8%','Mensagem do recurso de WhatsApp com marca e modelo em cada grupo de anúncios','Google')}
+  ${dtVz(3,'Híbrida Web: #Novos com a URL',`O link da página vem junto, mas sem #modelo, mesmo em página de modelo (hondajorlanplaza.com.br/novos/new-hr-v-2 e gacjorlanmotors.com.br/df/novos/aion-v chegaram sem modelo).<ul class="dt-ms">${dtMsg('Olá! Vim pelo site. #Novos <URL da página>','GAC · Honda · Chevrolet · HD')}${dtMsg('#Novosgacjorlanmotors.com.br/df/ofertas/novos','GAC: falta espaço')}</ul>`,'Parte das 1.056 com # genérico','Trocar "#Novos <URL>" por #modelo e corrigir o espaço no GAC','Site')}
+  ${dtVz(4,'Geely: origem do texto não achada',`O site geelybrasil.com.br/jorlan-df não tem botão de WhatsApp. O texto vem de outra página ou LP ainda não localizada (9 de 30 na amostra).<ul class="dt-ms">${dtMsg('Olá, vim pelo site e gostaria de mais informações. #Novos','Geely')}</ul>`,'Geely: 44,2% site/Google','Achar a LP de origem e incluir #modelo','Confirmar')}
+ </ol>`),
+ sec('Meta: anúncios sem modelo','e modelos que a IA não leu','Nome do anúncio = coluna headline do Duotalk. Amostra de outubro de 2026.',
+  `<div class="ng-g"><div class="ng-box"><h4>Anúncio sem #modelo</h4><ul class="dt-ms">${dtMsg('Olá! Vi o #Novos #Touring e queria saber mais!','Harley Touring 2026')}${dtMsg('#Novos #Esquenta_Black_Friday','Orca · inclusive anúncio do Tracker')}${dtMsg('Olá! Gostaria de garantir meu GS na Super Semana #evento #novos #dvn','GAC · não diz qual GS')}${dtMsg('#Modo_Suv','Chevrolet · 44 conversas')}${dtMsg('Eu vim do Instagram / link de reel','GWM · Chevrolet · GAC · Geely')}</ul></div>
+  <div class="ng-box"><h4>Tinha #modelo e a IA não leu</h4><ul class="dt-ms">${dtMsg('#Novos do #Bongo','Kia · 77 · fora do catálogo')}${dtMsg('#Haval H9 · #Tank 300 · #Geely EX5','nome com espaço · 50')}${dtMsg('#Novos do #Onix · #Spark · #Koleos','dois # · 47')}${dtMsg('#Honda_City','City Sedan ou Hatch?')}${dtMsg('#Low Rider S · #Geely EX2 PRO','espaço no meio')}</ul></div></div>`),
+ sec('Google Ads: o lead não é identificado','614 conversas lidas','Análise de 04/11/2026 com 614 conversas de outubro: amostra por marca, 76 recentes de todas as origens e 92 recentes com origem Google.',
+  row([
+   {l:'Com gclid ou UTM',v:'0 de 614',s:'nenhuma mensagem traz o clique',hl:1,t:'Os sites mandam só o endereço da página, sem parâmetros. Pelo Duotalk não dá para saber se o lead veio de campanha paga, nem de qual campanha.'},
+   {l:'Caem em Outros',v:'6,8%',s:'22 de 324 com texto do site',t:'Conversas com "Vim pelo site/Google" que o Duotalk marcou como Outros, com a mesma mensagem das que foram para Google.'},
+   {l:'Modelo identificado',v:'60%',s:'2.496 de 4.147 do Google em out',t:'Conversas com origem Google em outubro com modelo identificado. Quando a 1ª mensagem tem #modelo, 9 de 9 foram identificadas.'},
+   {l:'Conversas no anúncio',v:'2.345',s:'+ 8.146 cliques em WhatsApp · 30d',t:'Conversation started (recurso de WhatsApp do anúncio) e cliques em WhatsApp registrados pelo Google Ads em 30 dias. Entram no Duotalk como "Vim pelo Google… #Novos" ou "#Institucional".'}])+
+  tbl([{h:'Sinal na 1ª mensagem'},{h:'Google',n:1},{h:'Meta',n:1},{h:'Outros',n:1}],[
+   ['Click-to-WhatsApp do Meta (Url origem)','0','<b class="dt-g">138</b>','0'],
+   ['"Vim pelo site…"','<b class="dt-g">203</b>','0','13'],
+   ['"Vim pelo Google…"','<b class="dt-g">99</b>','0','9'],
+   ['Anúncio com #modelo sem referral','<b class="dt-g">12</b>','0','1'],
+   ['Sem mensagem padrão','5','10','<b class="dt-g">124</b>']])+
+  `<div class="ins"><b>Como o Duotalk decide a origem</b><ul><li>"Google" no Duotalk = qualquer texto padrão do site ou do Google. <b class="w">Não separa Google Ads de orgânico</b>, nem site de Google.</li><li>O Meta é 100% certo porque o Click-to-WhatsApp manda a origem junto.</li></ul></div>`+
+  `<div class="ng-box"><h4>Mensagens do Google que funcionam (modelo a copiar)</h4><ul class="dt-ms">${dtMsg('Olá, vim do Google quero saber mais sobre as ofertas #Novos #Kwid','Renault')}${dtMsg('#Novos | Olá! vi o anúncio e queria mais informações sobre o #Haval H9','GWM')}${dtMsg('Olá! Vim pelo anúncio do Google #GoogleAds #Haval_H9','sugestão')}</ul></div>`),
+ sec('O que fazer','por responsável','Recomendações da análise de 04/11/2026, na ordem de impacto.',`<ol class="vz">
+  ${dtVz(1,'Padronizar a mensagem',`Um # só, sem espaço, e "#home" quando não houver modelo.<ul class="dt-ms">${dtMsg('Olá! Vim pelo [site/Google/Instagram] #[modelo]','#Haval_H9 · #Bongo · #City_Sedan')}</ul>`,'Base para todas as correções','Lista de mensagens-padrão por marca e modelo para site, agência e Meta','Todos')}
+  ${dtVz(2,'Sites DealerSpace levarem o modelo','GWM, Renault e Kia: o botão da página de modelo tem que levar o #modelo. Hoje o texto é fixo por setor.','GWM 55,2% · Renault 67,6%','Ajustar o texto por página no DealerSpace','Site')}
+  ${dtVz(3,'Híbrida Web trocar a URL pelo modelo','Chevrolet, Orca, GAC, Honda e Harley: trocar "#Novos &lt;URL&gt;" por "#modelo" e corrigir o espaço que falta no GAC.','Parte das 1.056 com # genérico','Ajustar o template do botão','Site')}
+  ${dtVz(4,'Google: mensagem com origem paga','Revisar a mensagem do WhatsApp no Perfil da Empresa e nos recursos do Google Ads (#Novos e #Institucional). Nos sites, levar um código curto do gclid/UTM (ex.: "#gads") ou gravar o gclid no clique pelo GTM.','602 conversas · 0 com gclid','"Olá! Vim pelo anúncio do Google #GoogleAds #modelo" em cada grupo','Google')}
+  ${dtVz(5,'Meta: #modelo em todo anúncio','Harley Touring, Esquenta Black Friday (Orca), GAC Super Semana, #Modo_Suv e posts impulsionados sem mensagem.','285 conversas · 7,9%','Mensagem pronta com o modelo do criativo','Meta')}
+  ${dtVz(6,'Duotalk: catálogo e regras','Incluir Bongo no catálogo; testar se a IA lê o 2º # ("#Novos do #Onix"); sinônimos (Honda_City, Touring, GS); regra fixa de origem por texto ("#GoogleAds" → Google Ads, "Vim pelo site" → Site); IA perguntar o modelo no 1º contato.','212 + 1.329 conversas','Validar com o suporte do Duotalk','Duotalk')}
+ </ol>`),
+ sec('Próximos passos','ainda em aberto','Ponto de parada da análise em 04/11/2026, 15h17.',`<ul class="att">
+  <li><b>Confirmar a origem de "Vim pelo Google"</b>Abrir o Perfil da Empresa de cada loja e os recursos de WhatsApp do Google Ads (só leitura).</li>
+  <li><b>Achar o texto da Geely</b>"vim pelo site e gostaria de mais informações. #Novos": procurar a LP ou extensão.</li>
+  <li><b>Conferir o site da Honda</b>O Claude in Chrome não tem permissão de script em hondajorlanplaza.com.br.</li>
+  <li><b>Validar com o suporte do Duotalk</b>Bongo, leitura do 2º #, sinônimos e regra fixa de origem.</li>
+  <li><b>Lista de mensagens-padrão</b>Por marca e modelo, para o time do site, a agência e o Meta.</li></ul>`)
+].join('');
+document.getElementById('p-duotalk').innerHTML=dHTML;dtvInit();plInit();
+document.getElementById('foot').innerHTML=FOOT.duotalk.map(p=>`<p>${esc(p)}</p>`).join('');
+document.addEventListener('click',e=>{if(e.target.closest('summary .q')){e.preventDefault();e.stopPropagation();e.target.closest('.q').focus()}},true);
+/* nenhum texto curto quebra linha: reduz a fonte do elemento até ele caber na largura */
+const FIT='.kpi .sp span,.kpi .sp b,.kpi .sp small,.kpi .num,.kpi .lbl>span:first-child,.kpi .sub,.cc-kp b,.cc-kp span,.cc dt,.cc dd,.cc-n,.vs-k b,.vs-k span,.stc-k b,.stc-k span,.tc-k b,.tc-k span,.cr-k b,.cr-k span,.rv-k b,.rv-k span,.sc b,.sc div span,.hb-v b,.hb-v small,.hb-n,.bcd-c,.tc-d b,.mf-t b,.fl-f span,.camp .cn,.camp .cm>span,.camp li span:last-child,.pz li b,.pz li span,.prc-n,h1,.vs-c h3,.tc-n,.rv-n,.cr-n,.stc-h h3,.bcd-h h3,.vz-h b,ul.att li b,.chip span,.mt b,.win-n,.win-k b,.win-k span,.fn-l,.fn-v,.fn-h span,ul.stk-l span,ul.stk-l b,ul.eq li span:first-child,.cv-n,.cv-c,.cv-key b,.cv-key span,.cv-m dt,.cv-m dd,.cv-ph b,.cv-p,.ma-n b,.ma-n span,.ma-k b,.ma-k>span,.gl span,.gl-f b,.tp-c,ol.ma-r li b,.ma-h';
+/* títulos e nomes param em 11px e mostram o texto inteiro ao passar o mouse */
+const FITT='.tp-n,.gl-f b,.tp-v,.cv-n,.ma-n b,ol.ma-r li b,.win-n,.fn-l,.tc-n,.cc-n,.rv-n,.cr-n,.stc-h h3,.bcd-h h3,.vz-h b,ul.att li b,.camp .cn,.vs-c h3,.hb-n,.chip span,h1';
+function fitAll(){document.querySelectorAll(FIT).forEach(el=>{if(!el.offsetParent)return;el.style.fontSize='';
+  el.style.letterSpacing='';el.style.textTransform='';
+  const over=()=>el.scrollWidth>el.clientWidth+1;
+  if(over())el.style.letterSpacing='0';
+  if(over()&&getComputedStyle(el).textTransform==='uppercase'&&!el.matches('.num,b'))el.style.textTransform='none';
+  let fs=parseFloat(getComputedStyle(el).fontSize);const mn=Math.min(fs,el.matches(FITT)?11:8.5);
+  while(over()&&fs>mn){fs-=.5;el.style.fontSize=fs+'px'}
+  if(el.scrollWidth>el.clientWidth+1&&!el.title)el.title=el.textContent.trim()})}
+document.addEventListener('click',e=>{const b=e.target.closest('button.tp-all');if(!b)return;const box=b.closest('.ma-b');if(!box)return;
+  const ds=[...box.querySelectorAll('details.tp')].filter(d=>!d.classList.contains('off')),cl=ds.some(d=>d.open);ds.forEach(d=>d.open=!cl);b.textContent=cl?'Abrir todos':'Recolher todos';fitSoon()});
+document.addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details.tp')){const box=e.target.closest('.ma-b'),b=box&&box.querySelector('button.tp-all');if(b)b.textContent=[...box.querySelectorAll('details.tp:not(.off)')].some(d=>d.open)?'Recolher todos':'Abrir todos';fitSoon()}},true);
+let fitQ=0;const fitSoon=()=>{if(fitQ)return;fitQ=requestAnimationFrame(()=>{fitQ=0;fitAll()})};
+new MutationObserver(fitSoon).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','open']});
+addEventListener('resize',fitSoon);document.addEventListener('toggle',fitSoon,true);
+try{document.fonts.ready.then(fitSoon)}catch(e){}
+</script>
+</body></html>
