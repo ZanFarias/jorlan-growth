@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Correções WhatsApp e Sites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060608;--card:#0f0f13;--card-2:#15151a;--line:#24232a;--line-2:#302f37;--fg:#f5f4f0;--sub:rgba(255,255,255,.68);--muted:#8f8d87;--gold:#d4af37;--gold-2:#f0cf6a;--gold-soft:rgba(212,175,55,.10);--red:#e5484d;--red-soft:rgba(229,72,77,.12);
+--zan:#d4af37;--julia:#5aa9e6;--azurra:#b07cf0;--duotalk:#3fbf7f;--claude:#e6895a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:"Montserrat",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:26px;font-weight:800;margin:0 0 6px}
+h1 span{color:var(--gold)}
+.lead{color:var(--sub);font-size:14px;margin:0 0 22px;line-height:1.5}
+h2{font-size:17px;font-weight:700;margin:34px 0 14px;color:var(--fg)}
+h2 small{display:block;font-size:12px;font-weight:500;color:var(--sub);margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.kpi b{display:block;font-size:30px;font-weight:800;color:var(--gold)}
+.kpi span{font-size:12px;color:var(--sub);line-height:1.4;display:block}
+.kpi.red b{color:var(--red)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.who{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.02em;padding:4px 10px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.who::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.w-zan{color:var(--zan)}.w-julia{color:var(--julia)}.w-azurra{color:var(--azurra)}.w-duotalk{color:var(--duotalk)}.w-claude{color:var(--claude)}
+/* infográfico */
+.road{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;position:relative}
+.phase{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;position:relative}
+.phase.now{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold-soft) inset}
+.ph-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ph-n{width:30px;height:30px;border-radius:50%;background:var(--gold);color:#111;font-weight:800;display:grid;place-items:center;font-size:14px;flex:none}
+.ph-t{font-weight:800;font-size:14px}
+.ph-t small{display:block;font-weight:500;font-size:11px;color:var(--sub)}
+.phase:not(:last-child)::after{content:"";position:absolute;top:28px;right:-14px;width:14px;height:2px;background:var(--gold)}
+.step{background:var(--card-2);border:1px solid var(--line-2);border-radius:12px;padding:11px 12px;margin-bottom:10px}
+.step:last-child{margin-bottom:0}
+.step h4{margin:0 0 6px;font-size:13px;font-weight:700;line-height:1.35}
+.step p{margin:0 0 8px;font-size:12px;color:var(--sub);line-height:1.45}
+.step .fx{font-size:12px;line-height:1.45;margin:0 0 8px}
+.fx s{color:var(--red);text-decoration:line-through}
+.fx em{font-style:normal;color:var(--gold-2);font-weight:600}
+.step .crit{display:inline-block;font-size:10px;font-weight:800;color:var(--red);background:var(--red-soft);border-radius:6px;padding:2px 6px;margin-bottom:6px;letter-spacing:.04em}
+.whos{display:flex;flex-wrap:wrap;gap:6px}
+@media(max-width:900px){.road{grid-template-columns:1fr 1fr}.phase::after{display:none}}
+@media(max-width:600px){.road{grid-template-columns:1fr}h1{font-size:21px}}
+/* checklist */
+details.site{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+details.site>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:12px}
+details.site>summary::-webkit-details-marker{display:none}
+.arw{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;flex:none;transition:transform .2s}
+.arw::before{content:"";width:6px;height:6px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg);margin-left:-2px}
+details[open] .arw{transform:rotate(90deg);background:var(--gold)}
+details[open] .arw::before{border-color:#111}
+.s-name{font-weight:700;font-size:14px;flex:1;min-width:0}
+.s-name a{display:block;font-weight:500;font-size:11px;color:var(--sub);text-decoration:none;overflow-wrap:anywhere}
+.s-cnt{font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap}
+.s-cnt.ok{color:var(--duotalk)}
+.items{padding:0 16px 14px;display:grid;gap:10px}
+.it{display:grid;grid-template-columns:26px 1fr;gap:10px;background:var(--card-2);border:1px solid var(--line-2);border-radius:12px;padding:12px}
+.it input{width:18px;height:18px;accent-color:var(--gold);margin:2px 0 0;cursor:pointer}
+.it.done{opacity:.5}
+.it .pg{font-size:12px;font-weight:700;color:var(--gold-2);margin-bottom:4px}
+.it .er{font-size:12px;color:var(--sub);line-height:1.45;margin-bottom:6px}
+.it .ok{font-size:12px;line-height:1.45;overflow-wrap:anywhere}
+.it .ok::before{content:"Como deve ficar: ";color:var(--gold);font-weight:700}
+.it .tag{display:inline-block;font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;margin-left:6px;vertical-align:1px}
+.tag.urg{color:var(--red);background:var(--red-soft)}
+.tag.def{color:var(--gold);background:var(--gold-soft)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:14px}
+.card p,.card li{font-size:13px;color:var(--sub);line-height:1.55}
+.card ul{margin:0;padding-left:18px}
+.card code{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--gold-2);overflow-wrap:anywhere}
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.nb{background:var(--card-2);border:1px solid var(--line-2);border-radius:12px;padding:12px}
+.nb b{display:block;font-size:13px;margin-bottom:6px}
+.nb div{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding:3px 0;border-top:1px solid var(--line)}
+.nb div:first-of-type{border-top:0}
+.nb span{color:var(--sub)}
+.nb i{font-style:normal;font-weight:600;text-align:right}
+.nb i.d{color:var(--gold)}
+.foot{margin-top:30px;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Correções de <span>WhatsApp</span> e sites</h1>
+<p class="lead">Grupo Jorlan · atualizado em 09/11/2026 · base: varredura dos 15 sites (05 e 06/11), recursos do Google Ads e checagem de cada número no WhatsApp (09/11).</p>
+
+<div class="kpis">
+  <div class="kpi red"><b>7</b><span>números em anúncios ou sites que não estão no WhatsApp</span></div>
+  <div class="kpi red"><b>3</b><span>sites com o consórcio no número banido (61) 2106-6024</span></div>
+  <div class="kpi"><b>2</b><span>sites da Geely com o botão de WhatsApp desligado</span></div>
+  <div class="kpi"><b>11</b><span>sites com link de WhatsApp fora do padrão (sem 55 ou com espaço)</span></div>
+</div>
+
+<h2>Caminho da correção<small>Quatro etapas, da mais urgente para a mais estrutural. Cada passo mostra quem faz.</small></h2>
+<div class="legend">
+  <span class="who w-zan">Zan</span><span class="who w-julia">Júlia (sites)</span><span class="who w-azurra">Agência Azurra (Meta)</span><span class="who w-duotalk">Duotalk / Maria</span><span class="who w-claude">Claude (checagem)</span>
+</div>
+
+<div class="road">
+  <div class="phase now">
+    <div class="ph-h"><div class="ph-n">1</div><div class="ph-t">Hoje<small>Parar de perder contato</small></div></div>
+    <div class="step"><span class="crit">CRÍTICO</span><h4>Google Chevrolet GO: botão WhatsApp das campanhas</h4>
+      <p class="fx"><s>(62) 3412-0041</s>, <s>3773-2619</s>, <s>3773-2563</s> → <em>(62) 4000-1618</em></p>
+      <p>14 campanhas + Institucional, Vendas Diretas e Seminovos.</p><div class="whos"><span class="who w-zan">Zan</span></div></div>
+    <div class="step"><span class="crit">CRÍTICO</span><h4>Google GAC DF: botão WhatsApp das campanhas</h4>
+      <p class="fx"><s>(61) 3773-4167</s>, <s>3773-4143</s>, <s>3773-4169</s> → <em>(61) 2103-0300</em></p>
+      <p>10 campanhas DVN, Guerrilha e Intenção + Institucional e Seminovos.</p><div class="whos"><span class="who w-zan">Zan</span></div></div>
+    <div class="step"><span class="crit">CRÍTICO</span><h4>Consórcio DF nos sites Chevrolet DF, Orca e Honda</h4>
+      <p class="fx"><s>(61) 2106-6024</s> (banido) → <em>(61) 3421-7314</em></p>
+      <p>Páginas /consorcio: botões Consultar, Solicitar e ícone ao lado do telefone.</p><div class="whos"><span class="who w-julia">Júlia</span></div></div>
+  </div>
+
+  <div class="phase">
+    <div class="ph-h"><div class="ph-n">2</div><div class="ph-t">Esta semana<small>Número certo em cada lugar</small></div></div>
+    <div class="step"><h4>Meta: conjuntos com destino errado ou vazio</h4>
+      <p class="fx">GWM "Interesses | SEMINOVOS": <s>(61) 2101-0202</s> (pós Harley, spam) → <em>seminovos GWM</em></p>
+      <p>Preencher o WhatsApp de 5 conjuntos ativos vazios (Chevrolet GO DVS Ofertas ×2, GWM Seminovos Cópia, GAC DF Aion V, Geely BH EX5). Renault BH "Interesses Serviços" → (31) 2101-5030.</p>
+      <div class="whos"><span class="who w-azurra">Azurra</span><span class="who w-zan">Zan aprova</span></div></div>
+    <div class="step"><h4>Geely DF e BH: ligar o botão do site</h4>
+      <p class="fx">Botão configurado e desativado → <em>ativar (61) 2103-0330 e (31) 2122-8000</em></p>
+      <p>Incluir o pós: (61) 2103-0335 e (31) 2122-8080.</p><div class="whos"><span class="who w-julia">Júlia</span></div></div>
+    <div class="step"><h4>Harley: número de mídia sem uso</h4>
+      <p class="fx">Venda de moto hoje cai no geral <s>(61) 2101-0200</s> → <em>(61) 2101-0201</em> (mídia)</p>
+      <p>Zan confirma; depois Júlia troca "Falar com vendedor" no site e Zan troca no Google.</p>
+      <div class="whos"><span class="who w-zan">Zan decide</span><span class="who w-julia">Júlia</span></div></div>
+    <div class="step"><h4>Links fora do padrão em 11 sites</h4>
+      <p class="fx"><s>phone=6121010101</s> / <s>phone=%20...</s> → <em>https://wa.me/55...</em></p>
+      <div class="whos"><span class="who w-julia">Júlia</span></div></div>
+  </div>
+
+  <div class="phase">
+    <div class="ph-h"><div class="ph-n">3</div><div class="ph-t">Decidir e registrar<small>Uma fonte da verdade</small></div></div>
+    <div class="step"><h4>Decisões pendentes</h4>
+      <p>Pós-venda: DF 2101-0160 ou 2101-0020; BH 2122-3095 ou 2122-3034; Orca 2106-6145 (Zenvia) ou 2106-6020. Seminovos: 2103-0303 é GWM ou GAC DF; GWM 3020-1110; GAC BH 2122-8005 e 4009-4060. Citroën e Peugeot: desligar.</p>
+      <div class="whos"><span class="who w-zan">Zan</span></div></div>
+    <div class="step"><h4>Atualizar a planilha de números</h4>
+      <p>Marcar 2106-6024 como banido em todas as abas, incluir os 8 números em uso fora da planilha, corrigir 3 selos (2101-5030, 4009-4009, 2103-0300 já são verificados).</p>
+      <div class="whos"><span class="who w-zan">Zan</span><span class="who w-duotalk">Duotalk</span></div></div>
+    <div class="step"><h4>Pedir selo de verificada</h4>
+      <p>Números de mídia sem selo: Valparaíso, Renault BH, Kia, Geely DF e Geely BH.</p>
+      <div class="whos"><span class="who w-zan">Zan</span></div></div>
+  </div>
+
+  <div class="phase">
+    <div class="ph-h"><div class="ph-n">4</div><div class="ph-t">Próximas semanas<small>Identificar e medir</small></div></div>
+    <div class="step"><h4>Botões separados por assunto nos sites</h4>
+      <p>Vendas, seminovos, pós-venda, peças e consórcio, cada um com o seu número.</p><div class="whos"><span class="who w-julia">Júlia</span></div></div>
+    <div class="step"><h4>Modelo no texto do botão</h4>
+      <p class="fx"><s>"Vim pelo site #Novos &lt;link&gt;"</s> → <em>"Vim pelo site #Novos #Haval_H7"</em></p>
+      <p>Testar primeiro numa página da GWM.</p><div class="whos"><span class="who w-julia">Júlia</span><span class="who w-zan">Zan valida</span></div></div>
+    <div class="step"><h4>Bot e catálogo da Duotalk</h4>
+      <p>Cadastrar Haval H7 e Bongo; passar para humano quando o cliente fica em silêncio ou manda só áudio.</p><div class="whos"><span class="who w-duotalk">Duotalk / Maria</span></div></div>
+    <div class="step"><h4>Origem e campanha (UTM e gclid)</h4>
+      <p>LP repassa a origem no texto do WhatsApp e dispara evento no GA4.</p><div class="whos"><span class="who w-julia">Júlia</span><span class="who w-duotalk">Maria</span></div></div>
+    <div class="step"><h4>Rechecagem final</h4>
+      <p>Refazer a checagem de todos os números em sites, Google e Meta.</p><div class="whos"><span class="who w-claude">Claude</span><span class="who w-zan">Zan</span></div></div>
+  </div>
+</div>
+
+<h2>Checklist da Júlia por site<small>Marque cada item quando terminar. A marcação fica salva neste navegador.</small></h2>
+<div id="sites"></div>
+
+<h2>Número certo por loja e assunto</h2>
+<div class="nums" id="nums"></div>
+
+<h2>Padrões para todas as LPs</h2>
+<div class="card"><h3>Link do WhatsApp</h3><p>Sempre <code>https://wa.me/55</code> + DDD + número, sem espaço, traço ou parênteses, com o texto em <code>?text=</code>. Exemplo: <code>https://wa.me/556130201000?text=Ol%C3%A1!%20Vim%20pelo%20site%20%23Novos%20%23Haval_H7</code></p></div>
+<div class="card"><h3>Texto do botão</h3><ul>
+<li>Página de modelo: "Olá! Vim pelo site #Novos #Haval_H7"</li>
+<li>Home e listagens: "Olá! Vim pelo site #Novos" (ou #Seminovos, #Vendas_Diretas)</li>
+<li>LP de campanha: "Olá! Vim pelo anúncio #Novos #Haval_H7"</li>
+<li>Modelo com sublinhado e sem espaço: #Haval_H7, #City_Sedan, #Onix_Plus, #Low_Rider_S</li></ul></div>
+<div class="card"><h3>Origem e campanha</h3><ul>
+<li>Ler utm_source, utm_campaign e gclid na chegada à LP e guardar durante a visita</li>
+<li>Acrescentar um código curto ao texto, ex.: "(ref: google-gwm-h7)"</li>
+<li>Evento no GA4 a cada clique no WhatsApp, com assunto e modelo</li>
+<li>Validar o formato com o Zan e a Maria antes de publicar</li></ul></div>
+
+<p class="foot">Página interna do time de marketing do Grupo Jorlan. Sem dados de clientes.</p>
+</div>
+
+<script>
+const S=[
+["Chevrolet Jorlan DF e Valparaíso","https://chevroletjorlan.com.br/df/",[
+["/df/consorcio","Botões \"Consultar consórcio\", \"Solicitar agora\" e ícone ao lado de (61) 3421-7313 abrem o (61) 2106-6024, número banido. Um dos links tem espaço antes do número.","Os três abrem https://wa.me/556134217314 (Consórcio DF)","urg"],
+["Todas (42 páginas)","Link \"Adicione nosso número\" sem o 55: phone=6121010101.","https://wa.me/556121010101"],
+["Todas","Pós-venda usa (61) 2101-0160; a Duotalk lista (61) 2101-0020. Os dois estão ativos.","Aguardar o Zan definir qual fica","def"],
+["Páginas de modelo","Texto do botão vai como \"Vim pelo site. #Novos <link>\", sem o modelo.","Texto com o modelo (ver Padrões)"]]],
+["Chevrolet Jorlan Goiânia","https://chevroletjorlan.com.br/go",[
+["Todas (45 páginas)","Link \"Adicione nosso número\" sem o 55: phone=6240001618.","https://wa.me/556240001618"],
+["/go/consorcio","Botões \"Consultar\" e \"Solicitar\" com espaço antes do número.","https://wa.me/556240052509"],
+["Páginas de modelo","\"#Novos <link>\", sem o modelo.","Texto com o modelo"]]],
+["Chevrolet Jorlan BH","https://jorlanchevrolet.com.br/bh",[
+["Todas (39 páginas)","Link \"Adicione nosso número\" sem o 55: phone=3121223000.","https://wa.me/553121223000"],
+["/bh/consorcio","Botões com espaço antes do número.","https://wa.me/553121221919"],
+["Todas","Pós-venda usa (31) 2122-3095; a Duotalk lista (31) 2122-3034.","Aguardar o Zan definir qual fica","def"],
+["Páginas de modelo","\"#Novos <link>\", sem o modelo.","Texto com o modelo"]]],
+["Chevrolet Orca","https://chevroletorca.com.br",[
+["/consorcio","Ícone ao lado de (61) 3421-7313 abre o (61) 2106-6024, banido.","https://wa.me/556134217314","urg"],
+["/consorcio","Botões \"Consultar\" e \"Solicitar\" abrem o número de vendas (61) 2106-6000, com espaço.","https://wa.me/556134217314 (cliente de consórcio não cai em vendas)","urg"],
+["Todas (44 páginas)","Link sem o 55: phone=6121066000.","https://wa.me/556121066000"],
+["Todas","Pós-venda usa (61) 2106-6145 (Zenvia); a Duotalk lista (61) 2106-6020.","Aguardar o Zan definir qual fica","def"]]],
+["Honda Jorlan Plaza","https://www.hondajorlanplaza.com.br",[
+["/consorcio","Botões \"Consultar\", \"Solicitar\" (com espaço) e ícone ao lado de (61) 3421-7313 abrem o (61) 2106-6024, banido.","Os três abrem https://wa.me/556134217314","urg"],
+["Todas","Link sem o 55: phone=6137992000.","https://wa.me/556137992000"],
+["Páginas de modelo (ex.: /novos/new-hr-v-2)","\"#Novos <link>\", sem o modelo.","Texto com o modelo, separando City Sedan e City Hatch"]]],
+["GAC Jorlan Motors DF","https://gacjorlanmotors.com.br/df",[
+["Todas (13 páginas)","Link sem o 55: phone=6121030300.","https://wa.me/556121030300"],
+["Ofertas e modelos","\"#Novos\" grudado no link, sem espaço (\"#Novosgacjorlanmotors...\").","Texto com espaço e com o modelo (ex.: #GS4, #Aion_V)"],
+["Todas","Seminovos usa (61) 2103-0303, que a Duotalk registra como seminovos da GWM.","Aguardar o Zan definir de qual loja é","def"],
+["Todas","Pós-venda (61) 2103-0310 não aparece como WhatsApp.","Botão de pós com https://wa.me/556121030310"]]],
+["GAC Jorlan Motors BH","https://gacjorlanmotors.com.br/bh",[
+["Todas","Link sem o 55: phone=3140094009.","https://wa.me/553140094009"],
+["Todas","Pós-venda (31) 4009-4039 só como telefone.","Botão de pós com https://wa.me/553140094039"],
+["Seminovos","(31) 2122-8005 (Barão) e (31) 4009-4060 (Pampulha) não estão na planilha da Duotalk.","Aguardar o Zan definir se ficam","def"]]],
+["Brasília Harley-Davidson","https://brasiliaharley-davidson.com.br",[
+["Todas (14 páginas)","\"Falar com vendedor\" e \"Fale com consultor\" abrem o (61) 2101-0200, que pela planilha é o geral (pós, peças, boutique).","Venda de moto em https://wa.me/556121010201; 2101-0200 fica no pós e peças","def"]]],
+["GWM Jorlan-ev","https://www.gwmjorlan.com.br",[
+["Todas (60 páginas), botão flutuante e rodapé","Link web.whatsapp.com com espaço antes do número (phone=%20...). No celular abre o WhatsApp Web, não o app.","https://wa.me/556130201000 (novos), https://wa.me/556130201110 (seminovos), https://wa.me/556137992099 (serviços)"],
+["Páginas de modelo (ex.: /novos/gwm-haval-h9)","Texto fixo \"#Novos\", sem o modelo.","Com o modelo: #Haval_H9, #Haval_H7, #Haval_H6, #Ora_03, #Tank_300, #Poer_P30"],
+["Todas","Seminovos usa (61) 3020-1110, fora da planilha da Duotalk (que lista 2103-0303).","Aguardar o Zan definir","def"]]],
+["Renault Jorlan France DF","https://renaultjorlanfrance.com.br",[
+["Todas (51 páginas)","web.whatsapp.com e versões com espaço antes do número.","https://wa.me/556135351000 (vendas), https://wa.me/556135351020 (serviços), https://wa.me/556134217314 (consórcio)"],
+["Páginas de modelo","Texto fixo por setor, sem o modelo.","Com o modelo (ex.: #Kardian, #Boreal, #Koleos)"]]],
+["Renault Jorlan France BH","https://renaultjorlan.com.br",[
+["Todas (61 páginas)","web.whatsapp.com e versões com espaço.","https://wa.me/553121015000 (vendas), https://wa.me/553121015030 (serviços), https://wa.me/553121015080 (peças)"],
+["Consórcio","Sem WhatsApp de consórcio, só o telefone 2122-1922.","Botão https://wa.me/553121221919 (Consórcio BH)"],
+["Páginas de modelo","Texto fixo por setor, sem o modelo.","Texto com o modelo"]]],
+["Kia Jorlan Motors","https://kiajorlanmotors.com.br",[
+["Todas (35 páginas)","web.whatsapp.com com espaço.","https://wa.me/553121015010 (vendas), https://wa.me/553121015042 (pós), https://wa.me/553121221919 (consórcio)"],
+["Páginas de modelo","Texto fixo por setor, sem o modelo.","Com o modelo (ex.: #Bongo, #Sportage, #Carnival)"]]],
+["Geely Jorlan-ev DF","https://www.geelybrasil.com.br/jorlan-df",[
+["Página da loja","Botão verde de WhatsApp configurado com (61) 2103-0330, mas DESATIVADO. Só mostra o telefone 3246-6064.","Ativar o botão: https://wa.me/556121030330","urg"],
+["Página da loja","Pós-venda (61) 2103-0335 não aparece.","Botão de pós https://wa.me/556121030335"]]],
+["Geely Jorlan-ev BH","https://www.geelybrasil.com.br/jorlan-bh",[
+["Página da loja","Botão de WhatsApp configurado com (31) 2122-8000, mas DESATIVADO. Só mostra o telefone 2116-1138.","Ativar o botão: https://wa.me/553121228000","urg"],
+["Página da loja","Pós-venda (31) 2122-8080 não aparece.","Botão de pós https://wa.me/553121228080"]]],
+["Site do Grupo Jorlan","https://grupojorlan.com.br",[
+["/vendas-diretas","Link com espaço antes do número.","https://wa.me/556121010101"],
+["/trabalhe-conosco","WhatsApp do RH (62) 4005-2188 não aparece.","Botão https://wa.me/556240052188"]]]
+];
+const N=[
+["Chevrolet DF","(61) 2101-0101","(61) 2101-0101","A definir","(61) 3421-7314"],
+["Valparaíso","(61) 2101-0110","(61) 2101-0110","A definir","(61) 3421-7314"],
+["Chevrolet Goiânia","(62) 4000-1618","(62) 4000-1618","(62) 4005-2020","(62) 4005-2509"],
+["Chevrolet BH","(31) 2122-3000","(31) 2122-3000","A definir","(31) 2122-1919"],
+["Orca","(61) 2106-6000","(61) 2106-6000","A definir","(61) 3421-7314"],
+["Honda","(61) 3799-2000","(61) 3799-2000","(61) 3799-2004","(61) 3421-7314"],
+["GWM","(61) 3020-1000","A definir","(61) 3799-2099",""],
+["Renault DF","(61) 3535-1000","(61) 3535-1000","(61) 3535-1020","(61) 3421-7314"],
+["Renault BH","(31) 2101-5000","(31) 2101-5000","(31) 2101-5030","(31) 2122-1919"],
+["Kia","(31) 2101-5010","(31) 2101-5010","(31) 2101-5042","(31) 2122-1919"],
+["GAC DF","(61) 2103-0300","A definir","(61) 2103-0310",""],
+["GAC BH","(31) 4009-4009","A definir","(31) 4009-4039",""],
+["Geely DF","(61) 2103-0330","(61) 2103-0330","(61) 2103-0335",""],
+["Geely BH","(31) 2122-8000","(31) 2122-8000","(31) 2122-8080",""],
+["Harley-Davidson","A confirmar (61) 2101-0201","","(61) 2101-0200",""]
+];
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const K="jorlan-chk-v1";let st={};try{st=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(st))}catch(e){}};
+const box=document.getElementById("sites");
+S.forEach((s,i)=>{const d=document.createElement("details");d.className="site";
+ const its=s[2].map((t,j)=>{const id=i+"-"+j,on=!!st[id];const tg=t[3]=="urg"?'<span class="tag urg">URGENTE</span>':t[3]=="def"?'<span class="tag def">A DEFINIR</span>':"";
+  return `<label class="it${on?" done":""}"><input type="checkbox" data-id="${id}"${on?" checked":""}><div><div class="pg">${esc(t[0])}${tg}</div><div class="er">${esc(t[1])}</div><div class="ok">${esc(t[2])}</div></div></label>`}).join("");
+ d.innerHTML=`<summary><span class="arw"></span><span class="s-name">${esc(s[0])}<a href="${s[1]}" target="_blank" rel="noopener">${s[1]}</a></span><span class="s-cnt"></span></summary><div class="items">${its}</div>`;
+ box.appendChild(d);});
+function cnt(){document.querySelectorAll("details.site").forEach(d=>{const a=d.querySelectorAll("input"),f=[...a].filter(x=>x.checked).length;const c=d.querySelector(".s-cnt");c.textContent=f+" de "+a.length;c.classList.toggle("ok",f==a.length)})}
+box.addEventListener("change",e=>{const x=e.target;if(!x.dataset.id)return;st[x.dataset.id]=x.checked;if(!x.checked)delete st[x.dataset.id];save();x.closest(".it").classList.toggle("done",x.checked);cnt()});
+document.querySelectorAll(".s-name a").forEach(a=>a.addEventListener("click",e=>e.stopPropagation()));
+cnt();
+const L=["Novos e vendas diretas","Seminovos","Pós-venda","Consórcio"];
+document.getElementById("nums").innerHTML=N.map(r=>`<div class="nb"><b>${r[0]}</b>${L.map((l,k)=>r[k+1]?`<div><span>${l}</span><i class="${/definir|confirmar/.test(r[k+1])?"d":""}">${r[k+1]}</i></div>`:"").join("")}</div>`).join("");
+</script>
+</body>
+</html>
